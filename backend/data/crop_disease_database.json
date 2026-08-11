@@ -1,0 +1,63 @@
+{
+  "Tomato___Early_blight": {
+    "crop": "Tomato",
+    "disease": "Early Blight",
+    "severity": "Moderate",
+    "symptoms": [
+      "Concentric dark rings (target spot appearance) on lower, older leaves.",
+      "Yellow halo surrounding brownish-black leaf spots.",
+      "Premature leaf loss starting from bottom foliage progressing upward."
+    ],
+    "cause": "Fungal infection (Alternaria solani) favoured by humid weather, warm temperatures (24-29°C), and wet foliage.",
+    "treatment": "Remove severely infected lower leaves immediately. Apply copper-based fungicide or Mancozeb every 7-10 days. Ensure drip irrigation instead of overhead watering to keep leaves dry.",
+    "pesticides": [
+      { "name": "Copper Oxychloride 50% WP", "dosage": "2.5g per litre of water" },
+      { "name": "Mancozeb 75% WP", "dosage": "2g per litre of water" }
+    ],
+    "fertilizer": "Apply balanced N-P-K (19-19-19) with calcium nitrate spray to strengthen plant cell walls and promote fresh foliage growth.",
+    "prevention": [
+      "Practice 3-year crop rotation with non-solanaceous crops.",
+      "Mulch around base of plant to prevent soil spores splashing onto leaves.",
+      "Maintain proper plant spacing (45-60cm) for adequate airflow."
+    ]
+  },
+  "Potato___Late_blight": {
+    "crop": "Potato",
+    "disease": "Late Blight",
+    "severity": "High",
+    "symptoms": [
+      "Large water-soaked lesions turning dark brown to black on leaf tips and margins.",
+      "White fungal growth on leaf undersides under high humidity.",
+      "Rapid wilting and blighting of entire foliage."
+    ],
+    "cause": "Oomycete pathogen (Phytophthora infestans) spreading rapidly during cool, wet conditions.",
+    "treatment": "Destroy infected plants immediately to stop spread. Apply systemic protective fungicide at early stage.",
+    "pesticides": [
+      { "name": "Cymoxanil + Mancozeb", "dosage": "2g per litre of water" },
+      { "name": "Metalaxyl 8% + Mancozeb 64% WP", "dosage": "2.5g per litre of water" }
+    ],
+    "fertilizer": "Avoid excessive nitrogen fertilizers. Apply potash to increase resistance.",
+    "prevention": [
+      "Plant certified disease-free seed tubers.",
+      "Ensure proper soil ridging around plants.",
+      "Avoid overhead sprinkler irrigation."
+    ]
+  },
+  "Tomato___Healthy": {
+    "crop": "Tomato",
+    "disease": "Healthy",
+    "severity": "None",
+    "symptoms": [
+      "Vibrant green leaves with no spotting, discoloration, or lesions.",
+      "Sturdy stem and normal leaf growth pattern."
+    ],
+    "cause": "Optimal growing conditions and good crop management.",
+    "treatment": "No treatment required. Maintain current care routine.",
+    "pesticides": [],
+    "fertilizer": "Continue regular balanced fertilization schedule according to growth stage.",
+    "prevention": [
+      "Monitor regularly for early signs of pests or pathogens.",
+      "Maintain proper soil moisture and nutrient levels."
+    ]
+  }
+}
