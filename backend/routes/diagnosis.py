@@ -1,9 +1,11 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, status
+import logging
 import time
 from models.schemas import DiagnosisResponse, PesticideItem
 from services.base_gemini import get_gemini_service
 from services.knowledge_service import KnowledgeService
 
+logger = logging.getLogger("smart_ag_backend.routes.diagnosis")
 router = APIRouter(prefix="/api", tags=["Diagnosis"])
 knowledge_service = KnowledgeService()
 
@@ -46,8 +48,25 @@ async def diagnose_crop(file: UploadFile = File(...)):
 
     # 4. Perform AI Classification
     gemini_service = get_gemini_service()
-    classification = await gemini_service.diagnose_crop(image_bytes, file.filename)
-    
+    try:
+        classification = await gemini_service.diagnose_crop(
+            image_bytes=image_bytes,
+            filename=file.filename,
+            content_type=content_type
+        )
+    except ValueError as val_err:
+        logger.error(f"[DiagnosisRoute] Invalid response from AI classification service: {val_err}")
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail=f"AI diagnosis service returned invalid output: {str(val_err)}"
+        )
+    except Exception as exc:
+        logger.error(f"[DiagnosisRoute] AI classification service failed: {exc}")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="AI crop diagnosis service is temporarily unavailable. Please try again later."
+        )
+
     crop = classification.get("crop", "Crop")
     disease = classification.get("disease", "Disease")
     confidence = float(classification.get("confidence", 0.90))
