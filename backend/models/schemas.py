@@ -19,7 +19,7 @@ class DiagnosisResponse(BaseModel):
     pesticides: List[PesticideItem]
     fertilizer: str
     prevention: List[str]
-    isDevMockPayload: Optional[bool] = True
+    isDevMockPayload: Optional[bool] = False
 
 # --- Weather Schemas ---
 class IrrigationAdvisory(BaseModel):

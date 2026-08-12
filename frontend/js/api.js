@@ -16,24 +16,35 @@ const SmartAgAPI = {
    * @returns {Promise<Object>} Diagnosis response object
    */
   async diagnoseCrop(imageFile) {
-    try {
-      const formData = new FormData();
-      formData.append('file', imageFile);
+    const formData = new FormData();
+    formData.append('file', imageFile);
 
-      const response = await fetch(`${API_BASE_URL}/diagnose`, {
+    let response;
+    try {
+      response = await fetch(`${API_BASE_URL}/diagnose`, {
         method: 'POST',
         body: formData
       });
-
-      if (!response.ok) {
-        throw new Error(`Server returned status ${response.status}`);
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.warn('[SmartAgAPI] FastAPI endpoint unavailable. Using development fallback mock response for testing UI.', error);
-      return this._getMockDiagnosisResponse(imageFile);
+    } catch (netError) {
+      console.error('[SmartAgAPI] Network error reaching FastAPI diagnosis endpoint:', netError);
+      throw new Error('AI diagnosis is temporarily unavailable. Please check your network connection and try again.');
     }
+
+    if (!response.ok) {
+      let errorDetail = 'AI diagnosis is temporarily unavailable. Please try again or check your image.';
+      try {
+        const errJson = await response.json();
+        if (errJson && errJson.detail) {
+          errorDetail = typeof errJson.detail === 'string' ? errJson.detail : JSON.stringify(errJson.detail);
+        }
+      } catch (e) {
+        // Fallback to default user-facing string if JSON parsing fails
+      }
+      console.error(`[SmartAgAPI] Backend returned error status ${response.status}:`, errorDetail);
+      throw new Error(errorDetail);
+    }
+
+    return await response.json();
   },
 
   /**

@@ -11,6 +11,12 @@ class BaseGeminiService(ABC):
     Abstract interface for Crop Disease AI Classification.
     Returns primary identification (crop, disease, confidence).
     """
+    @property
+    @abstractmethod
+    def is_mock(self) -> bool:
+        """Indicates whether this service instance is a development mock."""
+        pass
+
     @abstractmethod
     async def diagnose_crop(self, image_bytes: bytes, filename: str, content_type: str = "image/jpeg") -> Dict[str, Any]:
         """
@@ -24,6 +30,10 @@ class MockGeminiService(BaseGeminiService):
     Development Mock implementation for Gemini Disease Classification.
     Used when GEMINI_API_KEY is not configured or in testing environments.
     """
+    @property
+    def is_mock(self) -> bool:
+        return True
+
     async def diagnose_crop(self, image_bytes: bytes, filename: str, content_type: str = "image/jpeg") -> Dict[str, Any]:
         filename_lower = filename.lower() if filename else ""
         
@@ -51,6 +61,10 @@ class RealGeminiService(BaseGeminiService):
     Real Google Gemini Vision API service implementation using google-genai SDK.
     Strictly performs crop and disease identification (crop, disease, confidence).
     """
+    @property
+    def is_mock(self) -> bool:
+        return False
+
     def __init__(self, api_key: str = None, model_name: str = None):
         self.api_key = api_key or settings.GEMINI_API_KEY
         self.model_name = model_name or settings.GEMINI_MODEL

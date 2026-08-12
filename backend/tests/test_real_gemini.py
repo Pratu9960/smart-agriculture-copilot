@@ -133,8 +133,26 @@ def test_full_diagnosis_route_with_real_gemini_integration():
             assert data["crop"] == "Potato"
             assert data["disease"] == "Late Blight"
             assert data["confidence"] == 0.92
+            assert data["isDevMockPayload"] is False  # Verified real Gemini service sets isDevMockPayload=False
             # Verify KnowledgeService provided recommendations from knowledge base
             assert data["severity"] == "High"
             assert "symptoms" in data
             assert len(data["symptoms"]) > 0
             assert "pesticides" in data
+
+def test_diagnosis_route_api_failure_returns_503():
+    with patch.object(settings, "GEMINI_API_KEY", "real_test_key"):
+        with patch("google.genai.Client") as mock_genai_client:
+            mock_instance = MagicMock()
+            mock_instance.aio.models.generate_content = AsyncMock(side_effect=Exception("API Connection Failure"))
+            mock_genai_client.return_value = mock_instance
+
+            fake_image_bytes = b"\xFF\xD8\xFF\xE0\x00\x10JFIF\x00\x01\x01\x01\x00\x60\x60\x00\x00"
+            files = {"file": ("leaf.jpg", io.BytesIO(fake_image_bytes), "image/jpeg")}
+            
+            response = client.post("/api/diagnose", files=files)
+            assert response.status_code == 503
+            data = response.json()
+            assert "detail" in data
+            assert "temporarily unavailable" in data["detail"]
+

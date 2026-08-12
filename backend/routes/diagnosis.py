@@ -99,5 +99,5 @@ async def diagnose_crop(file: UploadFile = File(...)):
         pesticides=pesticide_items,
         fertilizer=recommendations.get("fertilizer", ""),
         prevention=recommendations.get("prevention", []),
-        isDevMockPayload=True
+        isDevMockPayload=gemini_service.is_mock
     )
