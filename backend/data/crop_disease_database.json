@@ -1,63 +1,1036 @@
 {
+  "Apple___Apple_scab": {
+    "crop": "Apple",
+    "disease": "Apple Scab",
+    "severity": "Severe",
+    "symptoms": [
+      "Olive-green to brown spots on leaves that later turn dark and velvety",
+      "Scabby, corky lesions on fruit that may crack",
+      "Premature leaf yellowing and drop in severe cases",
+      "Fruit may become deformed and unmarketable"
+    ],
+    "cause": "Fungal disease caused by Venturia inaequalis. Favoured by cool, wet weather in spring.",
+    "treatment": "Remove and destroy fallen leaves in autumn. Prune to improve air circulation. Apply recommended fungicides at green tip, pink bud and petal fall stages following the local spray schedule of Himachal Pradesh Horticulture Department / Dr Y.S. Parmar University. Avoid Captan within 15 days of oil sprays.",
+    "pesticides": [
+      {
+        "name": "Mancozeb",
+        "formulation": "75% WP",
+        "dosage": "600 g per 200 L water (as per 2024 HP spray schedule)",
+        "application": "Foliar spray at green tip / pink bud stages. Maintain 12-14 day interval in scab-prone areas.",
+        "source": "Department of Horticulture, Himachal Pradesh & Dr Y.S. Parmar University of Horticulture and Forestry, 2024 spray schedule"
+      },
+      {
+        "name": "Captan",
+        "formulation": "50% WP / 75% WP",
+        "dosage": "600 g per 200 L water (Captan) or as per label",
+        "application": "Foliar spray; avoid before/after oil sprays for 15 days.",
+        "source": "Department of Horticulture, Himachal Pradesh & Dr Y.S. Parmar University of Horticulture and Forestry, 2024 spray schedule"
+      }
+    ],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance. Balanced nutrition helps plant recovery.",
+    "prevention": [
+      "Rake and destroy fallen leaves to reduce overwintering inoculum",
+      "Plant scab-resistant varieties where available",
+      "Prune canopy for better air flow and light penetration",
+      "Follow recommended spray schedule based on tree phenology and weather"
+    ],
+    "sources": [
+      {
+        "title": "Spray schedule for the control of diseases of Apple for 2024",
+        "organization": "Department of Horticulture, Himachal Pradesh & Dr Y.S. Parmar University of Horticulture and Forestry",
+        "url": "https://www.global-agriculture.com/crop-protection/how-to-control-diseases-of-apple-advisory-as-per-2024/"
+      },
+      {
+        "title": "AESA based IPM Package – Apple",
+        "organization": "NIPHM / Directorate of Plant Protection Quarantine & Storage",
+        "url": "https://www.researchgate.net/publication/334319229_AESA_BASED_IPM_Package_AESA_based_IPM_-Apple"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Apple___Black_rot": {
+    "crop": "Apple",
+    "disease": "Black Rot",
+    "severity": "Moderate",
+    "symptoms": [
+      "Purple or brown spots on leaves that enlarge and develop concentric rings",
+      "Black, sunken, firm rot on fruit (frogeye leaf spot on leaves)",
+      "Cankers on branches and trunks that may girdle and kill limbs",
+      "Mummified fruit remaining on the tree"
+    ],
+    "cause": "Fungal disease caused by Botryosphaeria obtusa (syn. Physalospora obtusa). Survives in cankers and mummified fruit.",
+    "treatment": "Prune out and destroy all cankered wood and mummified fruit during dormant season. Improve air circulation. Apply protectant fungicides (Captan) during the growing season as part of the general apple disease programme.",
+    "pesticides": [
+      {
+        "name": "Captan",
+        "formulation": "50% WP / 75% WP",
+        "dosage": "As per label / local spray schedule (typically 600 g / 200 L water)",
+        "application": "Foliar spray during fruit development stages for black rot control.",
+        "source": "Department of Horticulture, Himachal Pradesh spray schedules and AESA IPM Apple package"
+      }
+    ],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance.",
+    "prevention": [
+      "Remove and burn cankered branches and mummified fruit",
+      "Avoid mechanical injuries to branches",
+      "Maintain tree vigour through proper nutrition and irrigation",
+      "Prune for open canopy"
+    ],
+    "sources": [
+      {
+        "title": "AESA based IPM Package – Apple",
+        "organization": "NIPHM / Directorate of Plant Protection Quarantine & Storage",
+        "url": "https://www.researchgate.net/publication/334319229_AESA_BASED_IPM_Package_AESA_based_IPM_-Apple"
+      },
+      {
+        "title": "Diseases of Apple and Their Management",
+        "organization": "ICAR-Central Institute of Temperate Horticulture / Agrica journal",
+        "url": "https://indianjournals.com/article/agr1-11-1-003"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Apple___Cedar_apple_rust": {
+    "crop": "Apple",
+    "disease": "Cedar Apple Rust",
+    "severity": "Moderate",
+    "symptoms": [
+      "Bright yellow-orange spots on upper leaf surface",
+      "Tube-like structures (aecia) on lower leaf surface",
+      "Fruit may develop orange lesions and become deformed",
+      "Severe infection can cause early leaf drop"
+    ],
+    "cause": "Fungal disease caused by Gymnosporangium juniperi-virginianae. Requires both apple and juniper/cedar as alternate hosts.",
+    "treatment": "Remove nearby juniper/cedar hosts if possible. Apply fungicides effective against rust (DMI fungicides or mancozeb) at critical stages (pink to petal fall). Follow local apple spray schedules.",
+    "pesticides": [
+      {
+        "name": "Mancozeb",
+        "formulation": "75% WP",
+        "dosage": "600 g per 200 L water (as per local schedules)",
+        "application": "Foliar spray during early growth stages when rust infection risk is high.",
+        "source": "Department of Horticulture, Himachal Pradesh spray schedules"
+      }
+    ],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance.",
+    "prevention": [
+      "Remove or avoid planting Eastern red cedar / juniper near orchards",
+      "Plant rust-resistant apple varieties where available",
+      "Maintain good orchard sanitation",
+      "Follow timely fungicide applications based on weather"
+    ],
+    "sources": [
+      {
+        "title": "Spray schedule for the control of diseases of Apple for 2024",
+        "organization": "Department of Horticulture, Himachal Pradesh & Dr Y.S. Parmar University",
+        "url": "https://www.global-agriculture.com/crop-protection/how-to-control-diseases-of-apple-advisory-as-per-2024/"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Cherry_(including_sour)___Powdery_mildew": {
+    "crop": "Cherry",
+    "disease": "Powdery Mildew",
+    "severity": "Moderate",
+    "symptoms": [
+      "White powdery fungal growth on leaves, shoots and sometimes fruit",
+      "Leaves may curl, distort or turn yellowish",
+      "Infected young shoots may be stunted",
+      "Fruit may develop russet or become unmarketable"
+    ],
+    "cause": "Fungal disease caused by Podosphaera clandestina (or related species). Favoured by moderate temperatures and high humidity.",
+    "treatment": "Improve air circulation by pruning. Avoid excess nitrogen. Apply sulphur or systemic fungicides registered for powdery mildew at first sign of disease. Follow local recommendations.",
+    "pesticides": [],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance. Avoid excessive nitrogen which promotes soft growth susceptible to mildew.",
+    "prevention": [
+      "Prune to open canopy and improve air flow",
+      "Avoid overhead irrigation that prolongs leaf wetness",
+      "Plant less susceptible varieties if available",
+      "Remove severely infected shoots"
+    ],
+    "sources": [
+      {
+        "title": "AESA based IPM Package – Cherry",
+        "organization": "Directorate of Plant Protection Quarantine & Storage / NIPHM",
+        "url": "https://www.ppqs.gov.in/sites/default/files/cherry.pdf"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot": {
+    "crop": "Corn (Maize)",
+    "disease": "Cercospora Leaf Spot / Gray Leaf Spot",
+    "severity": "Moderate",
+    "symptoms": [
+      "Small, rectangular, gray to tan lesions parallel to leaf veins",
+      "Lesions may coalesce and blight large areas of leaf",
+      "Lower leaves usually affected first",
+      "Severe infection reduces photosynthetic area and yield"
+    ],
+    "cause": "Fungal disease caused by Cercospora zeae-maydis. Survives on crop residue. Favoured by warm, humid conditions.",
+    "treatment": "Use resistant hybrids. Practise crop rotation with non-host crops. Destroy infected residue. Apply fungicides (e.g., azoxystrobin + difenoconazole) at first symptom appearance if disease pressure is high.",
+    "pesticides": [
+      {
+        "name": "Azoxystrobin 18.2% + Difenoconazole 11.4% SC",
+        "formulation": "SC",
+        "dosage": "1 ml per litre of water",
+        "application": "Foliar spray at first appearance of symptoms; repeat after 10-15 days if needed.",
+        "source": "ICAR-NRIIPM / multiple maize disease management advisories and field trials in India"
+      }
+    ],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance. Balanced NPK helps plant tolerance.",
+    "prevention": [
+      "Grow resistant or tolerant hybrids",
+      "Rotate with non-cereal crops",
+      "Destroy or deeply bury crop residue",
+      "Avoid continuous maize monoculture",
+      "Ensure proper plant spacing for air circulation"
+    ],
+    "sources": [
+      {
+        "title": "Maize disease management recommendations",
+        "organization": "ICAR-Indian Institute of Maize Research / NRIIPM",
+        "url": "https://nriipm.res.in/NCIPMPDFs/FOLDERS/Maize_.pdf"
+      },
+      {
+        "title": "Common Maize Diseases in India and How to Fight Them",
+        "organization": "Extension / research summaries based on ICAR work",
+        "url": "https://cornindia.com/blog/common-maize-diseases-in-india/"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Corn_(maize)___Common_rust_": {
+    "crop": "Corn (Maize)",
+    "disease": "Common Rust",
+    "severity": "Moderate",
+    "symptoms": [
+      "Small, circular to elongated, reddish-brown pustules on both leaf surfaces",
+      "Pustules rupture releasing rusty spores",
+      "Severe infection causes leaf yellowing and premature death",
+      "Most conspicuous near tasselling stage"
+    ],
+    "cause": "Fungal disease caused by Puccinia sorghi. Spores are wind-borne. Favoured by cool nights and moderate daytime temperatures with dew.",
+    "treatment": "Plant resistant hybrids. Early sowing reduces exposure. Apply mancozeb or propiconazole at first appearance of pustules if disease is progressive.",
+    "pesticides": [
+      {
+        "name": "Mancozeb",
+        "formulation": "75% WP",
+        "dosage": "2.5–4 g per litre of water",
+        "application": "Foliar spray at first appearance of pustules; 2–3 sprays at 10–15 day intervals if needed.",
+        "source": "ICAR / maize disease management advisories (Aggarwal et al. and extension summaries)"
+      },
+      {
+        "name": "Propiconazole 25% EC",
+        "formulation": "25% EC",
+        "dosage": "1 ml per litre of water",
+        "application": "Foliar spray beginning from first symptom appearance.",
+        "source": "ICAR-NRIIPM maize IPM recommendations"
+      }
+    ],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance.",
+    "prevention": [
+      "Use resistant or tolerant hybrids suited to the location",
+      "Early sowing (May–June in many regions) to escape peak infection",
+      "Destroy crop residue",
+      "Avoid dense planting that creates humid microclimate"
+    ],
+    "sources": [
+      {
+        "title": "Maize IPM recommendations",
+        "organization": "ICAR-NRIIPM",
+        "url": "https://nriipm.res.in/NCIPMPDFs/FOLDERS/Maize_.pdf"
+      },
+      {
+        "title": "Common Maize Diseases in India",
+        "organization": "Extension based on ICAR research",
+        "url": "https://cornindia.com/blog/common-maize-diseases-in-india/"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Corn_(maize)___Northern_Leaf_Blight": {
+    "crop": "Corn (Maize)",
+    "disease": "Northern Leaf Blight",
+    "severity": "Severe",
+    "symptoms": [
+      "Large, cigar-shaped or spindle-shaped gray-green to tan lesions on leaves",
+      "Lesions may have dark borders and can coalesce",
+      "Lower leaves affected first; severe cases blight entire plant",
+      "Significant yield loss if infection occurs before or at silking"
+    ],
+    "cause": "Fungal disease caused by Exserohilum turcicum (syn. Helminthosporium turcicum). Survives on crop residue. Favoured by moderate temperatures and high humidity.",
+    "treatment": "Grow resistant hybrids. Practise crop rotation and residue management. Apply mancozeb or azoxystrobin + difenoconazole at first symptom if pressure is high.",
+    "pesticides": [
+      {
+        "name": "Mancozeb 75% WP",
+        "formulation": "75% WP",
+        "dosage": "2.5 g per litre of water",
+        "application": "Foliar spray immediately after appearance of symptoms; repeat after 15 days if needed.",
+        "source": "ICAR maize disease management recommendations and field trials"
+      },
+      {
+        "name": "Azoxystrobin 18.2% + Difenoconazole 11.4% SC",
+        "formulation": "SC",
+        "dosage": "1 ml per litre of water",
+        "application": "Foliar spray at first symptoms; two sprays at 10–15 day interval if disease spreads.",
+        "source": "ICAR-NRIIPM and multiple SAU / research summaries"
+      }
+    ],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance.",
+    "prevention": [
+      "Plant resistant/tolerant hybrids",
+      "Crop rotation with non-host crops (e.g., legumes)",
+      "Destroy or incorporate infected crop residue",
+      "Avoid continuous maize cropping in the same field"
+    ],
+    "sources": [
+      {
+        "title": "Climate Resilient Options for Management of Maize Diseases in India",
+        "organization": "Indian Phytopathology / ICAR",
+        "url": "https://epubs.icar.org.in/index.php/IPPJ/article/view/71326"
+      },
+      {
+        "title": "Maize IPM folder",
+        "organization": "ICAR-NRIIPM",
+        "url": "https://nriipm.res.in/NCIPMPDFs/FOLDERS/Maize_.pdf"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Grape___Black_rot": {
+    "crop": "Grape",
+    "disease": "Black Rot",
+    "severity": "Severe",
+    "symptoms": [
+      "Small, reddish-brown spots on leaves that enlarge",
+      "Black, sunken lesions on berries that turn into hard mummies",
+      "Infected berries shrivel and remain attached",
+      "Cane lesions may also appear"
+    ],
+    "cause": "Fungal disease caused by Guignardia bidwellii. Survives in mummified berries and cane lesions. Favoured by warm, wet weather.",
+    "treatment": "Remove and destroy all mummified berries and infected canes during dormant pruning. Improve air circulation. Apply protectant fungicides (copper or mancozeb-based) starting from early shoot growth according to ICAR-NRCG guidelines.",
+    "pesticides": [],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance. Avoid excess nitrogen.",
+    "prevention": [
+      "Remove all mummified berries and infected wood during pruning",
+      "Ensure good air circulation through proper training and pruning",
+      "Plant less susceptible varieties where possible",
+      "Follow weather-based spray advisories from ICAR-NRC for Grapes"
+    ],
+    "sources": [
+      {
+        "title": "IPM Package of Practices for Grapes",
+        "organization": "Directorate of Plant Protection Quarantine & Storage / ICAR-NRC Grapes",
+        "url": "https://ppqs.gov.in/sites/default/files/grape.pdf"
+      },
+      {
+        "title": "Sustainable Viticulture resources",
+        "organization": "ICAR-National Research Centre for Grapes, Pune",
+        "url": "https://nrcgrapes.icar.gov.in/"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Grape___Esca_(Black_Measles)": {
+    "crop": "Grape",
+    "disease": "Esca (Black Measles)",
+    "severity": "Severe",
+    "symptoms": [
+      "Tiger-stripe pattern on leaves (yellow or red interveinal discoloration)",
+      "Black measles spots on berries",
+      "Wood shows black spots or white rot in cross-section",
+      "Sudden wilting and death of vines (apoplexy) in severe cases"
+    ],
+    "cause": "Complex of wood-rotting fungi (Phaeomoniella, Phaeoacremonium, Fomitiporia spp. etc.). Associated with pruning wounds and stress.",
+    "treatment": "No curative chemical treatment is fully effective once established. Remove and destroy severely affected vines. Protect pruning wounds. Maintain vine health through balanced nutrition and irrigation. Consult local grape pathologist for latest recommendations.",
+    "pesticides": [],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance. Balanced nutrition and avoidance of stress help reduce severity.",
+    "prevention": [
+      "Protect pruning wounds with approved wound sealants or fungicides",
+      "Prune in dry weather and avoid large cuts when possible",
+      "Remove and burn infected wood",
+      "Maintain good vine vigour and avoid water stress",
+      "Use healthy planting material"
+    ],
+    "sources": [
+      {
+        "title": "Grape disease management resources",
+        "organization": "ICAR-National Research Centre for Grapes, Pune",
+        "url": "https://nrcgrapes.icar.gov.in/"
+      },
+      {
+        "title": "IPM Package for Grapes",
+        "organization": "PPQS / ICAR-NRC Grapes",
+        "url": "https://ppqs.gov.in/sites/default/files/grape.pdf"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)": {
+    "crop": "Grape",
+    "disease": "Leaf Blight (Isariopsis Leaf Spot)",
+    "severity": "Moderate",
+    "symptoms": [
+      "Angular or irregular brown spots on leaves",
+      "Spots may enlarge and cause leaf blighting",
+      "Premature defoliation in severe cases",
+      "May affect young shoots and clusters"
+    ],
+    "cause": "Fungal disease (Isariopsis / Pseudocercospora-like pathogens). Favoured by humid conditions.",
+    "treatment": "Improve canopy aeration. Remove severely infected leaves. Apply protectant fungicides (mancozeb or copper-based) as per local grape spray schedules from ICAR-NRCG.",
+    "pesticides": [],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance.",
+    "prevention": [
+      "Maintain open canopy through proper pruning and training",
+      "Avoid excess nitrogen that promotes dense foliage",
+      "Remove infected plant debris",
+      "Follow ICAR-NRCG weather-based disease advisories"
+    ],
+    "sources": [
+      {
+        "title": "IPM Package of Practices for Grapes",
+        "organization": "PPQS / ICAR-NRC Grapes",
+        "url": "https://ppqs.gov.in/sites/default/files/grape.pdf"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Orange___Haunglongbing_(Citrus_greening)": {
+    "crop": "Orange",
+    "disease": "Huanglongbing (Citrus Greening)",
+    "severity": "Severe",
+    "symptoms": [
+      "Yellowing of leaves in an asymmetrical (blotchy) pattern",
+      "Leaves may be small, upright and show zinc-deficiency-like symptoms",
+      "Fruit is small, lopsided, poorly coloured and bitter",
+      "Trees decline progressively and may die within a few years"
+    ],
+    "cause": "Bacterial disease caused by Candidatus Liberibacter asiaticus, transmitted by the Asian citrus psyllid (Diaphorina citri).",
+    "treatment": "There is no curative treatment. Remove and destroy infected trees promptly. Control the psyllid vector with recommended insecticides. Use only disease-free planting material produced through shoot-tip grafting or indexed mother plants (ICAR-CCRI protocol). Apply micronutrients (Zn, Mn, B) to prolong productive life of mildly affected trees.",
+    "pesticides": [],
+    "fertilizer": "Foliar sprays of zinc sulphate + manganese sulphate + boric acid as recommended by ICAR-CCRI can help manage symptoms and improve yield of infected trees. Consult local citrus specialist for exact doses and timing.",
+    "prevention": [
+      "Use only certified disease-free planting material from indexed mother blocks",
+      "Control Asian citrus psyllid rigorously, especially during flush periods",
+      "Remove and destroy symptomatic trees as soon as detected",
+      "Maintain orchard hygiene and avoid movement of infected material",
+      "Follow ICAR-Central Citrus Research Institute advisories"
+    ],
+    "sources": [
+      {
+        "title": "Advisory on citrus greening disease management",
+        "organization": "ICAR-Central Citrus Research Institute, Nagpur",
+        "url": "https://www.ccrinagpur.icar.gov.in/"
+      },
+      {
+        "title": "Citrus Huanglongbing management reviews",
+        "organization": "ICAR-CCRI / Indian Phytopathology",
+        "url": "https://link.springer.com/article/10.1007/s42360-026-00953-7"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Peach___Bacterial_spot": {
+    "crop": "Peach",
+    "disease": "Bacterial Spot",
+    "severity": "Moderate",
+    "symptoms": [
+      "Small, water-soaked spots on leaves that turn brown and may drop out (shot-hole)",
+      "Angular lesions on leaves",
+      "Sunken, dark spots on fruit that may crack",
+      "Twig cankers in severe cases"
+    ],
+    "cause": "Bacterial disease caused by Xanthomonas arboricola pv. pruni (or related pathovars). Spread by rain splash and wind.",
+    "treatment": "Plant resistant varieties where available. Avoid overhead irrigation. Copper sprays during dormant and early season can help reduce inoculum. Remove severely infected twigs. Consult local horticulture department for registered bactericides.",
+    "pesticides": [],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance. Avoid excess nitrogen.",
+    "prevention": [
+      "Plant resistant or tolerant peach varieties",
+      "Avoid overhead irrigation; use drip if possible",
+      "Prune during dry weather and remove infected wood",
+      "Maintain balanced nutrition and good air circulation"
+    ],
+    "sources": [
+      {
+        "title": "General bacterial spot management in stone fruits",
+        "organization": "University / extension sources and ICAR horticulture resources",
+        "url": ""
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Pepper,_bell___Bacterial_spot": {
+    "crop": "Bell Pepper",
+    "disease": "Bacterial Spot",
+    "severity": "Moderate",
+    "symptoms": [
+      "Small water-soaked spots on leaves that become brown and necrotic",
+      "Spots may have a yellow halo",
+      "Leaves may drop prematurely",
+      "Raised or scabby lesions on fruit"
+    ],
+    "cause": "Bacterial disease caused by Xanthomonas spp. (X. euvesicatoria, X. vesicatoria, etc.). Spread by rain, irrigation water and contaminated seed/tools.",
+    "treatment": "Use disease-free seed and transplants. Avoid working in wet fields. Apply copper-based bactericides or streptocycline (where registered) as preventive sprays. Remove severely infected plants.",
+    "pesticides": [
+      {
+        "name": "Streptocycline (Streptomycin sulphate 90% + Tetracycline hydrochloride 10%)",
+        "formulation": "SP",
+        "dosage": "40–100 ppm solution",
+        "application": "Spray seedlings and field plants after appearance of first true leaves; one spray before and one after transplanting.",
+        "source": "ICAR-NCIPM / PPQS tomato & pepper IPM recommendations (also applicable to bell pepper)"
+      }
+    ],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance.",
+    "prevention": [
+      "Use certified disease-free seed and healthy transplants",
+      "Crop rotation with non-solanaceous crops for 2–3 years",
+      "Avoid overhead irrigation",
+      "Do not work in the field when plants are wet",
+      "Plant resistant varieties where available"
+    ],
+    "sources": [
+      {
+        "title": "Validated IPM strategies for vegetable crops",
+        "organization": "ICAR-National Research Centre for Integrated Pest Management",
+        "url": "https://nriipm.res.in/NCIPMPDFs/folders/VegetableCropsenglish_.pdf"
+      },
+      {
+        "title": "PPQS Tomato IPM package (bacterial spot section also relevant to pepper)",
+        "organization": "Directorate of Plant Protection Quarantine & Storage",
+        "url": "https://ppqs.gov.in/sites/default/files/tomato.pdf"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Potato___Early_blight": {
+    "crop": "Potato",
+    "disease": "Early Blight",
+    "severity": "Moderate",
+    "symptoms": [
+      "Dark brown to black target-like (concentric ring) spots on leaves",
+      "Lower leaves affected first",
+      "Spots may enlarge and cause leaf blighting",
+      "Tubers may develop dark, sunken lesions if infection reaches them"
+    ],
+    "cause": "Fungal disease caused by Alternaria solani. Survives on crop residue and infected tubers. Favoured by warm temperatures and alternating wet/dry conditions.",
+    "treatment": "Use certified seed. Practise 2–3 year rotation out of solanaceous crops. Apply protectant fungicides (mancozeb, chlorothalonil, captan) at first symptom or according to advisory. Destroy volunteer plants and crop debris.",
+    "pesticides": [
+      {
+        "name": "Mancozeb",
+        "formulation": "75% WP",
+        "dosage": "600–800 g in 300 L water per acre (or as per label)",
+        "application": "Foliar spray starting at first symptom appearance; repeat at recommended intervals.",
+        "source": "PPQS AESA based IPM – Potato"
+      },
+      {
+        "name": "Captan",
+        "formulation": "50% WP / 75% WP",
+        "dosage": "As per PPQS recommendation (e.g., 1 kg / 300–400 L water per acre for 50% WP)",
+        "application": "Foliar spray; second spray after 5–8 days as per formulation.",
+        "source": "PPQS AESA based IPM – Potato"
+      }
+    ],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance. Balanced nutrition, especially adequate potassium, helps reduce severity.",
+    "prevention": [
+      "Use certified disease-free seed tubers",
+      "Crop rotation with non-solanaceous crops for 2–3 years",
+      "Destroy volunteer potato plants and crop residue",
+      "Avoid late-season nitrogen deficiency",
+      "Follow CPRI / local late-blight and early-blight advisories"
+    ],
+    "sources": [
+      {
+        "title": "AESA based IPM Package – Potato",
+        "organization": "Directorate of Plant Protection Quarantine & Storage",
+        "url": "https://ppqs.gov.in/sites/default/files/potato.pdf"
+      },
+      {
+        "title": "Potato Diseases in India – Compendium & IPM Guide",
+        "organization": "Extension / CPRI-based resources",
+        "url": "https://indianpotato.com/potato-diseases-india/"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Potato___Late_blight": {
+    "crop": "Potato",
+    "disease": "Late Blight",
+    "severity": "Severe",
+    "symptoms": [
+      "Water-soaked lesions on leaves that rapidly turn brown/black",
+      "White fungal growth on underside of leaves in humid conditions",
+      "Stems develop dark lesions",
+      "Tubers develop reddish-brown dry rot that can destroy the entire crop"
+    ],
+    "cause": "Oomycete pathogen Phytophthora infestans. Extremely destructive under cool, wet conditions. Spreads rapidly by wind and rain.",
+    "treatment": "Use resistant varieties and certified seed. Follow CPRI / Jhulsacast or local weather-based advisories for spray timing. Apply protectant (mancozeb, chlorothalonil) and systemic (metalaxyl + mancozeb, cymoxanil combinations, dimethomorph, etc.) fungicides in rotation. Destroy infected haulms before harvest and cure tubers properly.",
+    "pesticides": [
+      {
+        "name": "Mancozeb",
+        "formulation": "75% WP",
+        "dosage": "600–800 g in 300 L water per acre",
+        "application": "Protectant spray according to weather-based advisory; rotate with systemic products.",
+        "source": "PPQS AESA based IPM – Potato"
+      },
+      {
+        "name": "Metalaxyl 8% + Mancozeb 64% WP",
+        "formulation": "WP",
+        "dosage": "1 kg per acre in 400 L water (0.25%)",
+        "application": "Foliar spray; observe recommended interval before next application.",
+        "source": "PPQS AESA based IPM – Potato"
+      }
+    ],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance.",
+    "prevention": [
+      "Plant resistant varieties and certified seed",
+      "Follow weather-based forecasting (CPRI Jhulsacast or equivalent)",
+      "Destroy volunteer plants and infected debris",
+      "Avoid planting in low-lying, poorly drained fields",
+      "Haulm destruction 10–14 days before harvest and proper curing of tubers"
+    ],
+    "sources": [
+      {
+        "title": "AESA based IPM Package – Potato",
+        "organization": "Directorate of Plant Protection Quarantine & Storage",
+        "url": "https://ppqs.gov.in/sites/default/files/potato.pdf"
+      },
+      {
+        "title": "Disease management in seed potato production",
+        "organization": "ICAR-Central Potato Research Institute",
+        "url": "https://epubs.icar.org.in/index.php/IndFarm/article/view/151964"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Squash___Powdery_mildew": {
+    "crop": "Squash",
+    "disease": "Powdery Mildew",
+    "severity": "Moderate",
+    "symptoms": [
+      "White powdery fungal growth on upper leaf surface",
+      "Leaves turn yellow, dry and may die",
+      "Reduced fruit quality and yield",
+      "Severe infection can cover stems and petioles"
+    ],
+    "cause": "Fungal disease caused by Podosphaera xanthii (syn. Sphaerotheca fuliginea). Favoured by moderate temperatures and high humidity; does not require free water on leaves.",
+    "treatment": "Plant resistant varieties. Improve air circulation. Apply sulphur, hexaconazole, difenoconazole or azoxystrobin at first sign of disease. Avoid excessive nitrogen.",
+    "pesticides": [
+      {
+        "name": "Azoxystrobin",
+        "formulation": "23% SC or equivalent",
+        "dosage": "0.1% (as evaluated in Indian trials)",
+        "application": "Foliar spray; multiple applications at recommended intervals under high disease pressure.",
+        "source": "Indian research trials on summer squash powdery mildew management"
+      },
+      {
+        "name": "Hexaconazole 5% EC",
+        "formulation": "5% EC",
+        "dosage": "0.05% (1 ml/L approx.)",
+        "application": "Foliar spray at first symptom appearance.",
+        "source": "Indian research trials on summer squash powdery mildew"
+      }
+    ],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance. Avoid excess nitrogen.",
+    "prevention": [
+      "Grow resistant or tolerant varieties",
+      "Avoid dense planting and shaded conditions",
+      "Practise crop rotation out of cucurbits",
+      "Remove and destroy infected plant debris"
+    ],
+    "sources": [
+      {
+        "title": "Efficacy of strobilurin and triazole fungicides for powdery mildew in summer squash",
+        "organization": "Indian research publication",
+        "url": "https://www.researchgate.net/publication/385775869_Efficacy_of_strobilurin_and_triazole_fungicides_for_the_management_of_powdery_mildew_Sphaerotheca_fuliginea_in_summer_squash"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Strawberry___Leaf_scorch": {
+    "crop": "Strawberry",
+    "disease": "Leaf Scorch",
+    "severity": "Moderate",
+    "symptoms": [
+      "Purple to brown irregular spots on leaves",
+      "Spots may coalesce causing large scorched areas",
+      "Leaves may wither and die",
+      "Reduced plant vigour and yield"
+    ],
+    "cause": "Fungal disease caused by Diplocarpon earlianum (or related species). Survives on infected leaves. Favoured by wet conditions.",
+    "treatment": "Remove and destroy infected leaves. Improve air circulation. Apply protectant fungicides if disease is severe. Use healthy planting material.",
+    "pesticides": [],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance.",
+    "prevention": [
+      "Use disease-free planting material",
+      "Remove old infected leaves after harvest",
+      "Ensure good air circulation and avoid overhead irrigation if possible",
+      "Practise crop rotation and field hygiene"
+    ],
+    "sources": [
+      {
+        "title": "AESA based IPM Package – Strawberry",
+        "organization": "Directorate of Plant Protection Quarantine & Storage / NIPHM",
+        "url": "https://niphm.gov.in/IPMPackages/Strawberry.pdf"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Tomato___Bacterial_spot": {
+    "crop": "Tomato",
+    "disease": "Bacterial Spot",
+    "severity": "Moderate",
+    "symptoms": [
+      "Small water-soaked spots on leaves that become dark brown with yellow halo",
+      "Spots may coalesce causing blighting",
+      "Raised, scabby lesions on fruit",
+      "Leaves may drop prematurely"
+    ],
+    "cause": "Bacterial disease caused by Xanthomonas spp. (X. euvesicatoria, X. vesicatoria, X. perforans, X. gardneri). Spread by rain splash, irrigation and contaminated seed.",
+    "treatment": "Use disease-free seed and transplants. Avoid overhead irrigation and working in wet fields. Apply streptocycline (40–100 ppm) or copper-based products as preventive sprays. Remove severely infected plants.",
+    "pesticides": [
+      {
+        "name": "Streptocycline (Streptomycin sulphate 90% + Tetracycline hydrochloride 10%)",
+        "formulation": "SP",
+        "dosage": "40–100 ppm solution",
+        "application": "Spray seedlings after first true leaves appear and again after transplanting; also in field as needed.",
+        "source": "PPQS AESA based IPM – Tomato and ICAR-NCIPM recommendations"
+      },
+      {
+        "name": "Copper oxychloride",
+        "formulation": "50% WP",
+        "dosage": "2–3 g per litre (or as per label)",
+        "application": "Foliar spray as protective measure.",
+        "source": "ICAR-NCIPM tomato IPM folder"
+      }
+    ],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance.",
+    "prevention": [
+      "Use certified disease-free seed and healthy transplants",
+      "Crop rotation with non-solanaceous crops for 2–3 years",
+      "Avoid overhead irrigation; use drip",
+      "Do not work in fields when plants are wet",
+      "Stake plants and maintain good air flow"
+    ],
+    "sources": [
+      {
+        "title": "AESA based IPM Package – Tomato",
+        "organization": "Directorate of Plant Protection Quarantine & Storage",
+        "url": "https://ppqs.gov.in/sites/default/files/tomato.pdf"
+      },
+      {
+        "title": "Validated IPM strategies for vegetable crops",
+        "organization": "ICAR-NCIPM",
+        "url": "https://nriipm.res.in/NCIPMPDFs/folders/VegetableCropsenglish_.pdf"
+      }
+    ],
+    "recommendationsVerified": true
+  },
   "Tomato___Early_blight": {
     "crop": "Tomato",
     "disease": "Early Blight",
     "severity": "Moderate",
     "symptoms": [
-      "Concentric dark rings (target spot appearance) on lower, older leaves.",
-      "Yellow halo surrounding brownish-black leaf spots.",
-      "Premature leaf loss starting from bottom foliage progressing upward."
+      "Dark brown target-spot lesions with concentric rings on leaves",
+      "Lower leaves affected first",
+      "Stem lesions and fruit rot (dark, leathery) may occur",
+      "Defoliation reduces yield and fruit quality"
     ],
-    "cause": "Fungal infection (Alternaria solani) favoured by humid weather, warm temperatures (24-29°C), and wet foliage.",
-    "treatment": "Remove severely infected lower leaves immediately. Apply copper-based fungicide or Mancozeb every 7-10 days. Ensure drip irrigation instead of overhead watering to keep leaves dry.",
+    "cause": "Fungal disease caused by Alternaria solani. Survives on crop residue and seed. Favoured by warm temperatures and leaf wetness.",
+    "treatment": "Use healthy seed/transplants. Practise crop rotation. Remove lower infected leaves. Apply mancozeb, chlorothalonil, captan or newer fungicides (azoxystrobin, difenoconazole, etc.) at first symptom according to local recommendations.",
     "pesticides": [
-      { "name": "Copper Oxychloride 50% WP", "dosage": "2.5g per litre of water" },
-      { "name": "Mancozeb 75% WP", "dosage": "2g per litre of water" }
+      {
+        "name": "Mancozeb",
+        "formulation": "75% WP",
+        "dosage": "600–800 g in 300 L water per acre (or 2 g/L)",
+        "application": "Foliar spray starting at disease initiation; repeat at 8–10 day intervals as needed.",
+        "source": "PPQS AESA based IPM – Tomato and ICAR-IIVR pesticide compendium"
+      },
+      {
+        "name": "Captan",
+        "formulation": "50% WP / 75% WP",
+        "dosage": "As per PPQS (e.g., 1000 g / 300–400 L water per acre for 50% WP)",
+        "application": "Foliar spray for early blight and fruit rot.",
+        "source": "PPQS AESA based IPM – Tomato"
+      }
     ],
-    "fertilizer": "Apply balanced N-P-K (19-19-19) with calcium nitrate spray to strengthen plant cell walls and promote fresh foliage growth.",
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance. Adequate potassium helps reduce severity.",
     "prevention": [
-      "Practice 3-year crop rotation with non-solanaceous crops.",
-      "Mulch around base of plant to prevent soil spores splashing onto leaves.",
-      "Maintain proper plant spacing (45-60cm) for adequate airflow."
-    ]
-  },
-  "Potato___Late_blight": {
-    "crop": "Potato",
-    "disease": "Late Blight",
-    "severity": "High",
-    "symptoms": [
-      "Large water-soaked lesions turning dark brown to black on leaf tips and margins.",
-      "White fungal growth on leaf undersides under high humidity.",
-      "Rapid wilting and blighting of entire foliage."
+      "Use disease-free seed and transplants",
+      "Crop rotation with non-solanaceous crops",
+      "Remove and destroy infected lower leaves and crop debris",
+      "Stake plants and avoid overhead irrigation",
+      "Maintain balanced nutrition"
     ],
-    "cause": "Oomycete pathogen (Phytophthora infestans) spreading rapidly during cool, wet conditions.",
-    "treatment": "Destroy infected plants immediately to stop spread. Apply systemic protective fungicide at early stage.",
-    "pesticides": [
-      { "name": "Cymoxanil + Mancozeb", "dosage": "2g per litre of water" },
-      { "name": "Metalaxyl 8% + Mancozeb 64% WP", "dosage": "2.5g per litre of water" }
+    "sources": [
+      {
+        "title": "AESA based IPM Package – Tomato",
+        "organization": "Directorate of Plant Protection Quarantine & Storage",
+        "url": "https://ppqs.gov.in/sites/default/files/tomato.pdf"
+      },
+      {
+        "title": "Compendium on Pesticide Use in Vegetables",
+        "organization": "ICAR-Indian Institute of Vegetable Research",
+        "url": "https://icariivr.org.in/wp-content/uploads/2025/10/1.Compendium-on-Pesticide-Use-of-Pesticide.pdf"
+      }
     ],
-    "fertilizer": "Avoid excessive nitrogen fertilizers. Apply potash to increase resistance.",
-    "prevention": [
-      "Plant certified disease-free seed tubers.",
-      "Ensure proper soil ridging around plants.",
-      "Avoid overhead sprinkler irrigation."
-    ]
+    "recommendationsVerified": true
   },
-  "Tomato___Healthy": {
+  "Tomato___Late_blight": {
     "crop": "Tomato",
-    "disease": "Healthy",
-    "severity": "None",
+    "disease": "Late Blight",
+    "severity": "Severe",
     "symptoms": [
-      "Vibrant green leaves with no spotting, discoloration, or lesions.",
-      "Sturdy stem and normal leaf growth pattern."
+      "Water-soaked lesions on leaves that rapidly turn brown/black",
+      "White sporulation on underside of leaves under humid conditions",
+      "Dark lesions on stems",
+      "Firm, greasy, brown rot on fruit that can destroy the crop quickly"
     ],
-    "cause": "Optimal growing conditions and good crop management.",
-    "treatment": "No treatment required. Maintain current care routine.",
-    "pesticides": [],
-    "fertilizer": "Continue regular balanced fertilization schedule according to growth stage.",
+    "cause": "Oomycete pathogen Phytophthora infestans. Extremely aggressive under cool, wet weather. Wind- and rain-dispersed.",
+    "treatment": "Use resistant varieties where available. Follow weather-based spray advisories. Apply protectant (mancozeb, chlorothalonil) and systemic (cymoxanil + mancozeb, metalaxyl combinations, dimethomorph, etc.) fungicides in rotation. Destroy infected plants promptly.",
+    "pesticides": [
+      {
+        "name": "Mancozeb",
+        "formulation": "75% WP",
+        "dosage": "600–800 g in 300 L water per acre",
+        "application": "Protectant spray according to weather advisory; rotate modes of action.",
+        "source": "PPQS AESA based IPM – Tomato"
+      },
+      {
+        "name": "Cymoxanil 8% + Mancozeb 64% WP",
+        "formulation": "WP",
+        "dosage": "600 g in 200–300 L water per acre",
+        "application": "Foliar spray at first symptom or as per advisory.",
+        "source": "PPQS AESA based IPM – Tomato"
+      }
+    ],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance.",
     "prevention": [
-      "Monitor regularly for early signs of pests or pathogens.",
-      "Maintain proper soil moisture and nutrient levels."
-    ]
+      "Plant resistant varieties and healthy transplants",
+      "Avoid overhead irrigation and dense planting",
+      "Destroy volunteer tomato and potato plants",
+      "Follow local late-blight forecasting systems",
+      "Remove and destroy infected plants immediately"
+    ],
+    "sources": [
+      {
+        "title": "AESA based IPM Package – Tomato",
+        "organization": "Directorate of Plant Protection Quarantine & Storage",
+        "url": "https://ppqs.gov.in/sites/default/files/tomato.pdf"
+      },
+      {
+        "title": "Compendium on Pesticide Use in Vegetables",
+        "organization": "ICAR-IIVR",
+        "url": "https://icariivr.org.in/wp-content/uploads/2025/10/1.Compendium-on-Pesticide-Use-of-Pesticide.pdf"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Tomato___Leaf_Mold": {
+    "crop": "Tomato",
+    "disease": "Leaf Mold",
+    "severity": "Moderate",
+    "symptoms": [
+      "Pale green or yellowish spots on upper leaf surface",
+      "Olive-green to grayish-purple fungal growth on lower leaf surface",
+      "Leaves may curl and die",
+      "Most severe in greenhouse or high-humidity conditions"
+    ],
+    "cause": "Fungal disease caused by Passalora fulva (syn. Cladosporium fulvum). Favoured by high humidity (>85%) and moderate temperatures.",
+    "treatment": "Improve ventilation and reduce humidity (especially in protected cultivation). Remove severely infected leaves. Apply fungicides registered for leaf mold if needed. Use resistant varieties.",
+    "pesticides": [],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance.",
+    "prevention": [
+      "Improve air circulation and reduce relative humidity",
+      "Avoid overhead irrigation",
+      "Plant resistant varieties",
+      "Remove and destroy infected leaves",
+      "Space plants properly"
+    ],
+    "sources": [
+      {
+        "title": "Tomato disease management resources",
+        "organization": "ICAR / SAU extension literature",
+        "url": ""
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Tomato___Septoria_leaf_spot": {
+    "crop": "Tomato",
+    "disease": "Septoria Leaf Spot",
+    "severity": "Moderate",
+    "symptoms": [
+      "Numerous small, circular spots with dark borders and light centres on leaves",
+      "Black fruiting bodies (pycnidia) visible in the centre of spots",
+      "Lower leaves affected first; progressive defoliation",
+      "Fruit is rarely directly infected"
+    ],
+    "cause": "Fungal disease caused by Septoria lycopersici. Survives on crop residue and weeds. Spread by rain splash.",
+    "treatment": "Remove lower infected leaves. Practise crop rotation. Apply mancozeb or other protectant fungicides at first symptom. Improve air circulation.",
+    "pesticides": [
+      {
+        "name": "Mancozeb 75% WP",
+        "formulation": "75% WP",
+        "dosage": "600–800 g in 300 L water per acre",
+        "application": "Foliar spray at first appearance of symptoms.",
+        "source": "PPQS AESA based IPM – Tomato"
+      }
+    ],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance.",
+    "prevention": [
+      "Crop rotation with non-solanaceous crops",
+      "Remove and destroy infected plant debris",
+      "Stake plants and mulch to reduce soil splash",
+      "Avoid working in wet fields",
+      "Use disease-free transplants"
+    ],
+    "sources": [
+      {
+        "title": "AESA based IPM Package – Tomato",
+        "organization": "Directorate of Plant Protection Quarantine & Storage",
+        "url": "https://ppqs.gov.in/sites/default/files/tomato.pdf"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Tomato___Spider_mites Two-spotted_spider_mite": {
+    "crop": "Tomato",
+    "disease": "Spider Mites (Two-Spotted Spider Mite)",
+    "severity": "Moderate",
+    "symptoms": [
+      "Fine stippling (tiny yellow/white spots) on upper leaf surface",
+      "Leaves become bronzed or yellowish and may dry",
+      "Fine webbing on underside of leaves in heavy infestation",
+      "Reduced plant vigour and fruit quality"
+    ],
+    "cause": "Pest (arachnid) – Tetranychus urticae (two-spotted spider mite). Thrives in hot, dry conditions. Multiplies rapidly.",
+    "treatment": "Monitor regularly. Use miticides (fenazaquin, spiromesifen) when populations exceed threshold. Encourage natural enemies. Avoid excessive nitrogen and dusty conditions. Overhead irrigation can help suppress mites temporarily.",
+    "pesticides": [
+      {
+        "name": "Fenazaquin 10% EC",
+        "formulation": "10% EC",
+        "dosage": "500 ml in 200 L water per acre (or ~2.5 ml/L)",
+        "application": "Foliar spray, ensuring good coverage of undersides of leaves.",
+        "source": "PPQS AESA based IPM – Tomato and ICAR-NCIPM"
+      },
+      {
+        "name": "Spiromesifen 22.9% SC",
+        "formulation": "22.9% SC",
+        "dosage": "250 ml in 200 L water per acre (or ~1.25 ml/L)",
+        "application": "Foliar spray targeting undersides of leaves.",
+        "source": "PPQS AESA based IPM – Tomato and ICAR-NCIPM"
+      }
+    ],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance. Avoid excess nitrogen which favours mite outbreaks.",
+    "prevention": [
+      "Regular monitoring of undersides of leaves",
+      "Conserve natural enemies (predatory mites, lacewings)",
+      "Avoid dusty conditions and water stress",
+      "Do not over-fertilise with nitrogen",
+      "Remove heavily infested leaves"
+    ],
+    "sources": [
+      {
+        "title": "AESA based IPM Package – Tomato",
+        "organization": "Directorate of Plant Protection Quarantine & Storage",
+        "url": "https://ppqs.gov.in/sites/default/files/tomato.pdf"
+      },
+      {
+        "title": "ICAR-NCIPM tomato IPM folder",
+        "organization": "ICAR-National Research Centre for Integrated Pest Management",
+        "url": "https://nriipm.res.in/NCIPMPDFs/FOLDERS/tomato_1_.pdf"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Tomato___Target_Spot": {
+    "crop": "Tomato",
+    "disease": "Target Spot",
+    "severity": "Moderate",
+    "symptoms": [
+      "Circular lesions with concentric rings (target-like) on leaves",
+      "Lesions may have a yellow halo",
+      "Fruit can develop dark, sunken spots",
+      "Defoliation in severe cases"
+    ],
+    "cause": "Fungal disease caused by Corynespora cassiicola. Favoured by warm, humid conditions.",
+    "treatment": "Improve air circulation. Remove infected lower leaves. Apply protectant fungicides (mancozeb, chlorothalonil) or registered systemic products at first symptom. Practise crop rotation.",
+    "pesticides": [],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance.",
+    "prevention": [
+      "Crop rotation with non-host crops",
+      "Remove and destroy infected plant debris",
+      "Stake plants and maintain good spacing",
+      "Avoid overhead irrigation when possible",
+      "Use healthy transplants"
+    ],
+    "sources": [
+      {
+        "title": "Tomato disease management literature",
+        "organization": "ICAR / SAU extension resources",
+        "url": ""
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Tomato___Tomato_Yellow_Leaf_Curl_Virus": {
+    "crop": "Tomato",
+    "disease": "Tomato Yellow Leaf Curl Virus",
+    "severity": "Severe",
+    "symptoms": [
+      "Upward curling and yellowing of leaves",
+      "Leaves become small, thick and leathery",
+      "Severe stunting of plants",
+      "Reduced or no fruit set; flowers may drop"
+    ],
+    "cause": "Viral disease (Begomovirus) transmitted by the whitefly Bemisia tabaci. No seed transmission in most cases.",
+    "treatment": "There is no curative treatment. Control the whitefly vector rigorously. Remove and destroy infected plants early. Use resistant/tolerant varieties. Protect seedlings with insect-proof nets.",
+    "pesticides": [],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance. Balanced nutrition supports plant recovery but does not cure the virus.",
+    "prevention": [
+      "Grow resistant or tolerant tomato varieties",
+      "Use insect-proof nets in nursery and early field stages",
+      "Control whitefly with yellow sticky traps, neem products and recommended insecticides",
+      "Remove and destroy infected plants immediately",
+      "Avoid continuous tomato cropping and manage weeds that host whiteflies"
+    ],
+    "sources": [
+      {
+        "title": "Tomato IPM packages and virus management",
+        "organization": "ICAR-NCIPM / PPQS",
+        "url": "https://ppqs.gov.in/sites/default/files/tomato.pdf"
+      }
+    ],
+    "recommendationsVerified": true
+  },
+  "Tomato___Tomato_mosaic_virus": {
+    "crop": "Tomato",
+    "disease": "Tomato Mosaic Virus",
+    "severity": "Moderate",
+    "symptoms": [
+      "Mosaic pattern of light and dark green on leaves",
+      "Leaf distortion, puckering or fern-leaf symptoms",
+      "Stunted plants",
+      "Fruit may show uneven ripening or internal browning"
+    ],
+    "cause": "Viral disease caused by Tomato mosaic virus (ToMV) or related Tobamoviruses. Highly contagious; spreads by mechanical means (hands, tools, clothing) and can be seed-borne.",
+    "treatment": "There is no curative treatment. Remove and destroy infected plants. Disinfect tools and hands with soap or trisodium phosphate. Use virus-free seed and resistant varieties.",
+    "pesticides": [],
+    "fertilizer": "Consult a local agricultural extension advisor for crop-specific nutrient guidance.",
+    "prevention": [
+      "Use certified virus-free seed and resistant varieties",
+      "Disinfect tools, hands and stakes regularly",
+      "Avoid smoking or handling tobacco near tomato plants (related viruses)",
+      "Remove and destroy infected plants promptly",
+      "Control weeds that may harbour the virus"
+    ],
+    "sources": [
+      {
+        "title": "Tomato virus disease management",
+        "organization": "ICAR / SAU extension literature",
+        "url": ""
+      }
+    ],
+    "recommendationsVerified": true
   }
 }

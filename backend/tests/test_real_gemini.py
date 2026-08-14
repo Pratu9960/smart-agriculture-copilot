@@ -135,7 +135,7 @@ def test_full_diagnosis_route_with_real_gemini_integration():
             assert data["confidence"] == 0.92
             assert data["isDevMockPayload"] is False  # Verified real Gemini service sets isDevMockPayload=False
             # Verify KnowledgeService provided recommendations from knowledge base
-            assert data["severity"] == "High"
+            assert data["severity"] == "Severe"
             assert "symptoms" in data
             assert len(data["symptoms"]) > 0
             assert "pesticides" in data
