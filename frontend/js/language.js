@@ -48,7 +48,21 @@ const LanguageModule = {
       location: 'Village / District',
       saveProfile: 'Save Profile Information',
       loginBtn: 'Sign In',
-      registerBtn: 'Create Account'
+      registerBtn: 'Create Account',
+      logoutBtn: 'Sign Out',
+      loggedInStatus: 'Logged In',
+      loggedOutStatus: 'Not Logged In',
+      guestFarmer: 'Guest Farmer',
+      switchAccount: 'Switch Account / Login',
+      authErrorInvalidEmail: 'Please enter a valid email address.',
+      authErrorWeakPassword: 'Password must be at least 6 characters.',
+      authErrorWrongPassword: 'Email or password is incorrect.',
+      authErrorEmailInUse: 'An account with this email already exists.',
+      authErrorNetwork: 'Unable to connect. Please check your internet connection and try again.',
+      authErrorDefault: 'Something went wrong. Please try again.',
+      authSuccessLogin: 'Logged in successfully!',
+      authSuccessRegister: 'Account created successfully!',
+      authSuccessLogout: 'Signed out successfully.'
     },
     hi: {
       appName: 'स्मार्ट कृषि सहायक',
@@ -91,7 +105,21 @@ const LanguageModule = {
       location: 'गांव / जिला',
       saveProfile: 'प्रोफाइल सहेजें',
       loginBtn: 'साइन इन करें',
-      registerBtn: 'खाता बनाएं'
+      registerBtn: 'खाता बनाएं',
+      logoutBtn: 'साइन आउट',
+      loggedInStatus: 'लॉग इन',
+      loggedOutStatus: 'लॉग इन नहीं है',
+      guestFarmer: 'अतिथि किसान',
+      switchAccount: 'खाता बदलें / लॉगिन',
+      authErrorInvalidEmail: 'कृपया एक मान्य ईमेल पता दर्ज करें।',
+      authErrorWeakPassword: 'पासवर्ड कम से कम 6 अक्षरों का होना चाहिए।',
+      authErrorWrongPassword: 'ईमेल या पासवर्ड गलत है।',
+      authErrorEmailInUse: 'इस ईमेल से पहले से एक खाता मौजूद है।',
+      authErrorNetwork: 'कनेक्ट करने में असमर्थ। कृपया अपना इंटरनेट कनेक्शन जांचें।',
+      authErrorDefault: 'कुछ गलत हो गया। कृपया पुन: प्रयास करें।',
+      authSuccessLogin: 'सफलतापूर्वक लॉग इन किया गया!',
+      authSuccessRegister: 'खाता सफलतापूर्वक बनाया गया!',
+      authSuccessLogout: 'सफलतापूर्वक साइन आउट किया गया।'
     },
     mr: {
       appName: 'स्मार्ट शेती मित्र',
@@ -134,7 +162,21 @@ const LanguageModule = {
       location: 'गाव / जिल्हा',
       saveProfile: 'प्रोफाईल जतन करा',
       loginBtn: 'लॉगिन करा',
-      registerBtn: 'खाते तयार करा'
+      registerBtn: 'खाते तयार करा',
+      logoutBtn: 'लॉग आउट करा',
+      loggedInStatus: 'लॉग इन झाले',
+      loggedOutStatus: 'लॉग इन नाही',
+      guestFarmer: 'अतिथी शेतकरी',
+      switchAccount: 'खाते बदला / लॉगिन',
+      authErrorInvalidEmail: 'कृपया वैध ईमेल पत्ता प्रविष्ट करा.',
+      authErrorWeakPassword: 'पासवर्ड किमान 6 अक्षरांचा असावा.',
+      authErrorWrongPassword: 'ईमेल किंवा पासवर्ड चुकीचा आहे.',
+      authErrorEmailInUse: 'या ईमेलसह आधीच खाते अस्तित्वात आहे.',
+      authErrorNetwork: 'कनेक्ट करण्यात अयशस्वी. कृपया इंटरनेट कनेक्शन तपासा.',
+      authErrorDefault: 'काहीतरी चूक झाली. कृपया पुन्हा प्रयत्न करा.',
+      authSuccessLogin: 'यशस्वीरित्या लॉगिन झाले!',
+      authSuccessRegister: 'खाते यशस्वीरित्या तयार केले गेले!',
+      authSuccessLogout: 'यशस्वीरित्या साइन आउट केले.'
     }
   },
 

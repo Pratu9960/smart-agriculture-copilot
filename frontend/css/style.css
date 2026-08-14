@@ -827,3 +827,44 @@ body {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Authentication Error & State Elements */
+.auth-error-box {
+  display: none;
+  background: #fff5f5;
+  color: #c53030;
+  border: 1px solid #feb2b2;
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+
+.auth-error-box.active {
+  display: block;
+}
+
+.btn-danger {
+  background: #e53e3e;
+  color: white;
+  border: none;
+}
+
+.btn-danger:hover {
+  background: #c53030;
+}
+
+.status-badge.logged-out {
+  background: #edf2f7;
+  color: #4a5568;
+  border: 1px solid #cbd5e0;
+}
+
+.user-email-text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
