@@ -32,25 +32,6 @@ const ProfileModule = {
       });
     }
 
-    // Modal open / close handlers
-    const btnToggleAuth = document.getElementById('btn-toggle-auth-modal');
-    if (btnToggleAuth) {
-      btnToggleAuth.addEventListener('click', () => this.openAuthModal());
-    }
-
-    const modalClose = document.getElementById('modal-auth-close');
-    if (modalClose) {
-      modalClose.addEventListener('click', () => this.closeAuthModal());
-    }
-
-    // Close modal on overlay background click
-    const authOverlay = document.getElementById('modal-auth-overlay');
-    if (authOverlay) {
-      authOverlay.addEventListener('click', (e) => {
-        if (e.target === authOverlay) this.closeAuthModal();
-      });
-    }
-
     // Sign out button handler
     const btnLogout = document.getElementById('btn-logout-auth');
     if (btnLogout) {
@@ -65,6 +46,26 @@ const ProfileModule = {
         this.handleAuthSubmit();
       });
     }
+
+    const authSwitchLink = document.getElementById('auth-switch-link');
+    if (authSwitchLink) {
+      authSwitchLink.addEventListener('click', () => this.switchAuthTab(this.currentMode === 'login' ? 'register' : 'login'));
+    }
+
+    const passwordToggle = document.getElementById('btn-toggle-password');
+    if (passwordToggle) {
+      passwordToggle.addEventListener('click', () => {
+        const passwordInput = document.getElementById('auth-password');
+        if (!passwordInput) return;
+        const showing = passwordInput.type === 'text';
+        passwordInput.type = showing ? 'password' : 'text';
+        passwordToggle.textContent = showing ? 'Show' : 'Hide';
+        passwordToggle.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+      });
+    }
+
+    const forgotPassword = document.getElementById('btn-forgot-password');
+    if (forgotPassword) forgotPassword.addEventListener('click', () => this.handleForgotPassword());
 
     // Tab switching (Sign In vs Create Account)
     const tabLogin = document.getElementById('tab-auth-login');
@@ -88,7 +89,6 @@ const ProfileModule = {
     const displayName = document.getElementById('display-farmer-name');
     const displayEmail = document.getElementById('display-farmer-email');
     const authBadge = document.getElementById('profile-auth-badge');
-    const btnToggleAuth = document.getElementById('btn-toggle-auth-modal');
     const btnLogout = document.getElementById('btn-logout-auth');
     const authHint = document.getElementById('auth-status-hint');
     const inputName = document.getElementById('profile-name');
@@ -103,10 +103,6 @@ const ProfileModule = {
       if (authBadge) {
         authBadge.classList.remove('logged-out');
         authBadge.innerText = i18n ? i18n.t('loggedInStatus') : 'Logged In';
-      }
-
-      if (btnToggleAuth) {
-        btnToggleAuth.innerText = i18n ? i18n.t('switchAccount') : 'Switch Account / Login';
       }
 
       if (btnLogout) {
@@ -129,10 +125,6 @@ const ProfileModule = {
       if (authBadge) {
         authBadge.classList.add('logged-out');
         authBadge.innerText = i18n ? i18n.t('loggedOutStatus') : 'Not Logged In';
-      }
-
-      if (btnToggleAuth) {
-        btnToggleAuth.innerText = i18n ? i18n.t('loginRegister') : 'Farmer Login / Register';
       }
 
       if (btnLogout) {
@@ -203,14 +195,14 @@ const ProfileModule = {
 
   openAuthModal() {
     this.clearAuthErrors();
-    const modal = document.getElementById('modal-auth-overlay');
-    if (modal) modal.classList.add('active');
+    if (window.App) window.App.showAuthScreen('login');
   },
 
   closeAuthModal() {
     this.clearAuthErrors();
-    const modal = document.getElementById('modal-auth-overlay');
-    if (modal) modal.classList.remove('active');
+    if (window.App && window.AuthModule && window.AuthModule.isLoggedIn()) {
+      window.App.showAppShell(window.AuthModule.getCurrentUser());
+    }
   },
 
   clearAuthErrors() {
@@ -237,7 +229,12 @@ const ProfileModule = {
     const tabRegister = document.getElementById('tab-auth-register');
     const btnSubmit = document.getElementById('btn-auth-submit');
     const nameGroup = document.getElementById('auth-name-group');
-    const modalTitle = document.getElementById('modal-auth-title');
+    const confirmGroup = document.getElementById('auth-confirm-group');
+    const modalTitle = document.getElementById('auth-title');
+    const authSubtitle = document.getElementById('auth-subtitle');
+    const switchCopy = document.getElementById('auth-switch-copy');
+    const switchLink = document.getElementById('auth-switch-link');
+    const loginOptions = document.getElementById('auth-login-options');
 
     const i18n = window.i18n;
 
@@ -246,14 +243,26 @@ const ProfileModule = {
       if (tabRegister) tabRegister.classList.remove('active');
       if (btnSubmit) btnSubmit.innerText = i18n ? i18n.t('loginBtn') : 'Sign In';
       if (nameGroup) nameGroup.style.display = 'none';
+      if (confirmGroup) confirmGroup.style.display = 'none';
+      if (loginOptions) loginOptions.style.display = 'flex';
       if (modalTitle) modalTitle.innerText = i18n ? i18n.t('loginBtn') : 'Farmer Sign In';
+      if (authSubtitle) authSubtitle.innerText = 'Sign in to continue to your crop intelligence workspace.';
+      if (switchCopy) switchCopy.childNodes[0].textContent = 'New to HaritKranti? ';
+      if (switchLink) switchLink.innerText = 'Create an account';
     } else {
       if (tabRegister) tabRegister.classList.add('active');
       if (tabLogin) tabLogin.classList.remove('active');
       if (btnSubmit) btnSubmit.innerText = i18n ? i18n.t('registerBtn') : 'Create Account';
       if (nameGroup) nameGroup.style.display = 'block';
+      if (confirmGroup) confirmGroup.style.display = 'block';
+      if (loginOptions) loginOptions.style.display = 'none';
       if (modalTitle) modalTitle.innerText = i18n ? i18n.t('registerBtn') : 'Create Farmer Account';
+      if (authSubtitle) authSubtitle.innerText = 'Create a secure workspace for your crop insights.';
+      if (switchCopy) switchCopy.childNodes[0].textContent = 'Already have an account? ';
+      if (switchLink) switchLink.innerText = 'Sign in';
     }
+    if (tabLogin) tabLogin.setAttribute('aria-selected', String(mode === 'login'));
+    if (tabRegister) tabRegister.setAttribute('aria-selected', String(mode === 'register'));
   },
 
   /**
@@ -265,11 +274,14 @@ const ProfileModule = {
     const emailInput = document.getElementById('auth-email');
     const passwordInput = document.getElementById('auth-password');
     const nameInput = document.getElementById('auth-name');
+    const confirmInput = document.getElementById('auth-confirm-password');
+    const rememberInput = document.getElementById('auth-remember');
     const btnSubmit = document.getElementById('btn-auth-submit');
 
     const email = emailInput?.value?.trim() || '';
     const password = passwordInput?.value || '';
     const name = nameInput?.value?.trim() || '';
+    const confirmPassword = confirmInput?.value || '';
 
     if (!email) {
       this.showAuthError(window.i18n ? window.i18n.t('authErrorInvalidEmail') : 'Please enter a valid email address.');
@@ -278,6 +290,11 @@ const ProfileModule = {
 
     if (!password || password.length < 6) {
       this.showAuthError(window.i18n ? window.i18n.t('authErrorWeakPassword') : 'Password must be at least 6 characters.');
+      return;
+    }
+
+    if (this.currentMode === 'register' && password !== confirmPassword) {
+      this.showAuthError('Passwords do not match. Please check both fields.');
       return;
     }
 
@@ -294,6 +311,9 @@ const ProfileModule = {
           window.App.showToast(window.i18n ? window.i18n.t('authSuccessRegister') : 'Account created successfully!', 'success');
         }
       } else {
+        if (window.AuthModule && typeof window.AuthModule.setPersistence === 'function') {
+          await window.AuthModule.setPersistence(Boolean(rememberInput && rememberInput.checked));
+        }
         await window.AuthModule.login(email, password);
         if (window.App) {
           window.App.showToast(window.i18n ? window.i18n.t('authSuccessLogin') : 'Logged in successfully!', 'success');
@@ -304,6 +324,7 @@ const ProfileModule = {
       if (emailInput) emailInput.value = '';
       if (passwordInput) passwordInput.value = '';
       if (nameInput) nameInput.value = '';
+      if (confirmInput) confirmInput.value = '';
       this.closeAuthModal();
 
     } catch (error) {
@@ -314,6 +335,21 @@ const ProfileModule = {
         btnSubmit.disabled = false;
         btnSubmit.innerText = originalBtnText;
       }
+    }
+  },
+
+  async handleForgotPassword() {
+    this.clearAuthErrors();
+    const email = document.getElementById('auth-email')?.value?.trim() || '';
+    if (!email) {
+      this.showAuthError('Enter your email address first, then choose forgot password.');
+      return;
+    }
+    try {
+      await window.AuthModule.sendPasswordReset(email);
+      if (window.App) window.App.showToast('Password reset email sent. Check your inbox.', 'success');
+    } catch (error) {
+      this.showAuthError(error.message || 'Unable to send a password reset email.');
     }
   },
 

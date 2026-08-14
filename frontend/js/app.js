@@ -5,6 +5,8 @@
 const App = {
   activeView: 'view-home',
   isOnline: navigator.onLine,
+  isAuthenticated: false,
+  authReady: false,
 
   init() {
     console.log('[SmartAg App] Initializing Smart Agriculture Copilot Frontend...');
@@ -12,7 +14,56 @@ const App = {
     this.setupConnectivityMonitor();
     this.setupNativeBridgeHook();
     this.updateConnectivityUI();
+    this.setupAuthFlow();
+  },
+
+  setupAuthFlow() {
+    this.showAuthScreen('login');
+    if (window.AuthModule) {
+      window.AuthModule.onAuthStateChanged((user) => {
+        this.authReady = true;
+        this.isAuthenticated = Boolean(user);
+        if (user) {
+          this.showAppShell(user);
+        } else {
+          this.showAuthScreen('login');
+        }
+      });
+    } else {
+      // Keep the product usable if the optional auth script failed to load.
+      this.authReady = true;
+      this.showAppShell(null);
+    }
+  },
+
+  showAuthScreen(mode = 'login') {
+    const authScreen = document.getElementById('auth-screen');
+    const appShell = document.getElementById('app-shell');
+    if (authScreen) authScreen.classList.remove('is-hidden');
+    if (appShell) appShell.classList.add('is-hidden');
+    if (window.ProfileModule && typeof window.ProfileModule.switchAuthTab === 'function') {
+      window.ProfileModule.switchAuthTab(mode);
+    }
+  },
+
+  showAppShell(user) {
+    const authScreen = document.getElementById('auth-screen');
+    const appShell = document.getElementById('app-shell');
+    if (authScreen) authScreen.classList.add('is-hidden');
+    if (appShell) appShell.classList.remove('is-hidden');
+    this.syncUserUI(user || (window.AuthModule && window.AuthModule.getCurrentUser()));
     this.navigateTo(this.activeView);
+  },
+
+  syncUserUI(user) {
+    const name = user && (user.displayName || (user.email ? user.email.split('@')[0] : 'farmer'));
+    const displayName = name || 'farmer';
+    const dashboardName = document.getElementById('dashboard-farmer-name');
+    const headerInitial = document.getElementById('header-profile-initial');
+    const profileAvatar = document.getElementById('profile-avatar');
+    if (dashboardName) dashboardName.textContent = displayName;
+    if (headerInitial) headerInitial.textContent = displayName.charAt(0).toUpperCase();
+    if (profileAvatar) profileAvatar.textContent = displayName.charAt(0).toUpperCase();
   },
 
   /**
@@ -31,8 +82,11 @@ const App = {
       section.classList.remove('active');
     });
 
-    // Deactivate all bottom nav items
+    // Deactivate all navigation items
     document.querySelectorAll('.nav-item').forEach(nav => {
+      nav.classList.remove('active');
+    });
+    document.querySelectorAll('.desktop-nav-item').forEach(nav => {
       nav.classList.remove('active');
     });
 
@@ -45,6 +99,8 @@ const App = {
     if (navMatch) {
       navMatch.classList.add('active');
     }
+    const desktopNavMatch = document.querySelector(`.desktop-nav-item[data-target="${viewId}"]`);
+    if (desktopNavMatch) desktopNavMatch.classList.add('active');
 
     // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -59,6 +115,8 @@ const App = {
     } else if (viewId === 'view-profile' && window.ProfileModule) {
       window.ProfileModule.initView();
     }
+
+    this.updateAIModeUI();
   },
 
   setupEventListeners() {
@@ -77,13 +135,28 @@ const App = {
         }
       });
     });
+
+  },
+
+  getAIMode() {
+    if (this.isOnline) return 'online';
+    return window.SmartAgBridge && window.SmartAgBridge.isAvailable() ? 'offline' : 'offline-unavailable';
+  },
+
+  updateAIModeUI() {
+    const mode = this.getAIMode();
+    const scanLabel = document.getElementById('scan-mode-label');
+    const dashboardLabel = document.getElementById('dashboard-network-label');
+    const copy = mode === 'online' ? 'Using Online AI' : mode === 'offline' ? 'Using Offline AI' : 'Offline AI unavailable on this device';
+    if (scanLabel) scanLabel.textContent = copy;
+    if (dashboardLabel) dashboardLabel.textContent = mode === 'online' ? 'Online AI available' : mode === 'offline' ? 'Offline AI available' : 'Offline mode available with the app model';
   },
 
   setupConnectivityMonitor() {
     window.addEventListener('online', () => {
       this.isOnline = true;
       this.updateConnectivityUI();
-      this.showToast('📶 Internet connection restored!', 'success');
+      this.showToast('Connection restored. Online AI is available.', 'success');
       // Attempt auto-sync of pending records if available
       if (window.HistoryModule) {
         window.HistoryModule.autoSyncPending();
@@ -93,7 +166,7 @@ const App = {
     window.addEventListener('offline', () => {
       this.isOnline = false;
       this.updateConnectivityUI();
-      this.showToast('📡 You are currently offline.', 'warning');
+      this.showToast('You are offline. Checking local AI availability.', 'warning');
     });
   },
 
@@ -101,16 +174,20 @@ const App = {
     const badge = document.getElementById('status-badge');
     const badgeText = document.getElementById('status-badge-text');
     const offlineBanner = document.getElementById('offline-banner');
+    const dashboardStatus = document.getElementById('dashboard-network-label');
 
     if (this.isOnline) {
       if (badge) badge.classList.remove('offline');
       if (badgeText) badgeText.innerText = window.i18n ? window.i18n.t('online') : 'Online';
       if (offlineBanner) offlineBanner.classList.add('hidden');
+      if (dashboardStatus) dashboardStatus.textContent = 'Online AI available';
     } else {
       if (badge) badge.classList.add('offline');
       if (badgeText) badgeText.innerText = window.i18n ? window.i18n.t('offline') : 'Offline';
       if (offlineBanner) offlineBanner.classList.remove('hidden');
+      if (dashboardStatus) dashboardStatus.textContent = this.getAIMode() === 'offline' ? 'Offline AI available' : 'Offline AI unavailable on this device';
     }
+    this.updateAIModeUI();
   },
 
   /**
@@ -162,7 +239,9 @@ const App = {
 
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
-    toast.innerHTML = `<span>${message}</span>`;
+    const toastMessage = document.createElement('span');
+    toastMessage.textContent = message;
+    toast.appendChild(toastMessage);
     container.appendChild(toast);
 
     setTimeout(() => {

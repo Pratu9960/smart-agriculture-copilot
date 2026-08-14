@@ -2,16 +2,18 @@
  * Smart Agriculture Copilot - Crop Disease Diagnosis Module
  *
  * Handles:
- * - Image selection
+ * - Image selection and validation
  * - Image preview
- * - Image validation
- * - Gemini diagnosis API request
+ * - Online Gemini diagnosis
+ * - Android offline diagnosis bridge
+ * - AI analysis progress UI
  * - Verified knowledge-base recommendation rendering
- * - Saving diagnosis to history
+ * - Diagnosis history saving
  *
  * IMPORTANT:
  * The frontend NEVER generates agricultural recommendations.
- * All diagnosis/recommendation data comes from the backend.
+ * All diagnosis/recommendation data comes from the backend or
+ * the installed Android offline model.
  */
 
 const DiagnosisModule = {
@@ -29,26 +31,20 @@ const DiagnosisModule = {
 
     if (uploadZone) {
       uploadZone.addEventListener('click', () => {
-        if (fileInputCamera) {
-          fileInputCamera.click();
-        }
+        if (fileInputCamera) fileInputCamera.click();
       });
     }
 
     const btnCamera = document.getElementById('btn-trigger-camera');
 
     if (btnCamera && fileInputCamera) {
-      btnCamera.addEventListener('click', () => {
-        fileInputCamera.click();
-      });
+      btnCamera.addEventListener('click', () => fileInputCamera.click());
     }
 
     const btnGallery = document.getElementById('btn-trigger-gallery');
 
     if (btnGallery && fileInputGallery) {
-      btnGallery.addEventListener('click', () => {
-        fileInputGallery.click();
-      });
+      btnGallery.addEventListener('click', () => fileInputGallery.click());
     }
 
     [fileInputCamera, fileInputGallery].forEach((input) => {
@@ -107,9 +103,6 @@ const DiagnosisModule = {
     }
   },
 
-  /**
-   * Handle image selection.
-   */
   handleFileSelect(event) {
     const files = event.target.files;
 
@@ -119,7 +112,6 @@ const DiagnosisModule = {
 
     const file = files[0];
 
-    // Validate file type.
     if (!file.type || !file.type.startsWith('image/')) {
       if (window.App) {
         window.App.showToast(
@@ -127,11 +119,9 @@ const DiagnosisModule = {
           'error'
         );
       }
-
       return;
     }
 
-    // Validate file size: 10 MB maximum.
     if (file.size > 10 * 1024 * 1024) {
       if (window.App) {
         window.App.showToast(
@@ -139,7 +129,6 @@ const DiagnosisModule = {
           'error'
         );
       }
-
       return;
     }
 
@@ -147,9 +136,6 @@ const DiagnosisModule = {
     this.displayPreview(file);
   },
 
-  /**
-   * Display selected image preview.
-   */
   displayPreview(file) {
     const reader = new FileReader();
 
@@ -185,9 +171,6 @@ const DiagnosisModule = {
     reader.readAsDataURL(file);
   },
 
-  /**
-   * Clear selected image and diagnosis state.
-   */
   clearPreview() {
     this.selectedFile = null;
     this.currentResult = null;
@@ -202,30 +185,13 @@ const DiagnosisModule = {
     const fileInputGallery =
       document.getElementById('input-gallery');
 
-    if (previewImg) {
-      previewImg.src = '';
-    }
-
-    if (previewContainer) {
-      previewContainer.classList.remove('active');
-    }
-
-    if (btnDiagnose) {
-      btnDiagnose.style.display = 'none';
-    }
-
-    if (fileInputCamera) {
-      fileInputCamera.value = '';
-    }
-
-    if (fileInputGallery) {
-      fileInputGallery.value = '';
-    }
+    if (previewImg) previewImg.src = '';
+    if (previewContainer) previewContainer.classList.remove('active');
+    if (btnDiagnose) btnDiagnose.style.display = 'none';
+    if (fileInputCamera) fileInputCamera.value = '';
+    if (fileInputGallery) fileInputGallery.value = '';
   },
 
-  /**
-   * Send image to backend for diagnosis.
-   */
   async executeDiagnosis() {
     if (!this.selectedFile) {
       if (window.App) {
@@ -234,7 +200,6 @@ const DiagnosisModule = {
           'warning'
         );
       }
-
       return;
     }
 
@@ -242,6 +207,24 @@ const DiagnosisModule = {
       document.getElementById('scan-loading-box');
     const btnDiagnose =
       document.getElementById('btn-run-diagnose');
+    const analysisStep =
+      document.getElementById('analysis-step');
+
+    const selectedMode =
+      window.App &&
+      typeof window.App.getAIMode === 'function'
+        ? window.App.getAIMode()
+        : (navigator.onLine ? 'online' : 'offline-unavailable');
+
+    if (selectedMode === 'offline-unavailable') {
+      if (window.App) {
+        window.App.showToast(
+          'You are offline and this browser does not have the local agriculture model installed.',
+          'warning'
+        );
+      }
+      return;
+    }
 
     if (loadingBox) {
       loadingBox.classList.add('active');
@@ -251,9 +234,42 @@ const DiagnosisModule = {
       btnDiagnose.style.display = 'none';
     }
 
+    const analysisSteps = [
+      'Checking visual symptoms',
+      'Comparing crop patterns',
+      'Preparing recommendations'
+    ];
+
+    let analysisStepIndex = 0;
+
+    if (analysisStep) {
+      analysisStep.textContent = analysisSteps[0];
+    }
+
+    const analysisTimer = window.setInterval(() => {
+      analysisStepIndex =
+        (analysisStepIndex + 1) % analysisSteps.length;
+
+      if (analysisStep) {
+        analysisStep.textContent =
+          analysisSteps[analysisStepIndex];
+      }
+    }, 850);
+
     try {
-      const result =
-        await window.SmartAgAPI.diagnoseCrop(this.selectedFile);
+      let result;
+
+      if (selectedMode === 'online') {
+        result =
+          await window.SmartAgAPI.diagnoseCrop(
+            this.selectedFile
+          );
+      } else {
+        result =
+          await this.runOfflineDiagnosis(
+            this.selectedFile
+          );
+      }
 
       this.currentResult = result;
 
@@ -268,15 +284,17 @@ const DiagnosisModule = {
         error
       );
 
-      const message =
-        error && error.message
-          ? error.message
-          : 'Diagnosis failed. Please try again.';
-
       if (window.App) {
-        window.App.showToast(message, 'error');
+        window.App.showToast(
+          error && error.message
+            ? error.message
+            : 'Diagnosis failed. Please try again.',
+          'error'
+        );
       }
     } finally {
+      window.clearInterval(analysisTimer);
+
       if (loadingBox) {
         loadingBox.classList.remove('active');
       }
@@ -287,24 +305,82 @@ const DiagnosisModule = {
     }
   },
 
-  /**
-   * Render backend diagnosis result.
-   *
-   * The frontend only displays values supplied by the backend.
-   * It does not generate medical/agricultural recommendations.
-   */
+  async runOfflineDiagnosis(file) {
+    if (
+      !window.SmartAgBridge ||
+      !window.SmartAgBridge.isAvailable()
+    ) {
+      throw new Error(
+        'Offline diagnosis is available in the Android app with its local agriculture model. This browser does not have that model installed.'
+      );
+    }
+
+    const imageData =
+      await this.readFileAsDataUrl(file);
+
+    const bridgeResponse =
+      await Promise.resolve(
+        window.SmartAgBridge.triggerOfflineDiagnosis(
+          imageData
+        )
+      );
+
+    if (!bridgeResponse) {
+      throw new Error(
+        'The Android offline model did not return a diagnosis. Please check that the local model is installed and ready.'
+      );
+    }
+
+    if (typeof bridgeResponse === 'string') {
+      try {
+        return JSON.parse(bridgeResponse);
+      } catch (error) {
+        throw new Error(
+          'The Android offline model returned an unreadable diagnosis.'
+        );
+      }
+    }
+
+    if (typeof bridgeResponse === 'object') {
+      return bridgeResponse;
+    }
+
+    throw new Error(
+      'The Android offline model returned an unsupported diagnosis format.'
+    );
+  },
+
+  readFileAsDataUrl(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+
+      reader.onerror = () => {
+        reject(
+          new Error(
+            'Unable to read the selected leaf image.'
+          )
+        );
+      };
+
+      reader.readAsDataURL(file);
+    });
+  },
+
   renderDiagnosisResult(data) {
     if (!data || typeof data !== 'object') {
       console.error(
         '[DiagnosisModule] Invalid diagnosis response:',
         data
       );
-
       return;
     }
 
     // ============================================================
-    // Header
+    // Main diagnosis header
     // ============================================================
 
     const cropBadge =
@@ -335,7 +411,10 @@ const DiagnosisModule = {
         numericConfidence >= 0
       ) {
         const pct = Math.round(
-          Math.max(0, Math.min(1, numericConfidence)) * 100
+          Math.max(
+            0,
+            Math.min(1, numericConfidence)
+          ) * 100
         );
 
         confidenceText.innerText =
@@ -347,7 +426,37 @@ const DiagnosisModule = {
     }
 
     // ============================================================
-    // Symptoms
+    // New redesigned result metadata
+    // ============================================================
+
+    const overviewElem =
+      document.getElementById('result-overview');
+
+    const severityElem =
+      document.getElementById('result-severity');
+
+    const cropMetaElem =
+      document.getElementById('result-crop-meta');
+
+    if (overviewElem) {
+      overviewElem.innerText =
+        data.cause ||
+        data.overview ||
+        'Verified observation information is currently unavailable.';
+    }
+
+    if (severityElem) {
+      severityElem.innerText =
+        data.severity || 'Unknown';
+    }
+
+    if (cropMetaElem) {
+      cropMetaElem.innerText =
+        data.crop || 'Unknown';
+    }
+
+    // ============================================================
+    // Symptoms / observations
     // ============================================================
 
     const symptomsElem =
@@ -381,7 +490,7 @@ const DiagnosisModule = {
     }
 
     // ============================================================
-    // Cause
+    // Cause / overview
     // ============================================================
 
     const causeElem =
@@ -401,7 +510,7 @@ const DiagnosisModule = {
     }
 
     // ============================================================
-    // Treatment
+    // Treatment / recommended actions
     // ============================================================
 
     const treatmentElem =
@@ -422,6 +531,10 @@ const DiagnosisModule = {
 
     // ============================================================
     // Pesticides
+    //
+    // IMPORTANT:
+    // Empty pesticides array MUST NOT result in generated
+    // pesticide recommendations.
     // ============================================================
 
     const pesticidesElem =
@@ -584,18 +697,6 @@ const DiagnosisModule = {
     // Recommendation availability
     // ============================================================
 
-    /*
-     * New backend field:
-     *
-     * recommendationsAvailable: true / false
-     *
-     * If the backend provides this field, use it to communicate
-     * whether the disease exists in the verified knowledge base.
-     *
-     * We don't require the field so this frontend remains
-     * compatible with the existing backend response.
-     */
-
     const recommendationStatus =
       document.getElementById(
         'result-recommendation-status'
@@ -605,7 +706,9 @@ const DiagnosisModule = {
       if (data.recommendationsAvailable === false) {
         recommendationStatus.innerText =
           'Verified agricultural recommendations are currently unavailable for this diagnosis.';
-      } else if (data.recommendationsAvailable === true) {
+      } else if (
+        data.recommendationsAvailable === true
+      ) {
         recommendationStatus.innerText =
           'Agricultural recommendations verified from the knowledge base.';
       } else {
@@ -614,7 +717,7 @@ const DiagnosisModule = {
     }
 
     // ============================================================
-    // Development / Real AI indicator
+    // AI / Mock indicator
     // ============================================================
 
     const mockIndicator =
@@ -626,7 +729,9 @@ const DiagnosisModule = {
       if (data.isDevMockPayload === true) {
         mockIndicator.innerText =
           'Development mock diagnosis';
-      } else if (data.isDevMockPayload === false) {
+      } else if (
+        data.isDevMockPayload === false
+      ) {
         mockIndicator.innerText =
           'AI diagnosis';
       } else {
@@ -636,10 +741,7 @@ const DiagnosisModule = {
   },
 
   /**
-   * Escape text before inserting backend values into innerHTML.
-   *
-   * This is used for symptoms, pesticide fields and prevention
-   * because those sections use HTML lists.
+   * Escape backend-provided values before inserting into innerHTML.
    */
   escapeHtml(value) {
     if (value === null || value === undefined) {
@@ -667,7 +769,9 @@ const DiagnosisModule = {
         savedAt: Date.now()
       };
 
-      await window.SmartAgAPI.saveHistory(recordToSave);
+      await window.SmartAgAPI.saveHistory(
+        recordToSave
+      );
 
       if (window.App) {
         window.App.showToast(

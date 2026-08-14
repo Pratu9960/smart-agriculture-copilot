@@ -93,6 +93,19 @@ const AuthModule = {
   },
 
   /**
+   * Set whether Firebase should keep the session after the browser closes.
+   * Firebase auth configuration stays in this module; no provider secrets are
+   * sent to the UI or to the backend diagnosis API.
+   */
+  async setPersistence(rememberMe = true) {
+    if (!this.auth || !firebase.auth || !firebase.auth.Auth) return;
+    const persistence = rememberMe
+      ? firebase.auth.Auth.Persistence.LOCAL
+      : firebase.auth.Auth.Persistence.SESSION;
+    await this.auth.setPersistence(persistence);
+  },
+
+  /**
    * Register a new farmer account
    * @param {string} name 
    * @param {string} email 
@@ -165,6 +178,25 @@ const AuthModule = {
       return userCredential;
     } catch (error) {
       console.error('[AuthModule] Login error:', error.code, error.message);
+      throw new Error(this.getFriendlyErrorMessage(error));
+    }
+  },
+
+  /**
+   * Send Firebase's password reset email for the sign-in form.
+   */
+  async sendPasswordReset(email) {
+    if (!this.auth) {
+      throw new Error(this.getFriendlyErrorMessage({ code: 'auth/initialization-failed' }));
+    }
+    const cleanEmail = (email || '').trim();
+    if (!cleanEmail) {
+      throw new Error(this.getFriendlyErrorMessage({ code: 'auth/missing-email' }));
+    }
+    try {
+      await this.auth.sendPasswordResetEmail(cleanEmail);
+    } catch (error) {
+      console.error('[AuthModule] Password reset error:', error.code, error.message);
       throw new Error(this.getFriendlyErrorMessage(error));
     }
   },
