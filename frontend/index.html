@@ -332,36 +332,39 @@
           <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--primary-soft); display: flex; align-items: center; justify-content: center; font-size: 28px;">
             🧑‍🌾
           </div>
-          <div>
-            <h3 id="display-farmer-name" style="color: var(--primary-dark);">Kisan Ramesh Patil</h3>
-            <span class="status-badge">Authenticated</span>
+          <div style="flex: 1;">
+            <h3 id="display-farmer-name" style="color: var(--primary-dark);">Guest Farmer</h3>
+            <div id="display-farmer-email" class="user-email-text">Not logged in</div>
+            <span class="status-badge logged-out" id="profile-auth-badge" style="margin-top: 4px; display: inline-block;">Not Logged In</span>
           </div>
         </div>
 
         <form id="profile-form">
           <div class="form-group">
             <label class="form-label" data-i18n="name">Full Name</label>
-            <input type="text" id="profile-name" class="form-input">
+            <input type="text" id="profile-name" class="form-input" placeholder="e.g. Ramesh Patil">
           </div>
           <div class="form-group">
             <label class="form-label" data-i18n="phone">Mobile Number</label>
-            <input type="tel" id="profile-phone" class="form-input">
+            <input type="tel" id="profile-phone" class="form-input" placeholder="e.g. +91 98765 43210">
           </div>
           <div class="form-group">
             <label class="form-label" data-i18n="cropType">Primary Crop</label>
-            <input type="text" id="profile-crop" class="form-input">
+            <input type="text" id="profile-crop" class="form-input" placeholder="e.g. Tomato, Cotton, Wheat">
           </div>
           <div class="form-group">
             <label class="form-label" data-i18n="location">Village / District</label>
-            <input type="text" id="profile-location" class="form-input">
+            <input type="text" id="profile-location" class="form-input" placeholder="e.g. Nashik, Maharashtra">
           </div>
           <button type="submit" class="btn btn-primary" data-i18n="saveProfile">Save Profile Information</button>
         </form>
       </div>
 
-      <div class="card">
+      <div class="card" id="card-auth-actions">
         <div class="card-title">🔐 Account Access</div>
+        <p id="auth-status-hint" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">Sign in to sync your crop scans and access records on any device.</p>
         <button class="btn btn-outline" id="btn-toggle-auth-modal" data-i18n="loginRegister">Farmer Login / Register</button>
+        <button class="btn btn-danger" id="btn-logout-auth" style="display: none; width: 100%;" data-i18n="logoutBtn">Sign Out</button>
       </div>
 
       <div class="card">
@@ -414,9 +417,12 @@
   <div class="modal-overlay" id="modal-auth-overlay">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 data-i18n="loginRegister">Farmer Login / Register</h3>
+        <h3 id="modal-auth-title" data-i18n="loginRegister">Farmer Login / Register</h3>
         <button class="modal-close" id="modal-auth-close">&times;</button>
       </div>
+
+      <div class="auth-error-box" id="auth-error-msg"></div>
+
       <div style="display: flex; gap: 10px; margin-bottom: 16px;">
         <button class="btn btn-secondary active" id="tab-auth-login" style="flex: 1;" data-i18n="loginBtn">Sign In</button>
         <button class="btn btn-outline" id="tab-auth-register" style="flex: 1;" data-i18n="registerBtn">Create Account</button>
@@ -428,19 +434,24 @@
           <input type="text" id="auth-name" class="form-input" placeholder="e.g. Ramesh Patil">
         </div>
         <div class="form-group">
-          <label class="form-label">Email or Phone</label>
-          <input type="text" id="auth-email" class="form-input" placeholder="farmer@example.com" required>
+          <label class="form-label">Email Address</label>
+          <input type="email" id="auth-email" class="form-input" placeholder="farmer@example.com" required autocomplete="email">
         </div>
         <div class="form-group">
           <label class="form-label">Password</label>
-          <input type="password" id="auth-password" class="form-input" required>
+          <input type="password" id="auth-password" class="form-input" placeholder="Min. 6 characters" required autocomplete="current-password">
         </div>
         <button type="submit" class="btn btn-primary" id="btn-auth-submit" data-i18n="loginBtn">Sign In</button>
       </form>
     </div>
   </div>
 
+  <!-- Firebase Web SDK (v10 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
   <!-- JavaScript Modules -->
+  <script src="js/auth.js"></script>
   <script src="js/api.js"></script>
   <script src="js/language.js"></script>
   <script src="js/app.js"></script>
