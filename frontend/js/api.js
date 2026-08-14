@@ -61,8 +61,8 @@ const SmartAgAPI = {
       }
       return await response.json();
     } catch (error) {
-      console.warn('[SmartAgAPI] Weather API unavailable. Using dev mock payload.', error);
-      return this._getMockWeatherResponse(latitude, longitude);
+      console.warn('[SmartAgAPI] Weather API unavailable.', error);
+      throw new Error('Live weather is unavailable right now. Check your connection and try again.');
     }
   },
 
@@ -78,7 +78,7 @@ const SmartAgAPI = {
     } catch (error) {
       console.warn('[SmartAgAPI] History API unavailable. Retrieving from local dev cache.', error);
       const localData = localStorage.getItem('smart_ag_scan_history');
-      return localData ? JSON.parse(localData) : this._getMockHistoryRecords();
+      return localData ? JSON.parse(localData) : [];
     }
   },
 
@@ -143,8 +143,8 @@ const SmartAgAPI = {
       if (!response.ok) throw new Error(`Status ${response.status}`);
       return await response.json();
     } catch (error) {
-      console.warn('[SmartAgAPI] Sync API unavailable. Dev mock sync success.', error);
-      return { success: true, syncedCount: pendingRecords.length, isDevMock: true };
+      console.warn('[SmartAgAPI] Sync API unavailable.', error);
+      throw new Error('Records could not be synchronized. They remain available on this device.');
     }
   },
 

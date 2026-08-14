@@ -52,6 +52,13 @@ const WeatherModule = {
       this.renderWeatherUI(data);
     } catch (err) {
       console.error('[WeatherModule] Error loading weather data:', err);
+      if (locText) locText.innerText = 'Live conditions unavailable';
+      const conditionText = document.getElementById('weather-condition-text');
+      const advisoryTitle = document.getElementById('advisory-headline');
+      const advisoryDetail = document.getElementById('advisory-detail');
+      if (conditionText) conditionText.innerText = 'Weather service unavailable';
+      if (advisoryTitle) advisoryTitle.innerText = 'No live irrigation guidance';
+      if (advisoryDetail) advisoryDetail.innerText = 'Reconnect to retrieve current conditions before planning irrigation.';
       if (window.App) window.App.showToast('Unable to load weather data.', 'error');
     }
   },

@@ -129,21 +129,73 @@ const DiagnosisModule = {
 
     const loadingBox = document.getElementById('scan-loading-box');
     const btnDiagnose = document.getElementById('btn-run-diagnose');
+    const analysisStep = document.getElementById('analysis-step');
+
+    const selectedMode = window.App && typeof window.App.getAIMode === 'function' ? window.App.getAIMode() : (navigator.onLine ? 'online' : 'offline-unavailable');
+    if (selectedMode === 'offline-unavailable') {
+      if (window.App) window.App.showToast('You are offline and this browser does not have the local agriculture model installed.', 'warning');
+      return;
+    }
 
     if (loadingBox) loadingBox.classList.add('active');
     if (btnDiagnose) btnDiagnose.style.display = 'none';
+    const analysisSteps = ['Checking visual symptoms', 'Comparing crop patterns', 'Preparing recommendations'];
+    let analysisStepIndex = 0;
+    const analysisTimer = window.setInterval(() => {
+      analysisStepIndex = (analysisStepIndex + 1) % analysisSteps.length;
+      if (analysisStep) analysisStep.textContent = analysisSteps[analysisStepIndex];
+    }, 850);
 
     try {
-      const result = await window.SmartAgAPI.diagnoseCrop(this.selectedFile);
+      let result;
+      if (selectedMode === 'online') {
+        result = await window.SmartAgAPI.diagnoseCrop(this.selectedFile);
+      } else {
+        result = await this.runOfflineDiagnosis(this.selectedFile);
+      }
       this.currentResult = result;
       this.renderDiagnosisResult(result);
       if (window.App) window.App.navigateTo('view-result');
     } catch (err) {
       console.error('[DiagnosisModule] Error during diagnosis:', err);
-      if (window.App) window.App.showToast('Diagnosis failed. Please try again.', 'error');
+      if (window.App) window.App.showToast(err.message || 'Diagnosis failed. Please try again.', 'error');
     } finally {
+      window.clearInterval(analysisTimer);
       if (loadingBox) loadingBox.classList.remove('active');
     }
+  },
+
+  async runOfflineDiagnosis(file) {
+    if (!window.SmartAgBridge || !window.SmartAgBridge.isAvailable()) {
+      throw new Error('Offline diagnosis is available in the Android app with its local agriculture model. This browser does not have that model installed.');
+    }
+
+    const imageData = await this.readFileAsDataUrl(file);
+    const bridgeResponse = await Promise.resolve(window.SmartAgBridge.triggerOfflineDiagnosis(imageData));
+
+    if (!bridgeResponse) {
+      throw new Error('The Android offline model did not return a diagnosis. Please check that the local model is installed and ready.');
+    }
+
+    if (typeof bridgeResponse === 'string') {
+      try {
+        return JSON.parse(bridgeResponse);
+      } catch (error) {
+        throw new Error('The Android offline model returned an unreadable diagnosis.');
+      }
+    }
+
+    if (typeof bridgeResponse === 'object') return bridgeResponse;
+    throw new Error('The Android offline model returned an unsupported diagnosis format.');
+  },
+
+  readFileAsDataUrl(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(new Error('Unable to read the selected leaf image.'));
+      reader.readAsDataURL(file);
+    });
   },
 
   renderDiagnosisResult(data) {
@@ -158,6 +210,13 @@ const DiagnosisModule = {
       const pct = data.confidence ? Math.round(data.confidence * 100) : 90;
       confidenceText.innerText = `Confidence: ${pct}%`;
     }
+
+    const overviewElem = document.getElementById('result-overview');
+    const severityElem = document.getElementById('result-severity');
+    const cropMetaElem = document.getElementById('result-crop-meta');
+    if (overviewElem) overviewElem.innerText = data.cause || data.overview || 'Visible symptoms were reviewed against the available agriculture guidance.';
+    if (severityElem) severityElem.innerText = data.severity || 'Review';
+    if (cropMetaElem) cropMetaElem.innerText = data.crop || '—';
 
     // Symptoms
     const symptomsElem = document.getElementById('result-symptoms');

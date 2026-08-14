@@ -2,455 +2,179 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Smart Agriculture Copilot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#113b2a">
+  <title>HaritKranti | Smart Agriculture Copilot</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-  <!-- App Header -->
-  <header class="app-header">
-    <div class="brand-container" id="brand-home-btn">
-      <div class="brand-icon">🌱</div>
-      <div class="brand-title" data-i18n="appName">Smart Ag Copilot</div>
+  <!-- Authenticated entry experience -->
+  <section class="auth-screen" id="auth-screen" aria-labelledby="auth-title">
+    <div class="auth-visual">
+      <div class="auth-brand">
+        <span class="brand-mark" aria-hidden="true">&#10022;</span>
+        <span>HaritKranti</span>
+      </div>
+      <div class="auth-visual-copy">
+        <p class="auth-overline">Intelligence for every growing season</p>
+        <h1>Smarter decisions for healthier crops.</h1>
+        <p>AI-powered crop insights and agricultural guidance, designed to work online and offline when your field needs it.</p>
+      </div>
+      <div class="field-visual" aria-hidden="true">
+        <div class="field-scan-line"></div>
+        <div class="field-sun"></div>
+        <div class="field-row row-one"></div>
+        <div class="field-row row-two"></div>
+        <div class="field-leaf">&#127807;</div>
+        <span class="field-chip chip-one">VISION AI</span>
+        <span class="field-chip chip-two">FIELD READY</span>
+      </div>
+      <div class="auth-trust-line">
+        <span><i class="trust-dot"></i> Secure workspace</span>
+        <span><i class="trust-dot"></i> Online + on-device ready</span>
+      </div>
     </div>
-    <div class="header-actions">
-      <div class="status-badge" id="status-badge">
-        <span class="status-dot"></span>
-        <span id="status-badge-text" data-i18n="online">Online</span>
-      </div>
-      <button class="lang-pill" data-target="view-language">
-        <span>🌐</span>
-        <span id="active-lang-text">EN</span>
-      </button>
-    </div>
-  </header>
 
-  <!-- Offline Global Banner -->
-  <div class="offline-banner hidden" id="offline-banner">
-    <span>📡 You are currently offline. Local functionality remains available.</span>
-  </div>
-
-  <!-- Main Container -->
-  <main class="app-container">
-
-    <!-- 1. HOME VIEW -->
-    <section class="view-section active" id="view-home">
-      <div class="home-banner">
-        <h2><span data-i18n="heroTitle">Diagnose Crop Diseases Instantly</span> 🌱</h2>
-        <p data-i18n="heroSubtitle">Upload or take a photo of an unhealthy leaf to receive AI remedies.</p>
-        <button class="btn-scan-hero" data-target="view-scan">
-          <span>📸</span>
-          <span data-i18n="startScan">Take Photo / Upload Leaf</span>
-        </button>
-      </div>
-
-      <!-- Quick Action Grid -->
-      <div class="grid-actions">
-        <div class="action-card" data-target="view-scan">
-          <div class="icon">📸</div>
-          <div class="title" data-i18n="scanCrop">Scan Crop</div>
-          <div class="subtext">Identify leaf diseases</div>
+    <div class="auth-panel">
+      <div class="auth-panel-inner">
+        <div class="mobile-auth-brand auth-brand">
+          <span class="brand-mark" aria-hidden="true">&#10022;</span>
+          <span>HaritKranti</span>
+        </div>
+        <div class="auth-heading">
+          <p class="auth-overline" id="auth-overline">Your farm workspace</p>
+          <h2 id="auth-title">Welcome back</h2>
+          <p id="auth-subtitle">Sign in to continue to your crop intelligence workspace.</p>
         </div>
 
-        <div class="action-card" data-target="view-weather">
-          <div class="icon">🌤️</div>
-          <div class="title" data-i18n="weather">Weather & Water</div>
-          <div class="subtext">Irrigation guidance</div>
+        <div class="auth-tabs" role="tablist" aria-label="Account access">
+          <button class="auth-tab active" id="tab-auth-login" type="button" role="tab" aria-selected="true">Sign in</button>
+          <button class="auth-tab" id="tab-auth-register" type="button" role="tab" aria-selected="false">Create account</button>
         </div>
 
-        <div class="action-card" data-target="view-history">
-          <div class="icon">📜</div>
-          <div class="title" data-i18n="history">Scan History</div>
-          <div class="subtext">Past diagnoses</div>
-        </div>
+        <div class="auth-error-box" id="auth-error-msg" role="alert"></div>
 
-        <div class="action-card" data-target="view-shops">
-          <div class="icon">🏬</div>
-          <div class="title" data-i18n="shops">Agri Shops</div>
-          <div class="subtext">Find nearby dealers</div>
-        </div>
-
-        <div class="action-card" data-target="view-language">
-          <div class="icon">🌐</div>
-          <div class="title" data-i18n="language">Language</div>
-          <div class="subtext">English, हिंदी, मराठी</div>
-        </div>
-
-        <div class="action-card" data-target="view-profile">
-          <div class="icon">👤</div>
-          <div class="title" data-i18n="profile">Profile</div>
-          <div class="subtext">Account & Status</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 2. SCAN CROP VIEW -->
-    <section class="view-section" id="view-scan">
-      <div class="page-header">
-        <h2 class="page-title"><span>📸</span> <span data-i18n="scanCrop">Scan Crop</span></h2>
-        <p class="page-subtitle" data-i18n="selectImage">Select or Take Photo of crop leaf</p>
-      </div>
-
-      <div class="upload-zone" id="upload-zone">
-        <div class="upload-icon">🍃</div>
-        <div class="upload-title" data-i18n="dropLeaf">Tap here to upload a clear leaf image</div>
-        <div class="upload-desc">Supports JPG, PNG (Max 10MB)</div>
-      </div>
-
-      <!-- Hidden inputs -->
-      <input type="file" accept="image/*" capture="environment" id="input-camera" class="file-input-hidden">
-      <input type="file" accept="image/*" id="input-gallery" class="file-input-hidden">
-
-      <div class="scan-options">
-        <button class="btn btn-secondary" id="btn-trigger-camera">
-          <span>📷</span> <span data-i18n="camera">Camera Photo</span>
-        </button>
-        <button class="btn btn-secondary" id="btn-trigger-gallery">
-          <span>🖼️</span> <span data-i18n="gallery">Upload from Gallery</span>
-        </button>
-      </div>
-
-      <!-- Preview -->
-      <div class="preview-container" id="preview-container">
-        <img src="" alt="Leaf Preview" id="img-preview" class="preview-image">
-        <div style="display: flex; gap: 10px;">
-          <button class="btn btn-primary" id="btn-run-diagnose" style="display: none;">
-            <span>🔍</span> <span data-i18n="diagnoseBtn">Diagnose Crop Health</span>
-          </button>
-          <button class="btn btn-outline" id="btn-clear-photo" style="width: auto;">
-            <span>❌</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Loading state -->
-      <div class="loading-box card" id="scan-loading-box">
-        <div class="spinner"></div>
-        <h4>Analyzing leaf image with AI...</h4>
-        <p style="font-size: 0.85rem; color: var(--text-muted);">Fetching symptoms, treatment and fertilizer advice</p>
-      </div>
-    </section>
-
-    <!-- 3. DIAGNOSIS RESULT VIEW -->
-    <section class="view-section" id="view-result">
-      <div class="result-header-card">
-        <span class="result-crop-badge" id="result-crop-name">Tomato</span>
-        <h2 class="result-disease-name" id="result-disease-name">Early Blight</h2>
-        <div class="result-meta">
-          <span id="result-confidence">Confidence: 94%</span>
-          <span>•</span>
-          <span>AI Vision Analysis</span>
-        </div>
-      </div>
-
-      <div class="result-section">
-        <h4><span>🩺</span> <span data-i18n="symptoms">Symptoms Identified</span></h4>
-        <div id="result-symptoms">Concentric rings on lower leaves.</div>
-      </div>
-
-      <div class="result-section">
-        <h4><span>🧪</span> <span data-i18n="treatment">Treatment & Remedies</span></h4>
-        <div id="result-treatment">Remove infected leaves and apply fungicide.</div>
-      </div>
-
-      <div class="result-section">
-        <h4><span>💊</span> <span data-i18n="pesticides">Recommended Pesticides</span></h4>
-        <div id="result-pesticides">Copper Oxychloride 50% WP (2.5g/L water)</div>
-        <div class="disclaimer-box" data-i18n="disclaimer">
-          Pesticide advice should be verified with local agricultural authorities and product labels.
-        </div>
-      </div>
-
-      <div class="result-section">
-        <h4><span>🪴</span> <span data-i18n="fertilizer">Fertilizer Guidance</span></h4>
-        <div id="result-fertilizer">Apply N-P-K (19-19-19) with Calcium Nitrate.</div>
-      </div>
-
-      <div class="result-section">
-        <h4><span>🛡️</span> <span data-i18n="prevention">Prevention Strategies</span></h4>
-        <div id="result-prevention">Practice crop rotation and proper spacing.</div>
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
-        <button class="btn btn-primary" id="btn-save-scan">
-          <span>💾</span> <span data-i18n="saveScan">Save to Scan History</span>
-        </button>
-        <button class="btn btn-secondary" id="btn-result-find-shops">
-          <span>🏬</span> <span data-i18n="findShops">Find Nearby Agri Shops</span>
-        </button>
-        <button class="btn btn-outline" id="btn-scan-another">
-          <span>🔄</span> <span data-i18n="scanAnother">Scan Another Leaf</span>
-        </button>
-      </div>
-    </section>
-
-    <!-- 4. WEATHER VIEW -->
-    <section class="view-section" id="view-weather">
-      <div class="page-header">
-        <h2 class="page-title"><span>🌤️</span> <span data-i18n="weather">Weather & Water</span></h2>
-        <p class="page-subtitle" id="weather-location-text">Detecting GPS location...</p>
-      </div>
-
-      <div class="weather-hero">
-        <div id="weather-condition-text" style="font-size: 1.2rem; font-weight: 700;">🌤️ Partly Cloudy</div>
-        <div class="weather-temp" id="weather-temp-val">28°C</div>
-        <button class="btn btn-outline" id="btn-weather-location" style="color: white; border-color: white; width: auto; margin: 0 auto;">
-          <span>📍</span> <span data-i18n="detectLocation">Detect My Location</span>
-        </button>
-
-        <div class="weather-details-grid">
-          <div class="weather-stat-item">
-            <div class="val" id="weather-humidity">65%</div>
-            <div class="lbl">Humidity</div>
-          </div>
-          <div class="weather-stat-item">
-            <div class="val" id="weather-wind">14 km/h</div>
-            <div class="lbl">Wind</div>
-          </div>
-          <div class="weather-stat-item">
-            <div class="val" id="weather-rain-prob">20%</div>
-            <div class="lbl">Rain Chance</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Advisory -->
-      <div class="card advisory-card" id="weather-advisory-card">
-        <div class="card-title">💧 Smart Irrigation Guidance</div>
-        <h4 id="advisory-headline" style="color: var(--primary-dark); margin-bottom: 6px;">Rain expected within 24 hours</h4>
-        <p id="advisory-detail" style="font-size: 0.9rem;">Soil moisture levels are currently adequate. Delaying irrigation will save water.</p>
-      </div>
-    </section>
-
-    <!-- 5. HISTORY VIEW -->
-    <section class="view-section" id="view-history">
-      <div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
-        <div>
-          <h2 class="page-title"><span>📜</span> <span data-i18n="history">Scan History</span></h2>
-          <p class="page-subtitle">Your past crop diagnosis records</p>
-        </div>
-        <button class="btn btn-secondary" id="btn-sync-history" style="width: auto; padding: 8px 14px; min-height: auto;">
-          <span>🔄</span> Sync
-        </button>
-      </div>
-
-      <div class="form-group">
-        <input type="text" id="history-search-input" class="form-input" placeholder="Search crop or disease name...">
-      </div>
-
-      <div class="history-list" id="history-list-container">
-        <!-- Dynamically rendered -->
-      </div>
-    </section>
-
-    <!-- 6. LANGUAGE VIEW -->
-    <section class="view-section" id="view-language">
-      <div class="page-header">
-        <h2 class="page-title"><span>🌐</span> <span data-i18n="language">Language Settings</span></h2>
-        <p class="page-subtitle">Choose your preferred Indian language</p>
-      </div>
-
-      <div class="lang-grid">
-        <div class="lang-card selected" data-lang="en">
-          <div>
-            <div class="lang-name">English</div>
-            <div class="lang-sub">Default language</div>
-          </div>
-          <span style="font-size: 24px;">🇬🇧</span>
-        </div>
-
-        <div class="lang-card" data-lang="hi">
-          <div>
-            <div class="lang-name">हिंदी (Hindi)</div>
-            <div class="lang-sub">भारतीय राष्ट्रभाषा</div>
-          </div>
-          <span style="font-size: 24px;">🇮🇳</span>
-        </div>
-
-        <div class="lang-card" data-lang="mr">
-          <div>
-            <div class="lang-name">मराठी (Marathi)</div>
-            <div class="lang-sub">महाराष्ट्राची भाषा</div>
-          </div>
-          <span style="font-size: 24px;">🌾</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- 7. AGRICULTURE SHOP FINDER VIEW -->
-    <section class="view-section" id="view-shops">
-      <div class="page-header">
-        <h2 class="page-title"><span>🏬</span> <span data-i18n="shops">Agri Shop Finder</span></h2>
-        <p class="page-subtitle" data-i18n="searchShops">Locate Agriculture Dealers nearby</p>
-      </div>
-
-      <div class="card">
-        <div class="card-title" data-i18n="shopCategory">Select Store Category:</div>
-        <div class="shop-categories">
-          <div class="shop-cat-btn active" data-category="agriculture shop">
-            <div class="icon">🏪</div>
-            <div class="label">General Agri Store</div>
-          </div>
-          <div class="shop-cat-btn" data-category="pesticide shop">
-            <div class="icon">💊</div>
-            <div class="label">Pesticides Dealer</div>
-          </div>
-          <div class="shop-cat-btn" data-category="fertilizer store">
-            <div class="icon">🌾</div>
-            <div class="label">Fertilizer Store</div>
-          </div>
-          <div class="shop-cat-btn" data-category="seed supplier">
-            <div class="icon">🌱</div>
-            <div class="label">Seed Supplier</div>
-          </div>
-        </div>
-
-        <div style="margin-bottom: 16px;">
-          <button class="btn btn-secondary" id="btn-detect-maps-gps">
-            <span>📍</span> <span id="maps-gps-status">Detect My Location</span>
-          </button>
-        </div>
-
-        <div id="maps-query-preview" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;"></div>
-
-        <button class="btn btn-primary" id="btn-launch-google-maps">
-          <span>🗺️</span> <span data-i18n="openMaps">Open Google Maps Search</span>
-        </button>
-      </div>
-    </section>
-
-    <!-- 8. PROFILE & ACCOUNT VIEW -->
-    <section class="view-section" id="view-profile">
-      <div class="page-header">
-        <h2 class="page-title"><span>👤</span> <span data-i18n="profile">Farmer Profile</span></h2>
-        <p class="page-subtitle">Manage personal details & sync status</p>
-      </div>
-
-      <div class="card">
-        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
-          <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--primary-soft); display: flex; align-items: center; justify-content: center; font-size: 28px;">
-            🧑‍🌾
-          </div>
-          <div style="flex: 1;">
-            <h3 id="display-farmer-name" style="color: var(--primary-dark);">Guest Farmer</h3>
-            <div id="display-farmer-email" class="user-email-text">Not logged in</div>
-            <span class="status-badge logged-out" id="profile-auth-badge" style="margin-top: 4px; display: inline-block;">Not Logged In</span>
-          </div>
-        </div>
-
-        <form id="profile-form">
-          <div class="form-group">
-            <label class="form-label" data-i18n="name">Full Name</label>
-            <input type="text" id="profile-name" class="form-input" placeholder="e.g. Ramesh Patil">
+        <form id="auth-form" novalidate>
+          <div class="form-group auth-register-field" id="auth-name-group">
+            <label class="form-label" for="auth-name">Full name</label>
+            <input type="text" id="auth-name" class="form-input" placeholder="e.g. Ramesh Patil" autocomplete="name">
           </div>
           <div class="form-group">
-            <label class="form-label" data-i18n="phone">Mobile Number</label>
-            <input type="tel" id="profile-phone" class="form-input" placeholder="e.g. +91 98765 43210">
+            <label class="form-label" for="auth-email">Email address</label>
+            <input type="email" id="auth-email" class="form-input" placeholder="you@example.com" required autocomplete="email">
           </div>
-          <div class="form-group">
-            <label class="form-label" data-i18n="cropType">Primary Crop</label>
-            <input type="text" id="profile-crop" class="form-input" placeholder="e.g. Tomato, Cotton, Wheat">
+          <div class="form-group password-group">
+            <label class="form-label" for="auth-password">Password</label>
+            <div class="password-field">
+              <input type="password" id="auth-password" class="form-input" placeholder="At least 6 characters" required autocomplete="current-password">
+              <button class="password-toggle" id="btn-toggle-password" type="button" aria-label="Show password">Show</button>
+            </div>
           </div>
-          <div class="form-group">
-            <label class="form-label" data-i18n="location">Village / District</label>
-            <input type="text" id="profile-location" class="form-input" placeholder="e.g. Nashik, Maharashtra">
+          <div class="form-group auth-register-field" id="auth-confirm-group">
+            <label class="form-label" for="auth-confirm-password">Confirm password</label>
+            <input type="password" id="auth-confirm-password" class="form-input" placeholder="Repeat your password" autocomplete="new-password">
           </div>
-          <button type="submit" class="btn btn-primary" data-i18n="saveProfile">Save Profile Information</button>
+          <div class="auth-form-options" id="auth-login-options">
+            <label class="check-label"><input type="checkbox" id="auth-remember"> <span>Remember me</span></label>
+            <button class="link-button" id="btn-forgot-password" type="button">Forgot password?</button>
+          </div>
+          <button class="btn btn-primary auth-submit" type="submit" id="btn-auth-submit">Sign in <span aria-hidden="true">&#8594;</span></button>
         </form>
+        <p class="auth-switch-copy" id="auth-switch-copy">New to HaritKranti? <button class="link-button" id="auth-switch-link" type="button">Create an account</button></p>
+        <p class="auth-legal">By continuing, you agree to use AI guidance alongside local agricultural expertise.</p>
       </div>
+    </div>
+  </section>
 
-      <div class="card" id="card-auth-actions">
-        <div class="card-title">🔐 Account Access</div>
-        <p id="auth-status-hint" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">Sign in to sync your crop scans and access records on any device.</p>
-        <button class="btn btn-outline" id="btn-toggle-auth-modal" data-i18n="loginRegister">Farmer Login / Register</button>
-        <button class="btn btn-danger" id="btn-logout-auth" style="display: none; width: 100%;" data-i18n="logoutBtn">Sign Out</button>
-      </div>
-
-      <div class="card">
-        <div class="card-title">⚙️ App System Status</div>
-        <div style="font-size: 0.85rem; display: flex; flex-direction: column; gap: 8px;">
-          <div><strong>Network Mode:</strong> <span id="diag-status-online">Connected</span></div>
-          <div><strong>Android Native Bridge:</strong> <span id="diag-status-bridge">Unavailable</span></div>
+  <div class="app-shell is-hidden" id="app-shell">
+    <header class="app-header">
+      <div class="header-inner">
+        <button class="brand-container" id="brand-home-btn" type="button" aria-label="Go to dashboard">
+          <span class="brand-icon" aria-hidden="true">&#10022;</span>
+          <span class="brand-lockup"><strong class="brand-title">HaritKranti</strong><small>Smart Agriculture Copilot</small></span>
+        </button>
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          <button class="desktop-nav-item active" data-target="view-home" type="button">Dashboard</button>
+          <button class="desktop-nav-item" data-target="view-scan" type="button">Scan crop</button>
+          <button class="desktop-nav-item" data-target="view-weather" type="button">Weather</button>
+          <button class="desktop-nav-item" data-target="view-history" type="button">History</button>
+        </nav>
+        <div class="header-actions">
+          <div class="status-badge" id="status-badge" title="Current network status"><span class="status-dot"></span><span id="status-badge-text">Online</span></div>
+          <button class="lang-pill" data-target="view-language" type="button"><span aria-hidden="true">&#9788;</span><span id="active-lang-text">EN</span></button>
+          <button class="header-profile" data-target="view-profile" type="button" aria-label="Open profile"><span id="header-profile-initial">F</span></button>
         </div>
       </div>
-    </section>
+    </header>
 
-  </main>
+    <div class="offline-banner hidden" id="offline-banner" role="status"><span class="status-dot"></span><span>Offline right now. Local capabilities remain available.</span></div>
 
-  <!-- Bottom Mobile Navigation Bar -->
-  <nav class="bottom-nav">
-    <button class="nav-item active" data-target="view-home">
-      <span class="icon">🏠</span>
-      <span data-i18n="appName">Home</span>
-    </button>
-    <button class="nav-item" data-target="view-scan">
-      <span class="icon">📸</span>
-      <span data-i18n="scanCrop">Scan</span>
-    </button>
-    <button class="nav-item" data-target="view-weather">
-      <span class="icon">🌤️</span>
-      <span data-i18n="weather">Weather</span>
-    </button>
-    <button class="nav-item" data-target="view-history">
-      <span class="icon">📜</span>
-      <span data-i18n="history">History</span>
-    </button>
-    <button class="nav-item" data-target="view-profile">
-      <span class="icon">👤</span>
-      <span data-i18n="profile">Profile</span>
-    </button>
-  </nav>
+    <main class="app-container">
+      <!-- Dashboard -->
+      <section class="view-section active" id="view-home">
+        <div class="dashboard-intro">
+          <div><p class="page-eyebrow">YOUR FIELD WORKSPACE</p><h1>Good to see you, <span id="dashboard-farmer-name">farmer</span>.</h1><p>Clear signals for better crop decisions.</p></div>
+          <div class="dashboard-status"><span class="status-dot"></span><span id="dashboard-network-label">Online AI available</span></div>
+        </div>
+        <div class="dashboard-hero">
+          <div class="dashboard-hero-copy"><p class="hero-label"><span class="hero-label-line"></span> Crop intelligence</p><h2>Smarter decisions for healthier crops.</h2><p>Upload a leaf image and get practical, explainable guidance for what to do next.</p><button class="btn btn-light" data-target="view-scan" type="button">Start a crop scan <span aria-hidden="true">&#8594;</span></button></div>
+          <div class="dashboard-hero-art" aria-hidden="true"><div class="radar-ring ring-one"></div><div class="radar-ring ring-two"></div><div class="radar-core">&#127807;</div><span class="radar-label">LIVE<br>SCAN</span></div>
+        </div>
+        <div class="dashboard-grid">
+          <button class="feature-link feature-link-primary" data-target="view-scan" type="button"><span class="feature-icon">&#127807;</span><span><strong>Scan crop health</strong><small>Photo to practical next steps</small></span><span class="arrow">&#8594;</span></button>
+          <button class="feature-link" data-target="view-weather" type="button"><span class="feature-icon weather-icon">&#9788;</span><span><strong>Weather & water</strong><small>Make irrigation decisions with confidence</small></span><span class="arrow">&#8594;</span></button>
+          <button class="feature-link" data-target="view-history" type="button"><span class="feature-icon history-icon">&#9673;</span><span><strong>Scan history</strong><small>Review your farm’s recent insights</small></span><span class="arrow">&#8594;</span></button>
+        </div>
+        <div class="dashboard-lower"><div class="section-heading compact-heading"><div><p class="page-eyebrow">QUICK ACCESS</p><h2>Useful around the farm</h2></div></div><div class="quick-links"><button data-target="view-shops" type="button"><span>&#9678;</span> Nearby agri shops</button><button data-target="view-language" type="button"><span>&#9788;</span> Language</button><button data-target="view-profile" type="button"><span>&#9679;</span> Profile settings</button></div></div>
+      </section>
 
-  <!-- MODAL: History Record Detail -->
-  <div class="modal-overlay" id="modal-history-overlay">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="modal-history-title">Diagnosis Detail</h3>
-        <button class="modal-close" id="modal-history-close">&times;</button>
-      </div>
-      <div id="modal-history-body"></div>
-    </div>
+      <!-- Crop scan -->
+      <section class="view-section" id="view-scan">
+        <div class="page-header scan-header"><div><p class="page-eyebrow">CROP INTELLIGENCE</p><h1 class="page-title">Crop scan</h1><p class="page-subtitle">Upload a clear image of your crop or leaf for AI analysis.</p></div><div class="using-status"><span class="status-dot"></span><span id="scan-mode-label">Using Online AI</span></div></div>
+        <div class="scan-layout">
+          <div class="scan-main">
+            <div class="upload-zone" id="upload-zone"><div class="upload-visual"><span class="upload-corner corner-tl"></span><span class="upload-corner corner-tr"></span><span class="upload-corner corner-bl"></span><span class="upload-corner corner-br"></span><span class="upload-visual-icon">&#127807;</span></div><strong>Upload crop image</strong><span>JPG or PNG <i>•</i> Up to 10 MB</span><small>For best results, use a well-lit photo of one leaf.</small></div>
+            <input type="file" accept="image/*" capture="environment" id="input-camera" class="file-input-hidden">
+            <input type="file" accept="image/*" id="input-gallery" class="file-input-hidden">
+            <div class="scan-options"><button class="btn btn-secondary" id="btn-trigger-camera" type="button"><span aria-hidden="true">&#9673;</span> Take photo</button><button class="btn btn-outline" id="btn-trigger-gallery" type="button"><span aria-hidden="true">&#9634;</span> Upload image</button></div>
+            <div class="preview-container" id="preview-container"><div class="preview-frame"><img src="" alt="Selected crop preview" id="img-preview" class="preview-image"><button class="preview-remove" id="btn-clear-photo" type="button" aria-label="Remove selected image">&#215;</button></div><div class="preview-actions"><div><strong>Ready for analysis</strong><span>Review your image before continuing.</span></div><button class="btn btn-primary" id="btn-run-diagnose" type="button"><span aria-hidden="true">&#8594;</span> Analyze crop</button></div></div>
+            <div class="analysis-panel" id="scan-loading-box"><div class="analysis-visual"><div class="analysis-orbit"></div><span>&#127807;</span></div><div><strong>Analyzing your crop...</strong><p id="analysis-step">Checking visual symptoms</p></div><div class="analysis-progress"><span></span></div></div>
+          </div>
+          <aside class="scan-guidance"><p class="page-eyebrow">PHOTO GUIDE</p><h3>Help the model see clearly</h3><ul><li>Use natural light and avoid glare.</li><li>Keep the leaf centered and in focus.</li><li>Include one affected leaf at a time.</li></ul><div class="scan-privacy"><span>&#9679;</span><p>Your image is sent only to the connected analysis service.</p></div></aside>
+        </div>
+      </section>
+
+      <!-- Diagnosis result -->
+      <section class="view-section" id="view-result">
+        <div class="result-topline"><div><p class="page-eyebrow">ANALYSIS COMPLETE</p><h1 class="page-title">Crop analysis</h1></div><button class="btn btn-outline btn-compact" id="btn-scan-another" type="button">New scan</button></div>
+        <div class="result-summary"><div><span class="result-crop-badge" id="result-crop-name">Crop</span><h2 class="result-disease-name" id="result-disease-name">Condition detected</h2><p id="result-overview">Your crop image has been reviewed for visible symptoms.</p></div><div class="confidence-block"><span>Confidence</span><strong id="result-confidence">94%</strong><small>AI vision analysis</small></div></div>
+        <div class="result-grid"><div class="result-primary-column"><article class="insight-block"><div class="insight-heading"><span class="insight-number">01</span><div><p class="page-eyebrow">OBSERVATION</p><h3>What we found</h3></div></div><div id="result-symptoms">Visual symptoms will appear here.</div></article><article class="insight-block action-block"><div class="insight-heading"><span class="insight-number">02</span><div><p class="page-eyebrow">NEXT STEP</p><h3>Recommended action</h3></div></div><div id="result-treatment">Treatment guidance will appear here.</div></article></div><aside class="result-secondary-column"><div class="result-meta-panel"><div><span>Severity</span><strong id="result-severity">Review</strong></div><div><span>Crop</span><strong id="result-crop-meta">—</strong></div></div><article class="result-mini-block"><h3>Prevention</h3><div id="result-prevention">Prevention guidance will appear here.</div></article><article class="result-mini-block"><h3>Inputs to consider</h3><div id="result-fertilizer">Fertilizer guidance will appear here.</div><div class="pesticide-line" id="result-pesticides">Recommended products will appear here.</div></article></aside></div>
+        <div class="disclaimer-box" data-i18n="disclaimer">AI guidance supports farm decisions and should be verified with local agricultural authorities and product labels.</div><div class="result-actions"><button class="btn btn-primary" id="btn-save-scan" type="button">Save to scan history</button><button class="btn btn-secondary" id="btn-result-find-shops" type="button">Find nearby agri shops</button></div>
+      </section>
+
+      <!-- Weather -->
+      <section class="view-section" id="view-weather"><div class="page-header"><p class="page-eyebrow">FIELD CONDITIONS</p><h1 class="page-title">Weather & water</h1><p class="page-subtitle" id="weather-location-text">Detecting your location...</p></div><div class="weather-layout"><div class="weather-current"><div class="weather-current-top"><div><p class="weather-label">CURRENT CONDITIONS</p><div id="weather-condition-text">Partly cloudy</div></div><button class="icon-button" id="btn-weather-location" type="button" aria-label="Refresh weather location">&#8635;</button></div><div class="weather-temp" id="weather-temp-val">—</div><div class="weather-stats"><div><strong id="weather-humidity">—</strong><span>Humidity</span></div><div><strong id="weather-wind">—</strong><span>Wind</span></div><div><strong id="weather-rain-prob">—</strong><span>Rain chance</span></div></div></div><div class="weather-advice" id="weather-advisory-card"><p class="page-eyebrow">IRRIGATION ADVISORY</p><h2 id="advisory-headline">Loading field guidance</h2><p id="advisory-detail">Weather-based irrigation guidance will appear when the current conditions are available.</p><div class="advice-mark">&#10003;</div></div></div></section>
+
+      <!-- History -->
+      <section class="view-section" id="view-history"><div class="page-header split-header"><div><p class="page-eyebrow">YOUR RECORDS</p><h1 class="page-title">Scan history</h1><p class="page-subtitle">Review your recent crop analyses.</p></div><button class="btn btn-outline btn-compact" id="btn-sync-history" type="button">Sync records</button></div><div class="history-toolbar"><label class="search-field"><span>&#8981;</span><input type="search" id="history-search-input" placeholder="Search crop or condition" aria-label="Search crop or condition"></label></div><div class="history-list" id="history-list-container"></div></section>
+
+      <!-- Language -->
+      <section class="view-section" id="view-language"><div class="page-header"><p class="page-eyebrow">PREFERENCES</p><h1 class="page-title">Language</h1><p class="page-subtitle">Choose the language you’re most comfortable using in the field.</p></div><div class="language-list"><div class="lang-card selected" data-lang="en"><span><strong>English</strong><small>Default language</small></span><span class="lang-check">&#10003;</span></div><div class="lang-card" data-lang="hi"><span><strong>हिंदी</strong><small>Hindi</small></span><span class="lang-check">&#10003;</span></div><div class="lang-card" data-lang="mr"><span><strong>मराठी</strong><small>Marathi</small></span><span class="lang-check">&#10003;</span></div></div></section>
+
+      <!-- Shop finder -->
+      <section class="view-section" id="view-shops"><div class="page-header"><p class="page-eyebrow">LOCAL SUPPORT</p><h1 class="page-title">Nearby agri shops</h1><p class="page-subtitle">Find agriculture suppliers around your current location.</p></div><div class="shop-layout"><div class="shop-card"><div class="shop-categories"><button class="shop-cat-btn active" data-category="agriculture shop" type="button"><span>&#9678;</span><strong>Agri store</strong></button><button class="shop-cat-btn" data-category="pesticide shop" type="button"><span>&#9679;</span><strong>Pesticides</strong></button><button class="shop-cat-btn" data-category="fertilizer store" type="button"><span>&#10022;</span><strong>Fertilizer</strong></button><button class="shop-cat-btn" data-category="seed supplier" type="button"><span>&#127807;</span><strong>Seeds</strong></button></div><button class="btn btn-secondary" id="btn-detect-maps-gps" type="button"><span id="maps-gps-status">Detect my location</span></button><p id="maps-query-preview" class="map-query"></p><button class="btn btn-primary" id="btn-launch-google-maps" type="button">Open Google Maps <span aria-hidden="true">&#8599;</span></button></div><div class="shop-note"><span>&#9678;</span><div><strong>Location-aware search</strong><p>Your browser location is used only to center the map search.</p></div></div></div></section>
+
+      <!-- Profile -->
+      <section class="view-section" id="view-profile"><div class="page-header"><p class="page-eyebrow">ACCOUNT</p><h1 class="page-title">Profile settings</h1><p class="page-subtitle">Keep your workspace details and preferences up to date.</p></div><div class="profile-layout"><div class="profile-card"><div class="profile-heading"><div class="profile-avatar" id="profile-avatar">F</div><div><h2 id="display-farmer-name">Guest Farmer</h2><p id="display-farmer-email">Not logged in</p><span class="status-badge logged-out" id="profile-auth-badge">Not logged in</span></div></div><form id="profile-form"><div class="form-row"><div class="form-group"><label class="form-label" for="profile-name">Full name</label><input type="text" id="profile-name" class="form-input" placeholder="e.g. Ramesh Patil"></div><div class="form-group"><label class="form-label" for="profile-phone">Mobile number</label><input type="tel" id="profile-phone" class="form-input" placeholder="e.g. +91 98765 43210"></div></div><div class="form-row"><div class="form-group"><label class="form-label" for="profile-crop">Primary crop</label><input type="text" id="profile-crop" class="form-input" placeholder="e.g. Tomato, cotton, wheat"></div><div class="form-group"><label class="form-label" for="profile-location">Village / district</label><input type="text" id="profile-location" class="form-input" placeholder="e.g. Nashik, Maharashtra"></div></div><button type="submit" class="btn btn-primary">Save profile</button></form></div><div class="settings-card"><p class="page-eyebrow">WORKSPACE STATUS</p><div class="settings-row"><span>Network</span><strong id="diag-status-online">Connected</strong></div><div class="settings-row"><span>Offline model bridge</span><strong id="diag-status-bridge">Unavailable</strong></div><div class="settings-row"><span>Account sync</span><strong id="auth-status-hint">Sign in to sync records.</strong></div><button class="btn btn-danger" id="btn-logout-auth" type="button">Sign out</button></div></div></section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Mobile navigation"><button class="nav-item active" data-target="view-home" type="button"><span class="icon">&#9632;</span><span>Home</span></button><button class="nav-item" data-target="view-scan" type="button"><span class="icon">&#127807;</span><span>Scan</span></button><button class="nav-item" data-target="view-weather" type="button"><span class="icon">&#9788;</span><span>Weather</span></button><button class="nav-item" data-target="view-history" type="button"><span class="icon">&#9673;</span><span>History</span></button><button class="nav-item" data-target="view-profile" type="button"><span class="icon">&#9679;</span><span>Profile</span></button></nav>
   </div>
 
-  <!-- MODAL: Auth Login/Register -->
-  <div class="modal-overlay" id="modal-auth-overlay">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="modal-auth-title" data-i18n="loginRegister">Farmer Login / Register</h3>
-        <button class="modal-close" id="modal-auth-close">&times;</button>
-      </div>
+  <div class="modal-overlay" id="modal-history-overlay"><div class="modal-content"><div class="modal-header"><h3 id="modal-history-title">Diagnosis detail</h3><button class="modal-close" id="modal-history-close" type="button">&times;</button></div><div id="modal-history-body"></div></div></div>
 
-      <div class="auth-error-box" id="auth-error-msg"></div>
-
-      <div style="display: flex; gap: 10px; margin-bottom: 16px;">
-        <button class="btn btn-secondary active" id="tab-auth-login" style="flex: 1;" data-i18n="loginBtn">Sign In</button>
-        <button class="btn btn-outline" id="tab-auth-register" style="flex: 1;" data-i18n="registerBtn">Create Account</button>
-      </div>
-
-      <form id="auth-form">
-        <div class="form-group" id="auth-name-group" style="display: none;">
-          <label class="form-label" data-i18n="name">Full Name</label>
-          <input type="text" id="auth-name" class="form-input" placeholder="e.g. Ramesh Patil">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Email Address</label>
-          <input type="email" id="auth-email" class="form-input" placeholder="farmer@example.com" required autocomplete="email">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Password</label>
-          <input type="password" id="auth-password" class="form-input" placeholder="Min. 6 characters" required autocomplete="current-password">
-        </div>
-        <button type="submit" class="btn btn-primary" id="btn-auth-submit" data-i18n="loginBtn">Sign In</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Firebase Web SDK (v10 compat) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-
-  <!-- JavaScript Modules -->
   <script src="js/auth.js"></script>
   <script src="js/api.js"></script>
   <script src="js/language.js"></script>

@@ -53,10 +53,10 @@ const HistoryModule = {
 
     if (!list || list.length === 0) {
       container.innerHTML = `
-        <div class="card" style="text-align: center; color: var(--text-muted); padding: 32px 16px;">
+        <div class="history-empty">
           <div style="font-size: 40px; margin-bottom: 8px;">📜</div>
-          <p><strong>No diagnosis history records found.</strong></p>
-          <p style="font-size: 0.85rem;">Scanned leaf diseases will be saved here.</p>
+          <p><strong>No scan history yet</strong></p>
+          <p>Your saved crop analyses will appear here.</p>
         </div>
       `;
       return;
@@ -67,8 +67,9 @@ const HistoryModule = {
         <div class="history-thumb" style="display: flex; align-items: center; justify-content: center; font-size: 28px; background: #e8f5e9;">
           🌿
         </div>
-        <div class="history-info">
+          <div class="history-info">
           <div class="history-title">${item.crop} - ${item.disease}</div>
+          <div class="history-severity">${item.severity ? `${item.severity} severity` : 'Analysis record'}</div>
           <div class="history-date">📅 ${item.date || 'Recent'}</div>
         </div>
         <div>
@@ -135,7 +136,14 @@ const HistoryModule = {
     }
 
     if (window.App) window.App.showToast('Synchronizing records with cloud...', 'info');
-    const res = await window.SmartAgAPI.syncRecords(pending);
+    let res;
+    try {
+      res = await window.SmartAgAPI.syncRecords(pending);
+    } catch (error) {
+      console.warn('[HistoryModule] Sync failed:', error);
+      if (window.App) window.App.showToast(error.message || 'Records could not be synchronized.', 'error');
+      return;
+    }
 
     if (res.success) {
       this.records.forEach(r => r.syncStatus = 'SYNCED');
