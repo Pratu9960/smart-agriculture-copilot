@@ -7,6 +7,10 @@ const HistoryModule = {
   records: [],
   initialized: false,
 
+  t(key, fallback = '') {
+    return window.i18n ? window.i18n.t(key) : fallback;
+  },
+
   initView() {
     this.setupEventListeners();
     this.loadHistory();
@@ -55,8 +59,8 @@ const HistoryModule = {
       container.innerHTML = `
         <div class="history-empty">
           <div style="font-size: 40px; margin-bottom: 8px;">📜</div>
-          <p><strong>No scan history yet</strong></p>
-          <p>Your saved crop analyses will appear here.</p>
+          <p><strong>${this.t('history.emptyTitle', 'No scan history yet')}</strong></p>
+          <p>${this.t('history.emptyBody', 'Your saved crop analyses will appear here.')}</p>
         </div>
       `;
       return;
@@ -69,8 +73,8 @@ const HistoryModule = {
         </div>
           <div class="history-info">
           <div class="history-title">${item.crop} - ${item.disease}</div>
-          <div class="history-severity">${item.severity ? `${item.severity} severity` : 'Analysis record'}</div>
-          <div class="history-date">📅 ${item.date || 'Recent'}</div>
+          <div class="history-severity">${item.severity ? this.t('history.severity', '{{value}} severity').replace('{{value}}', item.severity) : this.t('history.analysisRecord', 'Analysis record')}</div>
+          <div class="history-date">📅 ${item.date || this.t('history.analysisRecord', 'Recent')}</div>
         </div>
         <div>
           <span class="status-badge ${item.syncStatus === 'PENDING' ? 'offline' : ''}">
@@ -106,16 +110,16 @@ const HistoryModule = {
     if (modalBody) {
       modalBody.innerHTML = `
         <div style="margin-bottom: 12px; font-size: 0.85rem; color: var(--text-muted);">
-          <strong>Date:</strong> ${record.date || 'N/A'}<br>
-          <strong>Status:</strong> ${record.syncStatus || 'SYNCED'}
+          <strong>${this.t('history.date', 'Date')}:</strong> ${record.date || '—'}<br>
+          <strong>${this.t('history.status', 'Status')}:</strong> ${record.syncStatus || 'SYNCED'}
         </div>
         <div class="result-section">
-          <h4>🩺 Symptoms</h4>
-          <p>${Array.isArray(record.symptoms) ? record.symptoms.join(', ') : (record.symptoms || 'Leaf spots observed.')}</p>
+          <h4>🩺 ${this.t('history.symptoms', 'Symptoms')}</h4>
+          <p>${Array.isArray(record.symptoms) ? record.symptoms.join(', ') : (record.symptoms || this.t('diagnosis.symptomsFallback', 'Visual symptoms will appear here.'))}</p>
         </div>
         <div class="result-section">
-          <h4>🧪 Treatment</h4>
-          <p>${record.treatment || 'Consult local extension guidance.'}</p>
+          <h4>🧪 ${this.t('history.treatment', 'Treatment')}</h4>
+          <p>${record.treatment || this.t('diagnosis.treatmentFallback', 'Treatment guidance will appear here.')}</p>
         </div>
       `;
     }
@@ -131,24 +135,24 @@ const HistoryModule = {
   async syncPendingRecords() {
     const pending = this.records.filter(r => r.syncStatus === 'PENDING');
     if (pending.length === 0) {
-      if (window.App) window.App.showToast('All scan records are already synchronized.', 'info');
+      if (window.App) window.App.showToast(this.t('history.syncAlready', 'All scan records are already synchronized.'), 'info');
       return;
     }
 
-    if (window.App) window.App.showToast('Synchronizing records with cloud...', 'info');
+    if (window.App) window.App.showToast(this.t('history.syncStart', 'Synchronizing records with cloud...'), 'info');
     let res;
     try {
       res = await window.SmartAgAPI.syncRecords(pending);
     } catch (error) {
       console.warn('[HistoryModule] Sync failed:', error);
-      if (window.App) window.App.showToast(error.message || 'Records could not be synchronized.', 'error');
+      if (window.App) window.App.showToast(error.message || this.t('history.syncFailed', 'Records could not be synchronized.'), 'error');
       return;
     }
 
     if (res.success) {
       this.records.forEach(r => r.syncStatus = 'SYNCED');
       this.renderHistoryList(this.records);
-      if (window.App) window.App.showToast('✅ All pending records synchronized!', 'success');
+      if (window.App) window.App.showToast(this.t('history.syncSuccess', 'All pending records synchronized.'), 'success');
     }
   },
 

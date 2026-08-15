@@ -24,7 +24,7 @@ const WeatherModule = {
 
   async fetchWeatherForCurrentLocation() {
     const locText = document.getElementById('weather-location-text');
-    if (locText) locText.innerText = 'Detecting GPS coordinates...';
+    if (locText) locText.innerText = window.i18n ? window.i18n.t('weather.locationLoading') : 'Detecting your location...';
 
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -52,14 +52,16 @@ const WeatherModule = {
       this.renderWeatherUI(data);
     } catch (err) {
       console.error('[WeatherModule] Error loading weather data:', err);
-      if (locText) locText.innerText = 'Live conditions unavailable';
+      const locText = document.getElementById('weather-location-text');
+      const t = key => window.i18n ? window.i18n.t(key) : key;
+      if (locText) locText.innerText = t('weather.unavailableLocation');
       const conditionText = document.getElementById('weather-condition-text');
       const advisoryTitle = document.getElementById('advisory-headline');
       const advisoryDetail = document.getElementById('advisory-detail');
-      if (conditionText) conditionText.innerText = 'Weather service unavailable';
-      if (advisoryTitle) advisoryTitle.innerText = 'No live irrigation guidance';
-      if (advisoryDetail) advisoryDetail.innerText = 'Reconnect to retrieve current conditions before planning irrigation.';
-      if (window.App) window.App.showToast('Unable to load weather data.', 'error');
+      if (conditionText) conditionText.innerText = t('weather.unavailableCondition');
+      if (advisoryTitle) advisoryTitle.innerText = t('weather.unavailableTitle');
+      if (advisoryDetail) { advisoryDetail.innerText = t('weather.unavailableBody'); advisoryDetail.dataset.live = 'false'; }
+      if (window.App) window.App.showToast(t('validation.network'), 'error');
     }
   },
 
@@ -73,7 +75,7 @@ const WeatherModule = {
 
     if (locText) locText.innerText = data.location || `Lat: ${data.latitude}, Lon: ${data.longitude}`;
     if (tempVal) tempVal.innerText = `${Math.round(data.temperature)}°C`;
-    if (condText) condText.innerText = `${data.icon || '🌤️'} ${data.condition || 'Clear'}`;
+    if (condText) condText.innerText = `${data.icon || '🌤️'} ${data.condition || (window.i18n ? (window.i18n.t('weather.clear') || 'Clear') : 'Clear')}`;
     if (humidityVal) humidityVal.innerText = `${data.humidity}%`;
     if (windVal) windVal.innerText = `${data.windSpeed} km/h`;
     if (rainVal) rainVal.innerText = `${data.rainProbability || 0}%`;
@@ -85,8 +87,8 @@ const WeatherModule = {
     const advisoryCard = document.getElementById('weather-advisory-card');
 
     if (adv) {
-      if (advisoryTitle) advisoryTitle.innerText = adv.headline || 'Irrigation Advisory';
-      if (advisoryDetail) advisoryDetail.innerText = adv.detail || 'Follow standard irrigation schedules for your crop.';
+      if (advisoryTitle) advisoryTitle.innerText = adv.headline || (window.i18n ? window.i18n.t('weather.adviceEyebrow') : 'Irrigation advisory');
+      if (advisoryDetail) { advisoryDetail.innerText = adv.detail || (window.i18n ? window.i18n.t('weather.fallbackAdvice') : 'Follow standard irrigation guidance for your crop.'); advisoryDetail.dataset.live = 'true'; }
       if (advisoryCard) {
         if (adv.recommendation === 'DELAY_IRRIGATION') {
           advisoryCard.className = 'card advisory-card warning';

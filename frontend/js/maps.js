@@ -40,25 +40,26 @@ const MapsModule = {
 
   detectLocation() {
     const statusText = document.getElementById('maps-gps-status');
-    if (statusText) statusText.innerText = 'Detecting GPS location...';
+    const t = key => window.i18n ? window.i18n.t(key) : key;
+    if (statusText) statusText.innerText = t('shops.detecting');
 
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           this.currentLat = pos.coords.latitude;
           this.currentLon = pos.coords.longitude;
-          if (statusText) statusText.innerText = `📍 Location found (${this.currentLat.toFixed(2)}, ${this.currentLon.toFixed(2)})`;
+          if (statusText) statusText.innerText = t('shops.found', { lat: this.currentLat.toFixed(2), lon: this.currentLon.toFixed(2) });
           this.updateMapsLinkPreview();
         },
         (err) => {
           console.warn('[MapsModule] Geolocation access denied or unavailable.', err);
-          if (statusText) statusText.innerText = '📍 Using manual/general area search';
+          if (statusText) statusText.innerText = t('shops.manual');
           this.updateMapsLinkPreview();
         },
         { timeout: 8000 }
       );
     } else {
-      if (statusText) statusText.innerText = '📍 Browser geolocation unavailable';
+      if (statusText) statusText.innerText = t('shops.unavailable');
       this.updateMapsLinkPreview();
     }
   },
@@ -74,7 +75,10 @@ const MapsModule = {
   updateMapsLinkPreview() {
     const previewElem = document.getElementById('maps-query-preview');
     if (previewElem) {
-      previewElem.innerText = `Search: "${this.selectedCategory}" ${this.currentLat ? 'near current coordinates' : ''}`;
+      const categoryKeys = { 'agriculture shop': 'shops.store', 'pesticide shop': 'shops.pesticides', 'fertilizer store': 'shops.fertilizer', 'seed supplier': 'shops.seeds' };
+      const category = window.i18n ? window.i18n.t(categoryKeys[this.selectedCategory] || 'shops.store') : this.selectedCategory;
+      const near = this.currentLat ? (window.i18n ? window.i18n.t('shops.near') : 'near current coordinates') : '';
+      previewElem.innerText = window.i18n ? window.i18n.t('shops.search', { category, near }) : `Search: "${category}" ${near}`;
     }
   },
 

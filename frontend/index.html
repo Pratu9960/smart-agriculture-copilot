@@ -11,7 +11,7 @@
   <!-- Authenticated entry experience -->
   <section class="auth-screen" id="auth-screen" aria-labelledby="auth-title">
     <div class="auth-visual">
-      <div class="auth-brand">
+        <div class="auth-brand">
         <span class="brand-mark" aria-hidden="true">&#10022;</span>
         <span>HaritKranti</span>
       </div>
@@ -41,6 +41,7 @@
           <span class="brand-mark" aria-hidden="true">&#10022;</span>
           <span>HaritKranti</span>
         </div>
+        <label class="auth-language-control" for="auth-language-select"><span id="auth-visual-language-label">Language</span><select id="auth-language-select" aria-label="Language"><option value="en">English</option><option value="mr">मराठी</option><option value="hi">हिन्दी</option><option value="ta">தமிழ்</option><option value="te">తెలుగు</option></select></label>
         <div class="auth-heading">
           <p class="auth-overline" id="auth-overline">Your farm workspace</p>
           <h2 id="auth-title">Welcome back</h2>
@@ -75,13 +76,13 @@
             <input type="password" id="auth-confirm-password" class="form-input" placeholder="Repeat your password" autocomplete="new-password">
           </div>
           <div class="auth-form-options" id="auth-login-options">
-            <label class="check-label"><input type="checkbox" id="auth-remember"> <span>Remember me</span></label>
+            <label class="check-label" id="auth-remember-label"><input type="checkbox" id="auth-remember"> <span>Remember me</span></label>
             <button class="link-button" id="btn-forgot-password" type="button">Forgot password?</button>
           </div>
           <button class="btn btn-primary auth-submit" type="submit" id="btn-auth-submit">Sign in <span aria-hidden="true">&#8594;</span></button>
         </form>
         <p class="auth-switch-copy" id="auth-switch-copy">New to HaritKranti? <button class="link-button" id="auth-switch-link" type="button">Create an account</button></p>
-        <p class="auth-legal">By continuing, you agree to use AI guidance alongside local agricultural expertise.</p>
+        <p class="auth-legal" id="auth-legal">By continuing, you agree to use AI guidance alongside local agricultural expertise.</p>
       </div>
     </div>
   </section>
@@ -113,11 +114,11 @@
       <!-- Dashboard -->
       <section class="view-section active" id="view-home">
         <div class="dashboard-intro">
-          <div><p class="page-eyebrow">YOUR FIELD WORKSPACE</p><h1>Good to see you, <span id="dashboard-farmer-name">farmer</span>.</h1><p>Clear signals for better crop decisions.</p></div>
+          <div><p class="page-eyebrow">YOUR FIELD WORKSPACE</p><h1 id="dashboard-intro-title">Good to see you, <span id="dashboard-farmer-name">farmer</span>.</h1><p id="dashboard-intro-subtitle">Clear signals for better crop decisions.</p></div>
           <div class="dashboard-status"><span class="status-dot"></span><span id="dashboard-network-label">Online AI available</span></div>
         </div>
         <div class="dashboard-hero">
-          <div class="dashboard-hero-copy"><p class="hero-label"><span class="hero-label-line"></span> Crop intelligence</p><h2>Smarter decisions for healthier crops.</h2><p>Upload a leaf image and get practical, explainable guidance for what to do next.</p><button class="btn btn-light" data-target="view-scan" type="button">Start a crop scan <span aria-hidden="true">&#8594;</span></button></div>
+          <div class="dashboard-hero-copy"><p class="hero-label"><span class="hero-label-line"></span> Crop intelligence</p><h2>Smarter decisions for healthier crops.</h2><p id="dashboard-hero-body">Upload a leaf image and get practical, explainable guidance for what to do next.</p><button class="btn btn-light" data-target="view-scan" type="button"><span id="dashboard-start-scan-text">Start a crop scan</span> <span aria-hidden="true">&#8594;</span></button></div>
           <div class="dashboard-hero-art" aria-hidden="true"><div class="radar-ring ring-one"></div><div class="radar-ring ring-two"></div><div class="radar-core">&#127807;</div><span class="radar-label">LIVE<br>SCAN</span></div>
         </div>
         <div class="dashboard-grid">
@@ -125,7 +126,7 @@
           <button class="feature-link" data-target="view-weather" type="button"><span class="feature-icon weather-icon">&#9788;</span><span><strong>Weather & water</strong><small>Make irrigation decisions with confidence</small></span><span class="arrow">&#8594;</span></button>
           <button class="feature-link" data-target="view-history" type="button"><span class="feature-icon history-icon">&#9673;</span><span><strong>Scan history</strong><small>Review your farm’s recent insights</small></span><span class="arrow">&#8594;</span></button>
         </div>
-        <div class="dashboard-lower"><div class="section-heading compact-heading"><div><p class="page-eyebrow">QUICK ACCESS</p><h2>Useful around the farm</h2></div></div><div class="quick-links"><button data-target="view-shops" type="button"><span>&#9678;</span> Nearby agri shops</button><button data-target="view-language" type="button"><span>&#9788;</span> Language</button><button data-target="view-profile" type="button"><span>&#9679;</span> Profile settings</button></div></div>
+        <div class="dashboard-lower"><div class="section-heading compact-heading"><div><p class="page-eyebrow">QUICK ACCESS</p><h2>Useful around the farm</h2></div></div><div class="quick-links"><button data-target="view-shops" type="button"><span>&#9678;</span> <span id="quick-nearby-text">Nearby agri shops</span></button><button data-target="view-language" type="button"><span>&#9788;</span> Language</button><button data-target="view-profile" type="button"><span>&#9679;</span> <span id="quick-settings-text">Profile settings</span></button></div></div>
       </section>
 
       <!-- Crop scan -->
@@ -159,7 +160,7 @@
       <section class="view-section" id="view-history"><div class="page-header split-header"><div><p class="page-eyebrow">YOUR RECORDS</p><h1 class="page-title">Scan history</h1><p class="page-subtitle">Review your recent crop analyses.</p></div><button class="btn btn-outline btn-compact" id="btn-sync-history" type="button">Sync records</button></div><div class="history-toolbar"><label class="search-field"><span>&#8981;</span><input type="search" id="history-search-input" placeholder="Search crop or condition" aria-label="Search crop or condition"></label></div><div class="history-list" id="history-list-container"></div></section>
 
       <!-- Language -->
-      <section class="view-section" id="view-language"><div class="page-header"><p class="page-eyebrow">PREFERENCES</p><h1 class="page-title">Language</h1><p class="page-subtitle">Choose the language you’re most comfortable using in the field.</p></div><div class="language-list"><div class="lang-card selected" data-lang="en"><span><strong>English</strong><small>Default language</small></span><span class="lang-check">&#10003;</span></div><div class="lang-card" data-lang="hi"><span><strong>हिंदी</strong><small>Hindi</small></span><span class="lang-check">&#10003;</span></div><div class="lang-card" data-lang="mr"><span><strong>मराठी</strong><small>Marathi</small></span><span class="lang-check">&#10003;</span></div></div></section>
+      <section class="view-section" id="view-language"><div class="page-header"><p class="page-eyebrow">PREFERENCES</p><h1 class="page-title">Language</h1><p class="page-subtitle">Choose the language you’re most comfortable using in the field.</p></div><div class="language-list"><div class="lang-card selected" data-lang="en"><span><strong>English</strong><small>Default language</small></span><span class="lang-check">&#10003;</span></div><div class="lang-card" data-lang="mr"><span><strong>मराठी</strong><small>Marathi</small></span><span class="lang-check">&#10003;</span></div><div class="lang-card" data-lang="hi"><span><strong>हिन्दी</strong><small>Hindi</small></span><span class="lang-check">&#10003;</span></div><div class="lang-card" data-lang="ta"><span><strong>தமிழ்</strong><small>Tamil</small></span><span class="lang-check">&#10003;</span></div><div class="lang-card" data-lang="te"><span><strong>తెలుగు</strong><small>Telugu</small></span><span class="lang-check">&#10003;</span></div></div></section>
 
       <!-- Shop finder -->
       <section class="view-section" id="view-shops"><div class="page-header"><p class="page-eyebrow">LOCAL SUPPORT</p><h1 class="page-title">Nearby agri shops</h1><p class="page-subtitle">Find agriculture suppliers around your current location.</p></div><div class="shop-layout"><div class="shop-card"><div class="shop-categories"><button class="shop-cat-btn active" data-category="agriculture shop" type="button"><span>&#9678;</span><strong>Agri store</strong></button><button class="shop-cat-btn" data-category="pesticide shop" type="button"><span>&#9679;</span><strong>Pesticides</strong></button><button class="shop-cat-btn" data-category="fertilizer store" type="button"><span>&#10022;</span><strong>Fertilizer</strong></button><button class="shop-cat-btn" data-category="seed supplier" type="button"><span>&#127807;</span><strong>Seeds</strong></button></div><button class="btn btn-secondary" id="btn-detect-maps-gps" type="button"><span id="maps-gps-status">Detect my location</span></button><p id="maps-query-preview" class="map-query"></p><button class="btn btn-primary" id="btn-launch-google-maps" type="button">Open Google Maps <span aria-hidden="true">&#8599;</span></button></div><div class="shop-note"><span>&#9678;</span><div><strong>Location-aware search</strong><p>Your browser location is used only to center the map search.</p></div></div></div></section>

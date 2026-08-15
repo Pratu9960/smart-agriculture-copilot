@@ -20,6 +20,10 @@ const DiagnosisModule = {
   selectedFile: null,
   currentResult: null,
 
+  t(key, fallback = '') {
+    return window.i18n ? window.i18n.t(key) : fallback;
+  },
+
   init() {
     this.setupEventListeners();
   },
@@ -115,7 +119,7 @@ const DiagnosisModule = {
     if (!file.type || !file.type.startsWith('image/')) {
       if (window.App) {
         window.App.showToast(
-          'Please select a valid leaf image file.',
+          this.t('scan.invalidImage', 'Please select a valid crop image.'),
           'error'
         );
       }
@@ -125,7 +129,7 @@ const DiagnosisModule = {
     if (file.size > 10 * 1024 * 1024) {
       if (window.App) {
         window.App.showToast(
-          'Image file size exceeds 10MB limit.',
+          this.t('scan.tooLarge', 'Image file size exceeds 10 MB.'),
           'error'
         );
       }
@@ -162,7 +166,7 @@ const DiagnosisModule = {
     reader.onerror = () => {
       if (window.App) {
         window.App.showToast(
-          'Unable to preview the selected image.',
+          this.t('validation.default', 'Unable to preview the selected image.'),
           'error'
         );
       }
@@ -196,7 +200,7 @@ const DiagnosisModule = {
     if (!this.selectedFile) {
       if (window.App) {
         window.App.showToast(
-          'Please select or capture a leaf image first.',
+          this.t('scan.selectFirst', 'Please select or capture a crop image first.'),
           'warning'
         );
       }
@@ -219,7 +223,7 @@ const DiagnosisModule = {
     if (selectedMode === 'offline-unavailable') {
       if (window.App) {
         window.App.showToast(
-          'You are offline and this browser does not have the local agriculture model installed.',
+          this.t('scan.offlineUnavailable', 'You are offline and this browser does not have the local agriculture model installed.'),
           'warning'
         );
       }
@@ -235,9 +239,9 @@ const DiagnosisModule = {
     }
 
     const analysisSteps = [
-      'Checking visual symptoms',
-      'Comparing crop patterns',
-      'Preparing recommendations'
+      this.t('scan.stepSymptoms', 'Checking visual symptoms'),
+      this.t('scan.stepPatterns', 'Comparing crop patterns'),
+      this.t('scan.stepRecommendations', 'Preparing recommendations')
     ];
 
     let analysisStepIndex = 0;
@@ -288,7 +292,7 @@ const DiagnosisModule = {
         window.App.showToast(
           error && error.message
             ? error.message
-            : 'Diagnosis failed. Please try again.',
+            : this.t('scan.diagnosisFailed', 'Crop analysis failed. Please try again.'),
           'error'
         );
       }
@@ -311,7 +315,7 @@ const DiagnosisModule = {
       !window.SmartAgBridge.isAvailable()
     ) {
       throw new Error(
-        'Offline diagnosis is available in the Android app with its local agriculture model. This browser does not have that model installed.'
+        this.t('scan.offlineUnavailable', 'Offline diagnosis is available in the Android app with its local agriculture model. This browser does not have that model installed.')
       );
     }
 
@@ -327,7 +331,7 @@ const DiagnosisModule = {
 
     if (!bridgeResponse) {
       throw new Error(
-        'The Android offline model did not return a diagnosis. Please check that the local model is installed and ready.'
+        this.t('scan.offlineNoResult', 'The local model did not return a diagnosis. Check that it is installed and ready.')
       );
     }
 
@@ -336,7 +340,7 @@ const DiagnosisModule = {
         return JSON.parse(bridgeResponse);
       } catch (error) {
         throw new Error(
-          'The Android offline model returned an unreadable diagnosis.'
+          this.t('scan.offlineUnreadable', 'The local model returned an unreadable diagnosis.')
         );
       }
     }
@@ -346,7 +350,7 @@ const DiagnosisModule = {
     }
 
     throw new Error(
-      'The Android offline model returned an unsupported diagnosis format.'
+      this.t('scan.offlineUnsupported', 'The local model returned an unsupported diagnosis format.')
     );
   },
 
@@ -361,7 +365,7 @@ const DiagnosisModule = {
       reader.onerror = () => {
         reject(
           new Error(
-            'Unable to read the selected leaf image.'
+            this.t('validation.default', 'Unable to read the selected crop image.')
           )
         );
       };

@@ -1,8 +1,11 @@
+import logging
+
 from fastapi import APIRouter, Query, HTTPException, status
 from models.schemas import WeatherResponse
-from services.base_weather import get_weather_service
+from services.base_weather import MockWeatherService, get_weather_service
 
 router = APIRouter(prefix="/api", tags=["Weather"])
+logger = logging.getLogger("smart_ag_backend.routes.weather")
 
 @router.get("/weather", response_model=WeatherResponse)
 async def get_weather(
@@ -24,4 +27,12 @@ async def get_weather(
         )
 
     weather_service = get_weather_service()
-    return await weather_service.get_weather(latitude, longitude)
+    try:
+        return await weather_service.get_weather(latitude, longitude)
+    except RuntimeError as exc:
+        # Keep the application usable when the upstream weather provider is
+        # unavailable (for example, offline development or a temporary outage).
+        # The response is explicitly marked as a development mock payload so
+        # the client can distinguish it from live weather data.
+        logger.warning("Live weather unavailable; using development fallback: %s", exc)
+        return await MockWeatherService().get_weather(latitude, longitude)

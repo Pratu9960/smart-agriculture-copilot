@@ -241,39 +241,40 @@ const AuthModule = {
   getFriendlyErrorMessage(error) {
     const code = error ? error.code : '';
     const lang = (window.i18n && typeof window.i18n.t === 'function') ? window.i18n : null;
+    const t = (key, fallback) => lang ? lang.t(key) : fallback;
 
     switch (code) {
       case 'auth/invalid-email':
       case 'auth/missing-email':
-        return lang ? lang.t('authErrorInvalidEmail') : 'Please enter a valid email address.';
+        return t('validation.invalidEmail', 'Please enter a valid email address.');
 
       case 'auth/weak-password':
       case 'auth/missing-password':
-        return lang ? lang.t('authErrorWeakPassword') : 'Password must be at least 6 characters.';
+        return t('validation.weakPassword', 'Password must be at least 6 characters.');
 
       case 'auth/user-not-found':
       case 'auth/wrong-password':
       case 'auth/invalid-credential':
       case 'auth/invalid-login-credentials':
-        return lang ? lang.t('authErrorWrongPassword') : 'Email or password is incorrect.';
+        return t('validation.wrongPassword', 'Email or password is incorrect.');
 
       case 'auth/email-already-in-use':
-        return lang ? lang.t('authErrorEmailInUse') : 'An account with this email already exists.';
+        return t('validation.emailInUse', 'This email is already registered.');
 
       case 'auth/network-request-failed':
-        return lang ? lang.t('authErrorNetwork') : 'Unable to connect. Please check your internet connection and try again.';
+        return t('validation.network', 'Unable to connect. Please check your internet connection and try again.');
 
       case 'auth/too-many-requests':
-        return 'Too many attempts. Please wait a moment and try again.';
+        return t('authStatus.tooMany', 'Too many attempts. Please wait a moment and try again.');
 
       case 'auth/user-disabled':
-        return 'This account has been deactivated. Please contact support.';
+        return t('authStatus.disabled', 'This account has been deactivated. Please contact support.');
 
       case 'auth/operation-not-allowed':
-        return 'Email/Password login is not enabled in Firebase Console.';
+        return t('authStatus.notAllowed', 'Email and password login is not enabled in Firebase.');
 
       default:
-        return lang ? lang.t('authErrorDefault') : 'Something went wrong. Please try again.';
+        return t('validation.default', 'Something went wrong. Please try again.');
     }
   }
 };

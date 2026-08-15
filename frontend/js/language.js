@@ -1,260 +1,185 @@
-/**
- * Smart Agriculture Copilot - Language & Internationalization (i18n) Module
- * Supports English, Hindi (हिंदी), and Marathi (मराठी).
- */
-
+/* Central UI language service for HaritKranti. Generated diagnosis text is not translated here. */
 const LanguageModule = {
-  currentLang: localStorage.getItem('smart_ag_lang') || 'en',
-
+  storageKey: 'app_language',
+  supportedLanguages: { en: 'English', mr: 'मराठी', hi: 'हिन्दी', ta: 'தமிழ்', te: 'తెలుగు' },
+  currentLang: 'en',
   translations: {
     en: {
-      appName: 'Smart Ag Copilot',
-      tagline: 'AI Assistant for Indian Farmers',
-      online: 'Online',
-      offline: 'Offline Mode',
-      scanCrop: 'Scan Crop',
-      weather: 'Weather & Water',
-      history: 'Scan History',
-      language: 'Language',
-      shops: 'Agri Shops',
-      profile: 'Profile',
-      heroTitle: 'Diagnose Crop Diseases Instantly',
-      heroSubtitle: 'Upload or take a photo of an unhealthy leaf to receive AI remedies.',
-      startScan: 'Take Photo / Upload Leaf',
-      weatherWidgetTitle: 'Today\'s Farming Weather',
-      selectImage: 'Select or Take Photo',
-      camera: 'Camera Photo',
-      gallery: 'Upload from Gallery',
-      dropLeaf: 'Tap here to upload a clear leaf image',
-      diagnoseBtn: 'Diagnose Crop Health',
-      changePhoto: 'Choose Different Photo',
-      symptoms: 'Symptoms Identified',
-      treatment: 'Treatment & Remedies',
-      pesticides: 'Recommended Pesticides',
-      fertilizer: 'Fertilizer Guidance',
-      prevention: 'Prevention Strategies',
-      saveScan: 'Save to Scan History',
-      findShops: 'Find Nearby Agri Shops',
-      scanAnother: 'Scan Another Leaf',
-      disclaimer: 'Pesticide advice should be verified with local agricultural authorities and product labels.',
-      searchShops: 'Locate Agriculture Dealers',
-      shopCategory: 'Select Store Category:',
-      openMaps: 'Open Google Maps Search',
-      detectLocation: 'Detect My Location',
-      loginRegister: 'Farmer Login / Register',
-      name: 'Full Name',
-      phone: 'Mobile Number',
-      cropType: 'Primary Crop',
-      location: 'Village / District',
-      saveProfile: 'Save Profile Information',
-      loginBtn: 'Sign In',
-      registerBtn: 'Create Account',
-      logoutBtn: 'Sign Out',
-      loggedInStatus: 'Logged In',
-      loggedOutStatus: 'Not Logged In',
-      guestFarmer: 'Guest Farmer',
-      switchAccount: 'Switch Account / Login',
-      authErrorInvalidEmail: 'Please enter a valid email address.',
-      authErrorWeakPassword: 'Password must be at least 6 characters.',
-      authErrorWrongPassword: 'Email or password is incorrect.',
-      authErrorEmailInUse: 'An account with this email already exists.',
-      authErrorNetwork: 'Unable to connect. Please check your internet connection and try again.',
-      authErrorDefault: 'Something went wrong. Please try again.',
-      authSuccessLogin: 'Logged in successfully!',
-      authSuccessRegister: 'Account created successfully!',
-      authSuccessLogout: 'Signed out successfully.'
-    },
-    hi: {
-      appName: 'स्मार्ट कृषि सहायक',
-      tagline: 'भारतीय किसानों के लिए एआई सहायक',
-      online: 'ऑनलाइन',
-      offline: 'ऑफलाइन मोड',
-      scanCrop: 'फसल जांचें',
-      weather: 'मौसम और सिंचाई',
-      history: 'जांच इतिहास',
-      language: 'भाषा बदलें',
-      shops: 'कृषि दुकानें',
-      profile: 'प्रोफाइल',
-      heroTitle: 'फसल की बीमारी तुरंत पहचानें',
-      heroSubtitle: 'पत्ती का फोटो लें और एआई से उपचार प्राप्त करें।',
-      startScan: 'फोटो खींचें / अपलोड करें',
-      weatherWidgetTitle: 'आज का कृषि मौसम',
-      selectImage: 'फोटो चुनें या खींचें',
-      camera: 'कैमरा फोटो',
-      gallery: 'गैलरी से चुनें',
-      dropLeaf: 'पत्ती का साफ फोटो अपलोड करने के लिए यहां टैप करें',
-      diagnoseBtn: 'फसल स्वास्थ्य की जांच करें',
-      changePhoto: 'दूसरी फोटो चुनें',
-      symptoms: 'पहचाने गए लक्षण',
-      treatment: 'उपचार और उपाय',
-      pesticides: 'अनुशंसित कीटनाशक',
-      fertilizer: 'उर्वरक सलाह',
-      prevention: 'बचाव के तरीके',
-      saveScan: 'इतिहास में सहेजें',
-      findShops: 'पास की कृषि दुकानें खोजें',
-      scanAnother: 'दूसरी पत्ती की जांच करें',
-      disclaimer: 'कीटनाशक उपयोग से पहले स्थानीय कृषि अधिकारी या लेबल से पुष्टि करें।',
-      searchShops: 'कृषि विक्रेताओं को खोजें',
-      shopCategory: 'दुकान की श्रेणी चुनें:',
-      openMaps: 'गूगल मैप्स खोज खोलें',
-      detectLocation: 'मेरा स्थान पहचानें',
-      loginRegister: 'किसान लॉगिन / पंजीकरण',
-      name: 'पूरा नाम',
-      phone: 'मोबाइल नंबर',
-      cropType: 'मुख्य फसल',
-      location: 'गांव / जिला',
-      saveProfile: 'प्रोफाइल सहेजें',
-      loginBtn: 'साइन इन करें',
-      registerBtn: 'खाता बनाएं',
-      logoutBtn: 'साइन आउट',
-      loggedInStatus: 'लॉग इन',
-      loggedOutStatus: 'लॉग इन नहीं है',
-      guestFarmer: 'अतिथि किसान',
-      switchAccount: 'खाता बदलें / लॉगिन',
-      authErrorInvalidEmail: 'कृपया एक मान्य ईमेल पता दर्ज करें।',
-      authErrorWeakPassword: 'पासवर्ड कम से कम 6 अक्षरों का होना चाहिए।',
-      authErrorWrongPassword: 'ईमेल या पासवर्ड गलत है।',
-      authErrorEmailInUse: 'इस ईमेल से पहले से एक खाता मौजूद है।',
-      authErrorNetwork: 'कनेक्ट करने में असमर्थ। कृपया अपना इंटरनेट कनेक्शन जांचें।',
-      authErrorDefault: 'कुछ गलत हो गया। कृपया पुन: प्रयास करें।',
-      authSuccessLogin: 'सफलतापूर्वक लॉग इन किया गया!',
-      authSuccessRegister: 'खाता सफलतापूर्वक बनाया गया!',
-      authSuccessLogout: 'सफलतापूर्वक साइन आउट किया गया।'
+      auth: { workspace: 'Your farm workspace', visualOverline: 'Intelligence for every growing season', visualTitle: 'Smarter decisions for healthier crops.', visualBody: 'AI-powered crop insights and agricultural guidance, designed to work online and offline when your field needs it.', secure: 'Secure workspace', connected: 'Online + on-device ready', signInTitle: 'Welcome back', signInSubtitle: 'Sign in to continue to your crop intelligence workspace.', createTitle: 'Create your workspace', createSubtitle: 'Create a secure workspace for your crop insights.', signIn: 'Sign in', createAccount: 'Create account', fullName: 'Full name', email: 'Email address', password: 'Password', confirmPassword: 'Confirm password', remember: 'Remember me', forgot: 'Forgot password?', show: 'Show', hide: 'Hide', submitSignIn: 'Sign in', submitCreate: 'Create account', newHere: 'New to HaritKranti?', alreadyMember: 'Already have an account?', switchCreate: 'Create an account', switchSignIn: 'Sign in', legal: 'By continuing, you agree to use AI guidance alongside local agricultural expertise.', processing: 'Processing...', resetSent: 'Password reset email sent. Check your inbox.', resetPrompt: 'Enter your email address first, then choose forgot password.', passwordMismatch: 'Passwords do not match. Please check both fields.' },
+      nav: { home: 'Home', dashboard: 'Dashboard', scan: 'Scan crop', weather: 'Weather', history: 'History', profile: 'Profile', language: 'Language' },
+      network: { online: 'Online', offline: 'Offline', onlineAI: 'Online AI available', offlineAI: 'Offline AI available', offlineUnavailable: 'Offline AI unavailable on this device', usingOnline: 'Using Online AI', usingOffline: 'Using Offline AI', connectionLost: 'You are offline. Checking local AI availability.', connectionRestored: 'Connection restored. Online AI is available.', offlineBanner: 'Offline right now. Local capabilities remain available.' },
+      dashboard: { eyebrow: 'YOUR FIELD WORKSPACE', greeting: 'Good to see you, {{name}}.', subtitle: 'Clear signals for better crop decisions.', heroEyebrow: 'CROP INTELLIGENCE', heroTitle: 'Smarter decisions for healthier crops.', heroBody: 'Upload a leaf image and get practical, explainable guidance for what to do next.', startScan: 'Start a crop scan', quickEyebrow: 'QUICK ACCESS', quickTitle: 'Useful around the farm', scanTitle: 'Scan crop health', scanBody: 'Photo to practical next steps', weatherTitle: 'Weather & water', weatherBody: 'Make irrigation decisions with confidence', historyTitle: 'Scan history', historyBody: 'Review your farm’s recent insights', nearby: 'Nearby agri shops', settings: 'Profile settings' },
+      scan: { eyebrow: 'CROP INTELLIGENCE', title: 'Crop scan', subtitle: 'Upload a clear image of your crop or leaf for AI analysis.', upload: 'Upload crop image', formats: 'JPG or PNG • Up to 10 MB', photoTip: 'For best results, use a well-lit photo of one leaf.', takePhoto: 'Take photo', uploadImage: 'Upload image', ready: 'Ready for analysis', review: 'Review your image before continuing.', analyze: 'Analyze crop', guideEyebrow: 'PHOTO GUIDE', guideTitle: 'Help the model see clearly', guideOne: 'Use natural light and avoid glare.', guideTwo: 'Keep the leaf centered and in focus.', guideThree: 'Include one affected leaf at a time.', privacy: 'Your image is sent only to the connected analysis service.', analyzing: 'Analyzing your crop...', stepSymptoms: 'Checking visual symptoms', stepPatterns: 'Comparing crop patterns', stepRecommendations: 'Preparing recommendations', newScan: 'New scan', invalidImage: 'Please select a valid crop image.', tooLarge: 'Image file size exceeds 10 MB.', selectFirst: 'Please select or capture a crop image first.', onlineNeedsConnection: 'Online AI needs a connection. Reconnect or use the local model in the app.', offlineUnavailable: 'You are offline and this browser does not have the local agriculture model installed.', offlineNoResult: 'The local model did not return a diagnosis. Check that it is installed and ready.', offlineUnreadable: 'The local model returned an unreadable diagnosis.', offlineUnsupported: 'The local model returned an unsupported diagnosis format.', diagnosisFailed: 'Crop analysis failed. Please try again.' },
+      diagnosis: { eyebrow: 'ANALYSIS COMPLETE', title: 'Crop analysis', observation: 'OBSERVATION', observationTitle: 'What we found', nextStep: 'NEXT STEP', actionTitle: 'Recommended action', confidence: 'Confidence', aiVision: 'AI vision analysis', severity: 'Severity', crop: 'Crop', prevention: 'Prevention', inputs: 'Inputs to consider', overviewFallback: 'Your crop image has been reviewed for visible symptoms.', symptomsFallback: 'Visual symptoms will appear here.', treatmentFallback: 'Treatment guidance will appear here.', fertilizerFallback: 'Fertilizer guidance will appear here.', pesticidesFallback: 'Recommended products will appear here.', disclaimer: 'AI guidance supports farm decisions and should be verified with local agricultural authorities and product labels.', save: 'Save to scan history', findShops: 'Find nearby agri shops', saved: 'Scan record saved to history.', saveFailed: 'Unable to save scan to history. Please try again.' },
+      weather: { eyebrow: 'FIELD CONDITIONS', title: 'Weather & water', locationLoading: 'Detecting your location...', current: 'CURRENT CONDITIONS', temperature: 'Temperature', humidity: 'Humidity', wind: 'Wind', rain: 'Rain chance', refresh: 'Refresh weather location', adviceEyebrow: 'IRRIGATION ADVISORY', loading: 'Loading field guidance', loadingBody: 'Weather-based irrigation guidance will appear when current conditions are available.', unavailableLocation: 'Live conditions unavailable', unavailableCondition: 'Weather service unavailable', unavailableTitle: 'No live irrigation guidance', unavailableBody: 'Reconnect to retrieve current conditions before planning irrigation.', fallbackAdvice: 'Follow standard irrigation guidance for your crop.' },
+      history: { eyebrow: 'YOUR RECORDS', title: 'Scan history', subtitle: 'Review your recent crop analyses.', sync: 'Sync records', search: 'Search crop or condition', emptyTitle: 'No scan history yet', emptyBody: 'Your saved crop analyses will appear here.', analysisRecord: 'Analysis record', severity: '{{value}} severity', detail: 'Diagnosis detail', date: 'Date', status: 'Status', symptoms: 'Symptoms', treatment: 'Treatment', syncAlready: 'All scan records are already synchronized.', syncStart: 'Synchronizing records with cloud...', syncSuccess: 'All pending records synchronized.', syncFailed: 'Records could not be synchronized. They remain available on this device.' },
+      profile: { eyebrow: 'ACCOUNT', title: 'Profile settings', subtitle: 'Keep your workspace details and preferences up to date.', fullName: 'Full name', phone: 'Mobile number', crop: 'Primary crop', location: 'Village / district', save: 'Save profile', statusEyebrow: 'WORKSPACE STATUS', network: 'Network', bridge: 'Offline model bridge', accountSync: 'Account sync', signOut: 'Sign out', signedIn: 'Signed in as {{email}}. Scans and settings are synchronized.', signInToSync: 'Sign in to sync records.', connected: 'Connected', localMode: 'Offline (local mode)', bridgeAvailable: 'Available (Android app)', bridgeUnavailable: 'Unavailable (standard browser)', saved: 'Profile information updated successfully.' },
+      shops: { eyebrow: 'LOCAL SUPPORT', title: 'Nearby agri shops', subtitle: 'Find agriculture suppliers around your current location.', store: 'Agri store', pesticides: 'Pesticides', fertilizer: 'Fertilizer', seeds: 'Seeds', detect: 'Detect my location', detecting: 'Detecting GPS location...', found: 'Location found ({{lat}}, {{lon}})', manual: 'Using manual/general area search', unavailable: 'Browser geolocation unavailable', search: 'Search: “{{category}}” {{near}}', near: 'near current coordinates', open: 'Open Google Maps', noteTitle: 'Location-aware search', noteBody: 'Your browser location is used only to center the map search.' },
+      language: { eyebrow: 'PREFERENCES', title: 'Language', subtitle: 'Choose the language you’re most comfortable using in the field.', default: 'Default language', hindi: 'Hindi', marathi: 'Marathi', tamil: 'Tamil', telugu: 'Telugu', changed: 'Language changed to {{language}}.' },
+      validation: { invalidEmail: 'Please enter a valid email address.', weakPassword: 'Password must be at least 6 characters.', missingEmail: 'Please enter your email address.', wrongPassword: 'Email or password is incorrect.', emailInUse: 'This email is already registered.', network: 'Unable to connect. Please check your internet connection and try again.', default: 'Something went wrong. Please try again.', resetUnavailable: 'Unable to send a password reset email.' },
+      authStatus: { loginSuccess: 'Logged in successfully.', registerSuccess: 'Account created successfully.', logoutSuccess: 'Signed out successfully.', tooMany: 'Too many attempts. Please wait a moment and try again.', disabled: 'This account has been deactivated. Please contact support.', notAllowed: 'Email and password login is not enabled in Firebase.' },
+      common: { back: 'Back', retry: 'Retry', cancel: 'Cancel', remove: 'Remove image', change: 'Change image', loading: 'Loading...', online: 'Online', offline: 'Offline' }
     },
     mr: {
-      appName: 'स्मार्ट शेती मित्र',
-      tagline: 'भारतीय शेतकऱ्यांसाठी AI सहाय्यक',
-      online: 'ऑनलाइन',
-      offline: 'ऑफलाइन मोड',
-      scanCrop: 'पिकाची तपासणी',
-      weather: 'हवामान व पाणी',
-      history: 'तपासणी इतिहास',
-      language: 'भाषा निवडा',
-      shops: 'कृषी दुकाने',
-      profile: 'प्रोफाईल',
-      heroTitle: 'पिकाचे आजार त्वरित ओळखा',
-      heroSubtitle: 'पानाचा फोटो काढा आणि AI कडून तात्काळ उपाय मिळवा.',
-      startScan: 'फोटो काढा / अपलोड करा',
-      weatherWidgetTitle: 'आजचे शेती हवामान',
-      selectImage: 'फोटो निवडा किंवा काढा',
-      camera: 'कॅमेरा फोटो',
-      gallery: 'गॅलरीतून निवडा',
-      dropLeaf: 'पानाचा स्वच्छ फोटो अपलोड करण्यासाठी येथे टॅप करा',
-      diagnoseBtn: 'पिकाचे आरोग्य तपासा',
-      changePhoto: 'दुसरा फोटो निवडा',
-      symptoms: 'आढळून आलेली लक्षणे',
-      treatment: 'उपचार व उपाययोजना',
-      pesticides: 'कीटकनाशक सल्ला',
-      fertilizer: 'खत व्यवस्थापन',
-      prevention: 'प्रतिबंधात्मक उपाय',
-      saveScan: 'इतिहासात जतन करा',
-      findShops: 'जवळील कृषी दुकाने शोधा',
-      scanAnother: 'दुसऱ्या पानाची तपासणी',
-      disclaimer: 'कीटकनाशकाचा वापर करण्यापूर्वी कृषी तज्ज्ञांचा किंवा लेबलचा सल्ला घ्या.',
-      searchShops: 'कृषी विक्रेते शोधा',
-      shopCategory: 'दुकानाचा प्रकार निवडा:',
-      openMaps: 'गूगल मॅप्स शोध उघडा',
-      detectLocation: 'माझे स्थान शोधा',
-      loginRegister: 'शेतकरी लॉगिन / नोंदणी',
-      name: 'पूर्ण नाव',
-      phone: 'मोबाईल नंबर',
-      cropType: 'मुख्य पीक',
-      location: 'गाव / जिल्हा',
-      saveProfile: 'प्रोफाईल जतन करा',
-      loginBtn: 'लॉगिन करा',
-      registerBtn: 'खाते तयार करा',
-      logoutBtn: 'लॉग आउट करा',
-      loggedInStatus: 'लॉग इन झाले',
-      loggedOutStatus: 'लॉग इन नाही',
-      guestFarmer: 'अतिथी शेतकरी',
-      switchAccount: 'खाते बदला / लॉगिन',
-      authErrorInvalidEmail: 'कृपया वैध ईमेल पत्ता प्रविष्ट करा.',
-      authErrorWeakPassword: 'पासवर्ड किमान 6 अक्षरांचा असावा.',
-      authErrorWrongPassword: 'ईमेल किंवा पासवर्ड चुकीचा आहे.',
-      authErrorEmailInUse: 'या ईमेलसह आधीच खाते अस्तित्वात आहे.',
-      authErrorNetwork: 'कनेक्ट करण्यात अयशस्वी. कृपया इंटरनेट कनेक्शन तपासा.',
-      authErrorDefault: 'काहीतरी चूक झाली. कृपया पुन्हा प्रयत्न करा.',
-      authSuccessLogin: 'यशस्वीरित्या लॉगिन झाले!',
-      authSuccessRegister: 'खाते यशस्वीरित्या तयार केले गेले!',
-      authSuccessLogout: 'यशस्वीरित्या साइन आउट केले.'
+      auth: { workspace: 'तुमचे शेती कार्यक्षेत्र', visualOverline: 'प्रत्येक हंगामासाठी शेती बुद्धिमत्ता', visualTitle: 'निरोगी पिकांसाठी अधिक चांगले निर्णय.', visualBody: 'तुमच्या शेताला गरज असताना ऑनलाइन आणि ऑफलाइन काम करणारी एआय-आधारित पीक माहिती व कृषी मार्गदर्शन.', secure: 'सुरक्षित कार्यक्षेत्र', connected: 'ऑनलाइन + डिव्हाइसवर उपलब्ध', signInTitle: 'पुन्हा स्वागत आहे', signInSubtitle: 'तुमच्या पीक माहिती कार्यक्षेत्रात जाण्यासाठी साइन इन करा.', createTitle: 'तुमचे कार्यक्षेत्र तयार करा', createSubtitle: 'तुमच्या पीक माहितीसाठी सुरक्षित कार्यक्षेत्र तयार करा.', signIn: 'साइन इन', createAccount: 'खाते तयार करा', fullName: 'पूर्ण नाव', email: 'ईमेल पत्ता', password: 'पासवर्ड', confirmPassword: 'पासवर्ड पुन्हा लिहा', remember: 'मला लक्षात ठेवा', forgot: 'पासवर्ड विसरलात?', show: 'दाखवा', hide: 'लपवा', submitSignIn: 'साइन इन', submitCreate: 'खाते तयार करा', newHere: 'HaritKranti वर नवीन आहात?', alreadyMember: 'आधीच खाते आहे?', switchCreate: 'खाते तयार करा', switchSignIn: 'साइन इन', legal: 'पुढे सुरू ठेवून, एआय मार्गदर्शनासोबत स्थानिक कृषी तज्ज्ञांचा सल्ला घेण्यास आपण सहमत आहात.', processing: 'प्रक्रिया सुरू आहे...', resetSent: 'पासवर्ड बदलण्याचा ईमेल पाठवला आहे. तुमचा इनबॉक्स तपासा.', resetPrompt: 'आधी ईमेल पत्ता लिहा आणि मग पासवर्ड विसरलात हे निवडा.', passwordMismatch: 'दोन्ही पासवर्ड जुळत नाहीत. कृपया तपासा.' },
+      nav: { home: 'मुख्यपृष्ठ', dashboard: 'डॅशबोर्ड', scan: 'पीक तपासा', weather: 'हवामान', history: 'इतिहास', profile: 'प्रोफाइल', language: 'भाषा' }, network: { online: 'ऑनलाइन', offline: 'ऑफलाइन', onlineAI: 'ऑनलाइन एआय उपलब्ध', offlineAI: 'ऑफलाइन एआय उपलब्ध', offlineUnavailable: 'या डिव्हाइसवर ऑफलाइन एआय उपलब्ध नाही', usingOnline: 'ऑनलाइन एआय वापरत आहे', usingOffline: 'ऑफलाइन एआय वापरत आहे', connectionLost: 'आपण ऑफलाइन आहात. स्थानिक एआय उपलब्धता तपासत आहे.', connectionRestored: 'कनेक्शन पुन्हा सुरू झाले. ऑनलाइन एआय उपलब्ध आहे.', offlineBanner: 'सध्या ऑफलाइन. स्थानिक सुविधा उपलब्ध आहेत.' },
+      dashboard: { eyebrow: 'तुमचे शेती कार्यक्षेत्र', greeting: 'तुम्हाला पाहून आनंद झाला, {{name}}.', subtitle: 'पिकांच्या चांगल्या निर्णयांसाठी स्पष्ट माहिती.', heroEyebrow: 'पीक माहिती', heroTitle: 'निरोगी पिकांसाठी अधिक चांगले निर्णय.', heroBody: 'पानाचा फोटो अपलोड करा आणि पुढील कृतीसाठी उपयुक्त मार्गदर्शन मिळवा.', startScan: 'पीक तपासणी सुरू करा', quickEyebrow: 'जलद प्रवेश', quickTitle: 'शेतासाठी उपयुक्त सुविधा', scanTitle: 'पिकाचे आरोग्य तपासा', scanBody: 'फोटोमधून पुढील कृतीचे मार्गदर्शन', weatherTitle: 'हवामान आणि पाणी', weatherBody: 'सिंचनाचे निर्णय आत्मविश्वासाने घ्या', historyTitle: 'तपासणी इतिहास', historyBody: 'तुमच्या अलीकडील पीक माहितीचा आढावा घ्या', nearby: 'जवळची कृषी दुकाने', settings: 'प्रोफाइल सेटिंग्ज' },
+      scan: { eyebrow: 'पीक माहिती', title: 'पीक तपासणी', subtitle: 'एआय विश्लेषणासाठी पिकाचा किंवा पानाचा स्पष्ट फोटो अपलोड करा.', upload: 'पिकाचा फोटो अपलोड करा', formats: 'JPG किंवा PNG • जास्तीत जास्त 10 MB', photoTip: 'चांगल्या परिणामासाठी एका पानाचा स्वच्छ, प्रकाशमान फोटो वापरा.', takePhoto: 'फोटो काढा', uploadImage: 'फोटो अपलोड करा', ready: 'विश्लेषणासाठी तयार', review: 'पुढे जाण्यापूर्वी फोटो तपासा.', analyze: 'पीक विश्लेषण करा', guideEyebrow: 'फोटो मार्गदर्शक', guideTitle: 'मॉडेलला स्पष्ट फोटो दिसू द्या', guideOne: 'नैसर्गिक प्रकाश वापरा आणि चमक टाळा.', guideTwo: 'पान मध्यभागी आणि स्पष्ट ठेवा.', guideThree: 'एका वेळी एक प्रभावित पान ठेवा.', privacy: 'तुमचा फोटो केवळ जोडलेल्या विश्लेषण सेवेकडे पाठवला जातो.', analyzing: 'तुमच्या पिकाचे विश्लेषण सुरू आहे...', stepSymptoms: 'दृश्य लक्षणे तपासत आहे', stepPatterns: 'पीक नमुन्यांची तुलना करत आहे', stepRecommendations: 'शिफारसी तयार करत आहे', newScan: 'नवीन तपासणी', invalidImage: 'कृपया योग्य पीक फोटो निवडा.', tooLarge: 'फोटोचा आकार 10 MB पेक्षा जास्त आहे.', selectFirst: 'कृपया आधी पीकाचा फोटो निवडा किंवा काढा.', onlineNeedsConnection: 'ऑनलाइन एआयसाठी इंटरनेट आवश्यक आहे. पुन्हा कनेक्ट करा किंवा अॅपमधील स्थानिक मॉडेल वापरा.', offlineUnavailable: 'आपण ऑफलाइन आहात आणि या ब्राउझरमध्ये स्थानिक कृषी मॉडेल उपलब्ध नाही.', offlineNoResult: 'स्थानिक मॉडेलने निदान दिले नाही. ते स्थापित आणि तयार आहे का ते तपासा.', offlineUnreadable: 'स्थानिक मॉडेलने वाचता न येणारे निदान दिले.', offlineUnsupported: 'स्थानिक मॉडेलने असमर्थित निदान दिले.', diagnosisFailed: 'पीक विश्लेषण अयशस्वी झाले. पुन्हा प्रयत्न करा.' },
+      diagnosis: { eyebrow: 'विश्लेषण पूर्ण', title: 'पीक विश्लेषण', observation: 'निरीक्षण', observationTitle: 'आम्हाला काय दिसले', nextStep: 'पुढील कृती', actionTitle: 'शिफारस केलेली कृती', confidence: 'विश्वास पातळी', aiVision: 'एआय दृश्य विश्लेषण', severity: 'तीव्रता', crop: 'पीक', prevention: 'प्रतिबंध', inputs: 'लक्षात घेण्यासारख्या गोष्टी', overviewFallback: 'तुमच्या पीक फोटोतील दृश्य लक्षणांचा आढावा घेण्यात आला आहे.', symptomsFallback: 'दृश्य लक्षणे येथे दिसतील.', treatmentFallback: 'उपचाराचे मार्गदर्शन येथे दिसेल.', fertilizerFallback: 'खताचे मार्गदर्शन येथे दिसेल.', pesticidesFallback: 'शिफारस केलेली उत्पादने येथे दिसतील.', disclaimer: 'एआय मार्गदर्शनाला स्थानिक कृषी अधिकारी आणि उत्पादन लेबलच्या सल्ल्याने तपासा.', save: 'तपासणी इतिहासात जतन करा', findShops: 'जवळची कृषी दुकाने शोधा', saved: 'तपासणी इतिहासात जतन केली.', saveFailed: 'तपासणी इतिहासात जतन करता आले नाही. पुन्हा प्रयत्न करा.' },
+      weather: { eyebrow: 'शेतातील परिस्थिती', title: 'हवामान आणि पाणी', locationLoading: 'तुमचे स्थान शोधत आहे...', current: 'सध्याची परिस्थिती', temperature: 'तापमान', humidity: 'आर्द्रता', wind: 'वारा', rain: 'पावसाची शक्यता', refresh: 'हवामान स्थान पुन्हा शोधा', adviceEyebrow: 'सिंचन मार्गदर्शन', loading: 'शेतातील मार्गदर्शन लोड होत आहे', loadingBody: 'सध्याची परिस्थिती उपलब्ध झाल्यावर हवामानावर आधारित सिंचन मार्गदर्शन दिसेल.', unavailableLocation: 'थेट परिस्थिती उपलब्ध नाही', unavailableCondition: 'हवामान सेवा उपलब्ध नाही', unavailableTitle: 'थेट सिंचन मार्गदर्शन नाही', unavailableBody: 'सिंचनाचे नियोजन करण्यापूर्वी पुन्हा कनेक्ट करून सध्याची परिस्थिती मिळवा.', fallbackAdvice: 'तुमच्या पिकासाठी सामान्य सिंचन मार्गदर्शनाचे पालन करा.' },
+      history: { eyebrow: 'तुमच्या नोंदी', title: 'तपासणी इतिहास', subtitle: 'तुमच्या अलीकडील पीक विश्लेषणाचा आढावा घ्या.', sync: 'नोंदी समक्रमित करा', search: 'पीक किंवा रोग शोधा', emptyTitle: 'अजून तपासणी इतिहास नाही', emptyBody: 'तुमची जतन केलेली पीक विश्लेषणे येथे दिसतील.', analysisRecord: 'विश्लेषण नोंद', severity: '{{value}} तीव्रता', detail: 'निदान तपशील', date: 'दिनांक', status: 'स्थिती', symptoms: 'लक्षणे', treatment: 'उपचार', syncAlready: 'सर्व तपासणी नोंदी आधीच समक्रमित आहेत.', syncStart: 'क्लाउडसोबत नोंदी समक्रमित करत आहे...', syncSuccess: 'सर्व प्रलंबित नोंदी समक्रमित झाल्या.', syncFailed: 'नोंदी समक्रमित करता आल्या नाहीत. त्या या डिव्हाइसवर उपलब्ध आहेत.' },
+      profile: { eyebrow: 'खाते', title: 'प्रोफाइल सेटिंग्ज', subtitle: 'तुमच्या कार्यक्षेत्राची माहिती आणि पसंती अद्ययावत ठेवा.', fullName: 'पूर्ण नाव', phone: 'मोबाइल क्रमांक', crop: 'मुख्य पीक', location: 'गाव / जिल्हा', save: 'प्रोफाइल जतन करा', statusEyebrow: 'कार्यक्षेत्र स्थिती', network: 'नेटवर्क', bridge: 'ऑफलाइन मॉडेल ब्रिज', accountSync: 'खाते समक्रमण', signOut: 'साइन आउट', signedIn: '{{email}} म्हणून साइन इन. तपासण्या आणि सेटिंग्ज समक्रमित आहेत.', signInToSync: 'नोंदी समक्रमित करण्यासाठी साइन इन करा.', connected: 'कनेक्टेड', localMode: 'ऑफलाइन (स्थानिक मोड)', bridgeAvailable: 'उपलब्ध (Android अॅप)', bridgeUnavailable: 'उपलब्ध नाही (सामान्य ब्राउझर)', saved: 'प्रोफाइल माहिती यशस्वीरित्या जतन झाली.' },
+      shops: { eyebrow: 'स्थानिक मदत', title: 'जवळची कृषी दुकाने', subtitle: 'तुमच्या सध्याच्या स्थानाजवळ कृषी पुरवठादार शोधा.', store: 'कृषी दुकान', pesticides: 'कीटकनाशके', fertilizer: 'खते', seeds: 'बियाणे', detect: 'माझे स्थान शोधा', detecting: 'GPS स्थान शोधत आहे...', found: 'स्थान सापडले ({{lat}}, {{lon}})', manual: 'सामान्य क्षेत्र शोध वापरत आहे', unavailable: 'ब्राउझर स्थान सुविधा उपलब्ध नाही', search: 'शोध: “{{category}}” {{near}}', near: 'सध्याच्या स्थानाजवळ', open: 'Google Maps उघडा', noteTitle: 'स्थानावर आधारित शोध', noteBody: 'नकाशा शोध केंद्रित करण्यासाठी तुमचे ब्राउझर स्थान वापरले जाते.' },
+      language: { eyebrow: 'पसंती', title: 'भाषा', subtitle: 'शेतात वापरण्यासाठी तुम्हाला सोयीची भाषा निवडा.', default: 'मूळ भाषा', hindi: 'हिंदी', marathi: 'मराठी', tamil: 'तमिळ', telugu: 'तेलुगू', changed: 'भाषा {{language}} वर बदलली.' }, validation: { invalidEmail: 'कृपया योग्य ईमेल पत्ता लिहा.', weakPassword: 'पासवर्ड किमान 6 अक्षरांचा असावा.', missingEmail: 'कृपया तुमचा ईमेल पत्ता लिहा.', wrongPassword: 'ईमेल किंवा पासवर्ड चुकीचा आहे.', emailInUse: 'हा ईमेल आधीपासून नोंदणीकृत आहे.', network: 'कनेक्ट करता आले नाही. इंटरनेट कनेक्शन तपासा.', default: 'काहीतरी चुकले. पुन्हा प्रयत्न करा.', resetUnavailable: 'पासवर्ड बदलण्याचा ईमेल पाठवता आला नाही.' }, authStatus: { loginSuccess: 'यशस्वीरित्या साइन इन झाले.', registerSuccess: 'खाते यशस्वीरित्या तयार झाले.', logoutSuccess: 'यशस्वीरित्या साइन आउट झाले.', tooMany: 'खूप प्रयत्न झाले. थोडा वेळ थांबा.', disabled: 'हे खाते निष्क्रिय केले आहे. मदतीशी संपर्क साधा.', notAllowed: 'Firebase मध्ये ईमेल आणि पासवर्ड लॉगिन सुरू केलेले नाही.' }, common: { back: 'मागे', retry: 'पुन्हा प्रयत्न', cancel: 'रद्द करा', remove: 'फोटो काढून टाका', change: 'फोटो बदला', loading: 'लोड होत आहे...', online: 'ऑनलाइन', offline: 'ऑफलाइन' }
+    },
+    hi: {
+      auth: { workspace: 'आपका खेती कार्यक्षेत्र', visualOverline: 'हर फसल मौसम के लिए बुद्धिमान सहायता', visualTitle: 'स्वस्थ फसलों के लिए बेहतर फैसले।', visualBody: 'आपके खेत की जरूरत के समय ऑनलाइन और ऑफलाइन काम करने वाली एआई फसल जानकारी और कृषि सलाह।', secure: 'सुरक्षित कार्यक्षेत्र', connected: 'ऑनलाइन + डिवाइस पर उपलब्ध', signInTitle: 'फिर से स्वागत है', signInSubtitle: 'अपने फसल जानकारी कार्यक्षेत्र में जाने के लिए साइन इन करें।', createTitle: 'अपना कार्यक्षेत्र बनाएं', createSubtitle: 'अपनी फसल जानकारी के लिए सुरक्षित कार्यक्षेत्र बनाएं।', signIn: 'साइन इन', createAccount: 'खाता बनाएं', fullName: 'पूरा नाम', email: 'ईमेल पता', password: 'पासवर्ड', confirmPassword: 'पासवर्ड की पुष्टि करें', remember: 'मुझे याद रखें', forgot: 'पासवर्ड भूल गए?', show: 'दिखाएं', hide: 'छिपाएं', submitSignIn: 'साइन इन', submitCreate: 'खाता बनाएं', newHere: 'HaritKranti पर नए हैं?', alreadyMember: 'पहले से खाता है?', switchCreate: 'खाता बनाएं', switchSignIn: 'साइन इन', legal: 'जारी रखकर, आप स्थानीय कृषि विशेषज्ञ की सलाह के साथ एआई मार्गदर्शन उपयोग करने से सहमत हैं।', processing: 'प्रक्रिया जारी है...', resetSent: 'पासवर्ड रीसेट ईमेल भेज दिया गया है। इनबॉक्स देखें।', resetPrompt: 'पहले ईमेल पता लिखें, फिर पासवर्ड भूल गए चुनें।', passwordMismatch: 'दोनों पासवर्ड मेल नहीं खाते। कृपया जांचें।' },
+      nav: { home: 'होम', dashboard: 'डैशबोर्ड', scan: 'फसल जांचें', weather: 'मौसम', history: 'इतिहास', profile: 'प्रोफाइल', language: 'भाषा' }, network: { online: 'ऑनलाइन', offline: 'ऑफलाइन', onlineAI: 'ऑनलाइन एआई उपलब्ध', offlineAI: 'ऑफलाइन एआई उपलब्ध', offlineUnavailable: 'इस डिवाइस पर ऑफलाइन एआई उपलब्ध नहीं', usingOnline: 'ऑनलाइन एआई उपयोग हो रहा है', usingOffline: 'ऑफलाइन एआई उपयोग हो रहा है', connectionLost: 'आप ऑफलाइन हैं। स्थानीय एआई उपलब्धता जांच रहे हैं।', connectionRestored: 'कनेक्शन वापस आ गया। ऑनलाइन एआई उपलब्ध है।', offlineBanner: 'अभी ऑफलाइन हैं। स्थानीय सुविधाएं उपलब्ध हैं।' },
+      dashboard: { eyebrow: 'आपका खेती कार्यक्षेत्र', greeting: 'आपका स्वागत है, {{name}}।', subtitle: 'बेहतर फसल फैसलों के लिए स्पष्ट जानकारी।', heroEyebrow: 'फसल जानकारी', heroTitle: 'स्वस्थ फसलों के लिए बेहतर फैसले।', heroBody: 'पत्ती की तस्वीर अपलोड करें और अगले कदम के लिए उपयोगी सलाह पाएं।', startScan: 'फसल जांच शुरू करें', quickEyebrow: 'त्वरित पहुंच', quickTitle: 'खेत के लिए उपयोगी सुविधाएं', scanTitle: 'फसल स्वास्थ्य जांचें', scanBody: 'तस्वीर से अगले कदम की सलाह', weatherTitle: 'मौसम और पानी', weatherBody: 'सिंचाई के फैसले भरोसे से लें', historyTitle: 'जांच इतिहास', historyBody: 'अपनी हाल की फसल जानकारी देखें', nearby: 'पास की कृषि दुकानें', settings: 'प्रोफाइल सेटिंग्स' },
+      scan: { eyebrow: 'फसल जानकारी', title: 'फसल जांच', subtitle: 'एआई विश्लेषण के लिए अपनी फसल या पत्ती की साफ तस्वीर अपलोड करें।', upload: 'फसल की तस्वीर अपलोड करें', formats: 'JPG या PNG • अधिकतम 10 MB', photoTip: 'बेहतर परिणाम के लिए एक पत्ती की साफ और रोशनी वाली तस्वीर लें।', takePhoto: 'तस्वीर लें', uploadImage: 'तस्वीर अपलोड करें', ready: 'विश्लेषण के लिए तैयार', review: 'आगे बढ़ने से पहले तस्वीर जांचें।', analyze: 'फसल का विश्लेषण करें', guideEyebrow: 'तस्वीर गाइड', guideTitle: 'मॉडल को साफ तस्वीर दिखाएं', guideOne: 'प्राकृतिक रोशनी का उपयोग करें और चमक से बचें।', guideTwo: 'पत्ती को बीच में और साफ रखें।', guideThree: 'एक बार में एक प्रभावित पत्ती रखें।', privacy: 'आपकी तस्वीर केवल जुड़ी हुई विश्लेषण सेवा को भेजी जाती है।', analyzing: 'आपकी फसल का विश्लेषण हो रहा है...', stepSymptoms: 'दिखने वाले लक्षण जांच रहे हैं', stepPatterns: 'फसल के पैटर्न की तुलना कर रहे हैं', stepRecommendations: 'सलाह तैयार कर रहे हैं', newScan: 'नई जांच', invalidImage: 'कृपया सही फसल तस्वीर चुनें।', tooLarge: 'तस्वीर का आकार 10 MB से अधिक है।', selectFirst: 'कृपया पहले फसल की तस्वीर चुनें या लें।', onlineNeedsConnection: 'ऑनलाइन एआई के लिए इंटरनेट चाहिए। फिर से कनेक्ट करें या ऐप का स्थानीय मॉडल उपयोग करें।', offlineUnavailable: 'आप ऑफलाइन हैं और इस ब्राउज़र में स्थानीय कृषि मॉडल उपलब्ध नहीं है।', offlineNoResult: 'स्थानीय मॉडल ने निदान नहीं दिया। जांचें कि यह इंस्टॉल और तैयार है।', offlineUnreadable: 'स्थानीय मॉडल ने पढ़ा न जा सकने वाला निदान दिया।', offlineUnsupported: 'स्थानीय मॉडल ने असमर्थित निदान दिया।', diagnosisFailed: 'फसल विश्लेषण विफल हुआ। फिर से प्रयास करें।' },
+      diagnosis: { eyebrow: 'विश्लेषण पूरा', title: 'फसल विश्लेषण', observation: 'अवलोकन', observationTitle: 'हमें क्या दिखा', nextStep: 'अगला कदम', actionTitle: 'सुझाई गई कार्रवाई', confidence: 'विश्वास स्तर', aiVision: 'एआई दृश्य विश्लेषण', severity: 'गंभीरता', crop: 'फसल', prevention: 'बचाव', inputs: 'ध्यान देने योग्य बातें', overviewFallback: 'आपकी फसल तस्वीर में दिखने वाले लक्षणों की समीक्षा की गई है।', symptomsFallback: 'दिखने वाले लक्षण यहां आएंगे।', treatmentFallback: 'उपचार की सलाह यहां आएगी।', fertilizerFallback: 'उर्वरक सलाह यहां आएगी।', pesticidesFallback: 'सुझाए गए उत्पाद यहां आएंगे।', disclaimer: 'एआई सलाह के साथ स्थानीय कृषि अधिकारियों और उत्पाद लेबल की सलाह जरूर लें।', save: 'जांच इतिहास में सेव करें', findShops: 'पास की कृषि दुकानें खोजें', saved: 'जांच इतिहास में सेव हो गया।', saveFailed: 'जांच इतिहास में सेव नहीं हो सका। फिर से प्रयास करें।' },
+      weather: { eyebrow: 'खेत की परिस्थितियां', title: 'मौसम और पानी', locationLoading: 'आपका स्थान खोज रहे हैं...', current: 'वर्तमान परिस्थितियां', temperature: 'तापमान', humidity: 'नमी', wind: 'हवा', rain: 'बारिश की संभावना', refresh: 'मौसम स्थान रीफ्रेश करें', adviceEyebrow: 'सिंचाई सलाह', loading: 'खेत की सलाह लोड हो रही है', loadingBody: 'वर्तमान परिस्थितियां उपलब्ध होने पर मौसम आधारित सिंचाई सलाह आएगी।', unavailableLocation: 'लाइव परिस्थितियां उपलब्ध नहीं', unavailableCondition: 'मौसम सेवा उपलब्ध नहीं', unavailableTitle: 'लाइव सिंचाई सलाह नहीं', unavailableBody: 'सिंचाई की योजना से पहले फिर से कनेक्ट करके वर्तमान परिस्थितियां पाएं।', fallbackAdvice: 'अपनी फसल के लिए सामान्य सिंचाई सलाह अपनाएं।' },
+      history: { eyebrow: 'आपकी रिकॉर्ड', title: 'जांच इतिहास', subtitle: 'अपनी हाल की फसल जांच देखें।', sync: 'रिकॉर्ड सिंक करें', search: 'फसल या रोग खोजें', emptyTitle: 'अभी कोई जांच इतिहास नहीं', emptyBody: 'आपकी सेव की गई फसल जांच यहां आएगी।', analysisRecord: 'विश्लेषण रिकॉर्ड', severity: '{{value}} गंभीरता', detail: 'निदान विवरण', date: 'तारीख', status: 'स्थिति', symptoms: 'लक्षण', treatment: 'उपचार', syncAlready: 'सभी जांच रिकॉर्ड पहले से सिंक हैं।', syncStart: 'क्लाउड के साथ रिकॉर्ड सिंक हो रहे हैं...', syncSuccess: 'सभी लंबित रिकॉर्ड सिंक हो गए।', syncFailed: 'रिकॉर्ड सिंक नहीं हो सके। वे इस डिवाइस पर उपलब्ध हैं।' },
+      profile: { eyebrow: 'खाता', title: 'प्रोफाइल सेटिंग्स', subtitle: 'अपने कार्यक्षेत्र की जानकारी और पसंद अपडेट रखें।', fullName: 'पूरा नाम', phone: 'मोबाइल नंबर', crop: 'मुख्य फसल', location: 'गांव / जिला', save: 'प्रोफाइल सेव करें', statusEyebrow: 'कार्यक्षेत्र स्थिति', network: 'नेटवर्क', bridge: 'ऑफलाइन मॉडल ब्रिज', accountSync: 'खाता सिंक', signOut: 'साइन आउट', signedIn: '{{email}} के रूप में साइन इन। जांच और सेटिंग्स सिंक हैं।', signInToSync: 'रिकॉर्ड सिंक करने के लिए साइन इन करें।', connected: 'कनेक्टेड', localMode: 'ऑफलाइन (स्थानीय मोड)', bridgeAvailable: 'उपलब्ध (Android ऐप)', bridgeUnavailable: 'उपलब्ध नहीं (सामान्य ब्राउज़र)', saved: 'प्रोफाइल जानकारी सफलतापूर्वक सेव हुई।' },
+      shops: { eyebrow: 'स्थानीय सहायता', title: 'पास की कृषि दुकानें', subtitle: 'अपने वर्तमान स्थान के आसपास कृषि आपूर्तिकर्ता खोजें।', store: 'कृषि दुकान', pesticides: 'कीटनाशक', fertilizer: 'उर्वरक', seeds: 'बीज', detect: 'मेरा स्थान खोजें', detecting: 'GPS स्थान खोज रहे हैं...', found: 'स्थान मिला ({{lat}}, {{lon}})', manual: 'सामान्य क्षेत्र खोज का उपयोग हो रहा है', unavailable: 'ब्राउज़र स्थान सुविधा उपलब्ध नहीं', search: 'खोज: “{{category}}” {{near}}', near: 'वर्तमान स्थान के पास', open: 'Google Maps खोलें', noteTitle: 'स्थान आधारित खोज', noteBody: 'मैप खोज को केंद्रित करने के लिए आपके ब्राउज़र स्थान का उपयोग होता है।' }, language: { eyebrow: 'पसंद', title: 'भाषा', subtitle: 'खेत में उपयोग के लिए अपनी पसंदीदा भाषा चुनें।', default: 'डिफ़ॉल्ट भाषा', hindi: 'हिंदी', marathi: 'मराठी', tamil: 'तमिल', telugu: 'तेलुगु', changed: 'भाषा {{language}} में बदल दी गई।' }, validation: { invalidEmail: 'कृपया सही ईमेल पता लिखें।', weakPassword: 'पासवर्ड कम से कम 6 अक्षरों का होना चाहिए।', missingEmail: 'कृपया अपना ईमेल पता लिखें।', wrongPassword: 'ईमेल या पासवर्ड गलत है।', emailInUse: 'यह ईमेल पहले से पंजीकृत है।', network: 'कनेक्ट नहीं हो सका। इंटरनेट कनेक्शन जांचें।', default: 'कुछ गलत हुआ। फिर से प्रयास करें।', resetUnavailable: 'पासवर्ड रीसेट ईमेल नहीं भेज सके।' }, authStatus: { loginSuccess: 'सफलतापूर्वक साइन इन हुआ।', registerSuccess: 'खाता सफलतापूर्वक बनाया गया।', logoutSuccess: 'सफलतापूर्वक साइन आउट हुआ।', tooMany: 'बहुत अधिक प्रयास हुए। थोड़ी देर प्रतीक्षा करें।', disabled: 'यह खाता निष्क्रिय है। सहायता से संपर्क करें।', notAllowed: 'Firebase में ईमेल और पासवर्ड लॉगिन सक्षम नहीं है।' }, common: { back: 'वापस', retry: 'फिर से प्रयास', cancel: 'रद्द करें', remove: 'तस्वीर हटाएं', change: 'तस्वीर बदलें', loading: 'लोड हो रहा है...', online: 'ऑनलाइन', offline: 'ऑफलाइन' }
+    },
+    ta: {
+      auth: { workspace: 'உங்கள் பண்ணை பணியிடம்', visualOverline: 'ஒவ்வொரு பயிர் பருவத்திற்குமான அறிவு', visualTitle: 'ஆரோக்கியமான பயிர்களுக்கு சிறந்த முடிவுகள்.', visualBody: 'உங்கள் வயலுக்கு தேவைப்படும் போது ஆன்லைனிலும் ஆஃப்லைனிலும் செயல்படும் AI பயிர் தகவலும் வேளாண் வழிகாட்டுதலும்.', secure: 'பாதுகாப்பான பணியிடம்', connected: 'ஆன்லைன் + சாதனத்தில் தயார்', signInTitle: 'மீண்டும் வரவேற்கிறோம்', signInSubtitle: 'உங்கள் பயிர் தகவல் பணியிடத்திற்குச் செல்ல உள்நுழையவும்.', createTitle: 'உங்கள் பணியிடத்தை உருவாக்கவும்', createSubtitle: 'உங்கள் பயிர் தகவலுக்கான பாதுகாப்பான பணியிடத்தை உருவாக்கவும்.', signIn: 'உள்நுழை', createAccount: 'கணக்கை உருவாக்கு', fullName: 'முழுப் பெயர்', email: 'மின்னஞ்சல் முகவரி', password: 'கடவுச்சொல்', confirmPassword: 'கடவுச்சொல்லை உறுதிப்படுத்து', remember: 'என்னை நினைவில் கொள்', forgot: 'கடவுச்சொல் மறந்துவிட்டதா?', show: 'காட்டு', hide: 'மறை', submitSignIn: 'உள்நுழை', submitCreate: 'கணக்கை உருவாக்கு', newHere: 'HaritKranti-க்கு புதியவரா?', alreadyMember: 'ஏற்கனவே கணக்கு உள்ளதா?', switchCreate: 'கணக்கை உருவாக்கு', switchSignIn: 'உள்நுழை', legal: 'தொடர்வதன் மூலம், உள்ளூர் வேளாண் நிபுணர் ஆலோசனையுடன் AI வழிகாட்டுதலைப் பயன்படுத்த ஒப்புக்கொள்கிறீர்கள்.', processing: 'செயலாக்கப்படுகிறது...', resetSent: 'கடவுச்சொல் மீட்டமைப்பு மின்னஞ்சல் அனுப்பப்பட்டது. உங்கள் இன்பாக்ஸைப் பாருங்கள்.', resetPrompt: 'முதலில் மின்னஞ்சல் முகவரியை உள்ளிட்டு, கடவுச்சொல் மறந்துவிட்டதா என்பதைத் தேர்ந்தெடுக்கவும்.', passwordMismatch: 'இரண்டு கடவுச்சொற்களும் பொருந்தவில்லை. சரிபார்க்கவும்.' },
+      nav: { home: 'முகப்பு', dashboard: 'டாஷ்போர்டு', scan: 'பயிர் ஸ்கேன்', weather: 'வானிலை', history: 'வரலாறு', profile: 'சுயவிவரம்', language: 'மொழி' }, network: { online: 'ஆன்லைன்', offline: 'ஆஃப்லைன்', onlineAI: 'ஆன்லைன் AI கிடைக்கிறது', offlineAI: 'ஆஃப்லைன் AI கிடைக்கிறது', offlineUnavailable: 'இந்த சாதனத்தில் ஆஃப்லைன் AI இல்லை', usingOnline: 'ஆன்லைன் AI பயன்படுத்தப்படுகிறது', usingOffline: 'ஆஃப்லைன் AI பயன்படுத்தப்படுகிறது', connectionLost: 'நீங்கள் ஆஃப்லைனில் உள்ளீர்கள். உள்ளூர் AI கிடைப்பைச் சரிபார்க்கிறது.', connectionRestored: 'இணைப்பு மீண்டும் வந்தது. ஆன்லைன் AI கிடைக்கிறது.', offlineBanner: 'தற்போது ஆஃப்லைன். உள்ளூர் வசதிகள் கிடைக்கின்றன.' },
+      dashboard: { eyebrow: 'உங்கள் பண்ணை பணியிடம்', greeting: 'மீண்டும் வரவேற்கிறோம், {{name}}.', subtitle: 'சிறந்த பயிர் முடிவுகளுக்கான தெளிவான தகவல்.', heroEyebrow: 'பயிர் நுண்ணறிவு', heroTitle: 'ஆரோக்கியமான பயிர்களுக்கு சிறந்த முடிவுகள்.', heroBody: 'இலைப் படத்தைப் பதிவேற்றி அடுத்த நடவடிக்கைக்கான நடைமுறை வழிகாட்டுதலைப் பெறுங்கள்.', startScan: 'பயிர் ஸ்கேனைத் தொடங்கு', quickEyebrow: 'விரைவு அணுகல்', quickTitle: 'பண்ணைக்குத் தேவையானவை', scanTitle: 'பயிர் ஆரோக்கியத்தைச் சரிபார்', scanBody: 'படத்திலிருந்து அடுத்த நடவடிக்கை', weatherTitle: 'வானிலை மற்றும் நீர்', weatherBody: 'நம்பிக்கையுடன் நீர்ப்பாசன முடிவெடுக்கவும்', historyTitle: 'ஸ்கேன் வரலாறு', historyBody: 'சமீபத்திய பயிர் தகவலைப் பாருங்கள்', nearby: 'அருகிலுள்ள வேளாண் கடைகள்', settings: 'சுயவிவர அமைப்புகள்' },
+      scan: { eyebrow: 'பயிர் நுண்ணறிவு', title: 'பயிர் ஸ்கேன்', subtitle: 'AI ஆய்வுக்காக உங்கள் பயிர் அல்லது இலையின் தெளிவான படத்தைப் பதிவேற்றவும்.', upload: 'பயிர் படத்தைப் பதிவேற்றவும்', formats: 'JPG அல்லது PNG • அதிகபட்சம் 10 MB', photoTip: 'சிறந்த முடிவுக்கு ஒரு இலையின் தெளிவான, நல்ல வெளிச்சப் படத்தைப் பயன்படுத்தவும்.', takePhoto: 'படம் எடு', uploadImage: 'படத்தைப் பதிவேற்று', ready: 'ஆய்வுக்கு தயார்', review: 'தொடர்வதற்கு முன் படத்தைச் சரிபார்க்கவும்.', analyze: 'பயிரை ஆய்வு செய்', guideEyebrow: 'பட வழிகாட்டி', guideTitle: 'மாதிரிக்கு தெளிவாகக் காண உதவுங்கள்', guideOne: 'இயற்கை வெளிச்சத்தைப் பயன்படுத்தி ஒளிர்வைத் தவிர்க்கவும்.', guideTwo: 'இலையை நடுவில் தெளிவாக வைக்கவும்.', guideThree: 'ஒரு நேரத்தில் ஒரு பாதிக்கப்பட்ட இலையை மட்டும் வைக்கவும்.', privacy: 'உங்கள் படம் இணைக்கப்பட்ட ஆய்வு சேவைக்கு மட்டும் அனுப்பப்படுகிறது.', analyzing: 'உங்கள் பயிர் ஆய்வு செய்யப்படுகிறது...', stepSymptoms: 'காணக்கூடிய அறிகுறிகளைச் சரிபார்க்கிறது', stepPatterns: 'பயிர் வடிவங்களை ஒப்பிடுகிறது', stepRecommendations: 'பரிந்துரைகளைத் தயாரிக்கிறது', newScan: 'புதிய ஸ்கேன்', invalidImage: 'சரியான பயிர் படத்தைத் தேர்ந்தெடுக்கவும்.', tooLarge: 'படத்தின் அளவு 10 MB-ஐ மீறுகிறது.', selectFirst: 'முதலில் பயிர் படத்தைத் தேர்ந்தெடுக்கவும் அல்லது எடுக்கவும்.', onlineNeedsConnection: 'ஆன்லைன் AI-க்கு இணைப்பு தேவை. மீண்டும் இணைக்கவும் அல்லது பயன்பாட்டின் உள்ளூர் மாதிரியைப் பயன்படுத்தவும்.', offlineUnavailable: 'நீங்கள் ஆஃப்லைனில் உள்ளீர்கள்; இந்த உலாவியில் உள்ளூர் மாதிரி இல்லை.', offlineNoResult: 'உள்ளூர் மாதிரி நோயறிதலை வழங்கவில்லை. அது நிறுவப்பட்டு தயாராக உள்ளதா எனச் சரிபார்க்கவும்.', offlineUnreadable: 'உள்ளூர் மாதிரி படிக்க முடியாத நோயறிதலை வழங்கியது.', offlineUnsupported: 'உள்ளூர் மாதிரி ஆதரிக்கப்படாத வடிவத்தை வழங்கியது.', diagnosisFailed: 'பயிர் ஆய்வு தோல்வியடைந்தது. மீண்டும் முயற்சிக்கவும்.' },
+      diagnosis: { eyebrow: 'ஆய்வு முடிந்தது', title: 'பயிர் ஆய்வு', observation: 'கவனிப்பு', observationTitle: 'கண்டறிந்தது', nextStep: 'அடுத்த படி', actionTitle: 'பரிந்துரைக்கப்பட்ட நடவடிக்கை', confidence: 'நம்பிக்கை', aiVision: 'AI காட்சி ஆய்வு', severity: 'தீவிரம்', crop: 'பயிர்', prevention: 'தடுப்பு', inputs: 'கவனிக்க வேண்டியவை', overviewFallback: 'உங்கள் பயிர் படத்தில் காணப்பட்ட அறிகுறிகள் ஆய்வு செய்யப்பட்டன.', symptomsFallback: 'காணக்கூடிய அறிகுறிகள் இங்கே தோன்றும்.', treatmentFallback: 'சிகிச்சை வழிகாட்டுதல் இங்கே தோன்றும்.', fertilizerFallback: 'உர வழிகாட்டுதல் இங்கே தோன்றும்.', pesticidesFallback: 'பரிந்துரைக்கப்பட்ட பொருட்கள் இங்கே தோன்றும்.', disclaimer: 'AI வழிகாட்டுதலுடன் உள்ளூர் வேளாண் அதிகாரிகள் மற்றும் தயாரிப்பு லேபிள் ஆலோசனையை உறுதிப்படுத்தவும்.', save: 'ஸ்கேன் வரலாற்றில் சேமி', findShops: 'அருகிலுள்ள வேளாண் கடைகளைக் கண்டுபிடி', saved: 'ஸ்கேன் வரலாற்றில் சேமிக்கப்பட்டது.', saveFailed: 'ஸ்கேனை வரலாற்றில் சேமிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.' },
+      weather: { eyebrow: 'வயல் நிலை', title: 'வானிலை மற்றும் நீர்', locationLoading: 'உங்கள் இருப்பிடத்தைக் கண்டறிகிறது...', current: 'தற்போதைய நிலை', temperature: 'வெப்பநிலை', humidity: 'ஈரப்பதம்', wind: 'காற்று', rain: 'மழை வாய்ப்பு', refresh: 'வானிலை இருப்பிடத்தைப் புதுப்பி', adviceEyebrow: 'நீர்ப்பாசன ஆலோசனை', loading: 'வயல் வழிகாட்டுதல் ஏற்றப்படுகிறது', loadingBody: 'தற்போதைய நிலை கிடைத்ததும் வானிலை அடிப்படையிலான நீர்ப்பாசன ஆலோசனை தோன்றும்.', unavailableLocation: 'நேரடி நிலை கிடைக்கவில்லை', unavailableCondition: 'வானிலை சேவை கிடைக்கவில்லை', unavailableTitle: 'நேரடி நீர்ப்பாசன ஆலோசனை இல்லை', unavailableBody: 'நீர்ப்பாசனத்தைத் திட்டமிடுவதற்கு முன் மீண்டும் இணைந்து தற்போதைய நிலையைப் பெறவும்.', fallbackAdvice: 'உங்கள் பயிருக்கான பொதுவான நீர்ப்பாசன வழிகாட்டுதலைப் பின்பற்றவும்.' },
+      history: { eyebrow: 'உங்கள் பதிவுகள்', title: 'ஸ்கேன் வரலாறு', subtitle: 'சமீபத்திய பயிர் ஆய்வுகளைப் பாருங்கள்.', sync: 'பதிவுகளை ஒத்திசை', search: 'பயிர் அல்லது நோயைத் தேடு', emptyTitle: 'ஸ்கேன் வரலாறு இன்னும் இல்லை', emptyBody: 'சேமித்த பயிர் ஆய்வுகள் இங்கே தோன்றும்.', analysisRecord: 'ஆய்வு பதிவு', severity: '{{value}} தீவிரம்', detail: 'நோயறிதல் விவரம்', date: 'தேதி', status: 'நிலை', symptoms: 'அறிகுறிகள்', treatment: 'சிகிச்சை', syncAlready: 'அனைத்து பதிவுகளும் ஏற்கனவே ஒத்திசைக்கப்பட்டுள்ளன.', syncStart: 'கிளவுடுடன் பதிவுகளை ஒத்திசைக்கிறது...', syncSuccess: 'நிலுவையில் உள்ள பதிவுகள் அனைத்தும் ஒத்திசைக்கப்பட்டன.', syncFailed: 'பதிவுகளை ஒத்திசைக்க முடியவில்லை. அவை இந்த சாதனத்தில் உள்ளன.' },
+      profile: { eyebrow: 'கணக்கு', title: 'சுயவிவர அமைப்புகள்', subtitle: 'உங்கள் பணியிட விவரங்களையும் விருப்பங்களையும் புதுப்பித்து வைக்கவும்.', fullName: 'முழுப் பெயர்', phone: 'மொபைல் எண்', crop: 'முக்கிய பயிர்', location: 'கிராமம் / மாவட்டம்', save: 'சுயவிவரத்தைச் சேமி', statusEyebrow: 'பணியிட நிலை', network: 'நெட்வொர்க்', bridge: 'ஆஃப்லைன் மாதிரி இணைப்பு', accountSync: 'கணக்கு ஒத்திசைவு', signOut: 'வெளியேறு', signedIn: '{{email}} ஆக உள்நுழைந்துள்ளீர்கள். ஸ்கேன்களும் அமைப்புகளும் ஒத்திசைக்கப்படுகின்றன.', signInToSync: 'பதிவுகளை ஒத்திசைக்க உள்நுழையவும்.', connected: 'இணைக்கப்பட்டது', localMode: 'ஆஃப்லைன் (உள்ளூர் முறை)', bridgeAvailable: 'கிடைக்கிறது (Android பயன்பாடு)', bridgeUnavailable: 'கிடைக்கவில்லை (சாதாரண உலாவி)', saved: 'சுயவிவரத் தகவல் வெற்றிகரமாகச் சேமிக்கப்பட்டது.' },
+      shops: { eyebrow: 'உள்ளூர் உதவி', title: 'அருகிலுள்ள வேளாண் கடைகள்', subtitle: 'உங்கள் தற்போதைய இருப்பிடத்திற்கு அருகிலுள்ள வேளாண் பொருள் வழங்குநர்களைக் கண்டறியவும்.', store: 'வேளாண் கடை', pesticides: 'பூச்சிக்கொல்லி', fertilizer: 'உரம்', seeds: 'விதைகள்', detect: 'என் இருப்பிடத்தைக் கண்டறி', detecting: 'GPS இருப்பிடத்தைக் கண்டறிகிறது...', found: 'இருப்பிடம் கிடைத்தது ({{lat}}, {{lon}})', manual: 'பொதுப் பகுதி தேடலைப் பயன்படுத்துகிறது', unavailable: 'உலாவி இருப்பிட வசதி கிடைக்கவில்லை', search: 'தேடல்: “{{category}}” {{near}}', near: 'தற்போதைய இருப்பிடத்திற்கு அருகில்', open: 'Google Maps-ஐத் திற', noteTitle: 'இருப்பிடம் சார்ந்த தேடல்', noteBody: 'வரைபட தேடலை மையப்படுத்த உங்கள் உலாவி இருப்பிடம் மட்டும் பயன்படுத்தப்படுகிறது.' }, language: { eyebrow: 'விருப்பங்கள்', title: 'மொழி', subtitle: 'வயலில் பயன்படுத்த உங்களுக்கு வசதியான மொழியைத் தேர்ந்தெடுக்கவும்.', default: 'இயல்புநிலை மொழி', hindi: 'இந்தி', marathi: 'மராத்தி', tamil: 'தமிழ்', telugu: 'தெலுங்கு', changed: 'மொழி {{language}} ஆக மாற்றப்பட்டது.' }, validation: { invalidEmail: 'சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்.', weakPassword: 'கடவுச்சொல் குறைந்தது 6 எழுத்துகள் இருக்க வேண்டும்.', missingEmail: 'உங்கள் மின்னஞ்சல் முகவரியை உள்ளிடவும்.', wrongPassword: 'மின்னஞ்சல் அல்லது கடவுச்சொல் தவறாக உள்ளது.', emailInUse: 'இந்த மின்னஞ்சல் ஏற்கனவே பதிவு செய்யப்பட்டுள்ளது.', network: 'இணைக்க முடியவில்லை. இணைய இணைப்பைச் சரிபார்க்கவும்.', default: 'ஏதோ தவறு ஏற்பட்டது. மீண்டும் முயற்சிக்கவும்.', resetUnavailable: 'கடவுச்சொல் மீட்டமைப்பு மின்னஞ்சலை அனுப்ப முடியவில்லை.' }, authStatus: { loginSuccess: 'வெற்றிகரமாக உள்நுழைந்தீர்கள்.', registerSuccess: 'கணக்கு வெற்றிகரமாக உருவாக்கப்பட்டது.', logoutSuccess: 'வெற்றிகரமாக வெளியேறினீர்கள்.', tooMany: 'பல முயற்சிகள். சிறிது நேரம் காத்திருக்கவும்.', disabled: 'இந்தக் கணக்கு முடக்கப்பட்டுள்ளது. ஆதரவைத் தொடர்புகொள்ளவும்.', notAllowed: 'Firebase-ல் மின்னஞ்சல் மற்றும் கடவுச்சொல் உள்நுழைவு இயக்கப்படவில்லை.' }, common: { back: 'பின்', retry: 'மீண்டும் முயற்சி', cancel: 'ரத்து', remove: 'படத்தை நீக்கு', change: 'படத்தை மாற்று', loading: 'ஏற்றுகிறது...', online: 'ஆன்லைன்', offline: 'ஆஃப்லைன்' }
+    },
+    te: {
+      auth: { workspace: 'మీ వ్యవసాయ కార్యస్థలం', visualOverline: 'ప్రతి పంట కాలానికి తెలివైన సహాయం', visualTitle: 'ఆరోగ్యకరమైన పంటల కోసం మెరుగైన నిర్ణయాలు.', visualBody: 'మీ పొలానికి అవసరమైనప్పుడు ఆన్‌లైన్ మరియు ఆఫ్‌లైన్‌లో పనిచేసే AI పంట సమాచారం, వ్యవసాయ మార్గదర్శకం.', secure: 'సురక్షిత కార్యస్థలం', connected: 'ఆన్‌లైన్ + పరికరంలో సిద్ధంగా ఉంది', signInTitle: 'మళ్లీ స్వాగతం', signInSubtitle: 'మీ పంట సమాచారం కార్యస్థలానికి వెళ్లడానికి సైన్ ఇన్ చేయండి.', createTitle: 'మీ కార్యస్థలాన్ని సృష్టించండి', createSubtitle: 'మీ పంట సమాచారం కోసం సురక్షిత కార్యస్థలాన్ని సృష్టించండి.', signIn: 'సైన్ ఇన్', createAccount: 'ఖాతా సృష్టించండి', fullName: 'పూర్తి పేరు', email: 'ఇమెయిల్ చిరునామా', password: 'పాస్‌వర్డ్', confirmPassword: 'పాస్‌వర్డ్ నిర్ధారించండి', remember: 'నన్ను గుర్తుంచుకోండి', forgot: 'పాస్‌వర్డ్ మర్చిపోయారా?', show: 'చూపు', hide: 'దాచు', submitSignIn: 'సైన్ ఇన్', submitCreate: 'ఖాతా సృష్టించండి', newHere: 'HaritKranti కి కొత్తవారా?', alreadyMember: 'ఇప్పటికే ఖాతా ఉందా?', switchCreate: 'ఖాతా సృష్టించండి', switchSignIn: 'సైన్ ఇన్', legal: 'కొనసాగించడం ద్వారా స్థానిక వ్యవసాయ నిపుణుల సలహాతో AI మార్గదర్శకాన్ని ఉపయోగించడానికి అంగీకరిస్తున్నారు.', processing: 'ప్రాసెస్ చేస్తోంది...', resetSent: 'పాస్‌వర్డ్ రీసెట్ ఇమెయిల్ పంపబడింది. మీ ఇన్‌బాక్స్ చూడండి.', resetPrompt: 'ముందుగా ఇమెయిల్ చిరునామా నమోదు చేసి, పాస్‌వర్డ్ మర్చిపోయారా ఎంచుకోండి.', passwordMismatch: 'రెండు పాస్‌వర్డ్‌లు సరిపోలలేదు. దయచేసి తనిఖీ చేయండి.' },
+      nav: { home: 'హోమ్', dashboard: 'డ్యాష్‌బోర్డ్', scan: 'పంట స్కాన్', weather: 'వాతావరణం', history: 'చరిత్ర', profile: 'ప్రొఫైల్', language: 'భాష' }, network: { online: 'ఆన్‌లైన్', offline: 'ఆఫ్‌లైన్', onlineAI: 'ఆన్‌లైన్ AI అందుబాటులో ఉంది', offlineAI: 'ఆఫ్‌లైన్ AI అందుబాటులో ఉంది', offlineUnavailable: 'ఈ పరికరంలో ఆఫ్‌లైన్ AI లేదు', usingOnline: 'ఆన్‌లైన్ AI ఉపయోగిస్తోంది', usingOffline: 'ఆఫ్‌లైన్ AI ఉపయోగిస్తోంది', connectionLost: 'మీరు ఆఫ్‌లైన్‌లో ఉన్నారు. స్థానిక AI లభ్యతను తనిఖీ చేస్తోంది.', connectionRestored: 'కనెక్షన్ తిరిగి వచ్చింది. ఆన్‌లైన్ AI అందుబాటులో ఉంది.', offlineBanner: 'ప్రస్తుతం ఆఫ్‌లైన్. స్థానిక సౌకర్యాలు అందుబాటులో ఉన్నాయి.' },
+      dashboard: { eyebrow: 'మీ వ్యవసాయ కార్యస్థలం', greeting: 'మిమ్మల్ని చూడటం ఆనందంగా ఉంది, {{name}}.', subtitle: 'మెరుగైన పంట నిర్ణయాల కోసం స్పష్టమైన సమాచారం.', heroEyebrow: 'పంట సమాచారం', heroTitle: 'ఆరోగ్యకరమైన పంటల కోసం మెరుగైన నిర్ణయాలు.', heroBody: 'ఆకు చిత్రాన్ని అప్‌లోడ్ చేసి తదుపరి చర్యకు ఉపయోగకరమైన మార్గదర్శకాన్ని పొందండి.', startScan: 'పంట స్కాన్ ప్రారంభించండి', quickEyebrow: 'త్వరిత ప్రాప్యత', quickTitle: 'పొలానికి ఉపయోగకరమైనవి', scanTitle: 'పంట ఆరోగ్యాన్ని స్కాన్ చేయండి', scanBody: 'చిత్రం నుండి తదుపరి చర్య', weatherTitle: 'వాతావరణం & నీరు', weatherBody: 'నమ్మకంగా నీటిపారుదల నిర్ణయాలు తీసుకోండి', historyTitle: 'స్కాన్ చరిత్ర', historyBody: 'ఇటీవలి పంట సమాచారాన్ని చూడండి', nearby: 'సమీప వ్యవసాయ దుకాణాలు', settings: 'ప్రొఫైల్ సెట్టింగులు' },
+      scan: { eyebrow: 'పంట సమాచారం', title: 'పంట స్కాన్', subtitle: 'AI విశ్లేషణ కోసం మీ పంట లేదా ఆకు యొక్క స్పష్టమైన చిత్రాన్ని అప్‌లోడ్ చేయండి.', upload: 'పంట చిత్రాన్ని అప్‌లోడ్ చేయండి', formats: 'JPG లేదా PNG • గరిష్టంగా 10 MB', photoTip: 'మంచి ఫలితాల కోసం ఒక ఆకు యొక్క మంచి వెలుతురు ఉన్న స్పష్టమైన చిత్రాన్ని ఉపయోగించండి.', takePhoto: 'ఫోటో తీయండి', uploadImage: 'చిత్రాన్ని అప్‌లోడ్ చేయండి', ready: 'విశ్లేషణకు సిద్ధంగా ఉంది', review: 'కొనసాగించే ముందు చిత్రాన్ని తనిఖీ చేయండి.', analyze: 'పంటను విశ్లేషించండి', guideEyebrow: 'చిత్ర మార్గదర్శకం', guideTitle: 'మోడల్‌కు స్పష్టంగా కనిపించేలా చేయండి', guideOne: 'సహజ కాంతిని ఉపయోగించి మెరుపును నివారించండి.', guideTwo: 'ఆకును మధ్యలో స్పష్టంగా ఉంచండి.', guideThree: 'ఒకేసారి ఒక ప్రభావిత ఆకును ఉంచండి.', privacy: 'మీ చిత్రం కనెక్ట్ చేసిన విశ్లేషణ సేవకు మాత్రమే పంపబడుతుంది.', analyzing: 'మీ పంటను విశ్లేషిస్తోంది...', stepSymptoms: 'కనిపించే లక్షణాలను తనిఖీ చేస్తోంది', stepPatterns: 'పంట నమూనాలను పోల్చుతోంది', stepRecommendations: 'సిఫార్సులను సిద్ధం చేస్తోంది', newScan: 'కొత్త స్కాన్', invalidImage: 'దయచేసి సరైన పంట చిత్రాన్ని ఎంచుకోండి.', tooLarge: 'చిత్ర పరిమాణం 10 MB కంటే ఎక్కువగా ఉంది.', selectFirst: 'దయచేసి ముందుగా పంట చిత్రాన్ని ఎంచుకోండి లేదా తీయండి.', onlineNeedsConnection: 'ఆన్‌లైన్ AIకి కనెక్షన్ అవసరం. మళ్లీ కనెక్ట్ చేయండి లేదా యాప్‌లోని స్థానిక మోడల్‌ను ఉపయోగించండి.', offlineUnavailable: 'మీరు ఆఫ్‌లైన్‌లో ఉన్నారు; ఈ బ్రౌజర్‌లో స్థానిక మోడల్ లేదు.', offlineNoResult: 'స్థానిక మోడల్ నిర్ధారణ ఇవ్వలేదు. అది ఇన్‌స్టాల్ చేసి సిద్ధంగా ఉందో తనిఖీ చేయండి.', offlineUnreadable: 'స్థానిక మోడల్ చదవలేని నిర్ధారణ ఇచ్చింది.', offlineUnsupported: 'స్థానిక మోడల్ మద్దతు లేని ఫలితాన్ని ఇచ్చింది.', diagnosisFailed: 'పంట విశ్లేషణ విఫలమైంది. మళ్లీ ప్రయత్నించండి.' },
+      diagnosis: { eyebrow: 'విశ్లేషణ పూర్తయింది', title: 'పంట విశ్లేషణ', observation: 'పరిశీలన', observationTitle: 'మేము గమనించినది', nextStep: 'తదుపరి దశ', actionTitle: 'సిఫార్సు చేసిన చర్య', confidence: 'నమ్మకం', aiVision: 'AI దృశ్య విశ్లేషణ', severity: 'తీవ్రత', crop: 'పంట', prevention: 'నివారణ', inputs: 'పరిగణించవలసినవి', overviewFallback: 'మీ పంట చిత్రంలో కనిపించే లక్షణాలను సమీక్షించాం.', symptomsFallback: 'కనిపించే లక్షణాలు ఇక్కడ కనిపిస్తాయి.', treatmentFallback: 'చికిత్స మార్గదర్శకం ఇక్కడ కనిపిస్తుంది.', fertilizerFallback: 'ఎరువుల మార్గదర్శకం ఇక్కడ కనిపిస్తుంది.', pesticidesFallback: 'సిఫార్సు చేసిన ఉత్పత్తులు ఇక్కడ కనిపిస్తాయి.', disclaimer: 'AI మార్గదర్శకంతో పాటు స్థానిక వ్యవసాయ అధికారులు మరియు ఉత్పత్తి లేబుల్ సలహాను నిర్ధారించండి.', save: 'స్కాన్ చరిత్రలో సేవ్ చేయండి', findShops: 'సమీప వ్యవసాయ దుకాణాలను కనుగొనండి', saved: 'స్కాన్ చరిత్రలో సేవ్ చేయబడింది.', saveFailed: 'స్కాన్‌ను చరిత్రలో సేవ్ చేయలేకపోయాం. మళ్లీ ప్రయత్నించండి.' },
+      weather: { eyebrow: 'పొల పరిస్థితులు', title: 'వాతావరణం & నీరు', locationLoading: 'మీ స్థానాన్ని గుర్తిస్తోంది...', current: 'ప్రస్తుత పరిస్థితులు', temperature: 'ఉష్ణోగ్రత', humidity: 'తేమ', wind: 'గాలి', rain: 'వర్షం అవకాశం', refresh: 'వాతావరణ స్థానాన్ని రిఫ్రెష్ చేయండి', adviceEyebrow: 'నీటిపారుదల సలహా', loading: 'పొల మార్గదర్శకం లోడ్ అవుతోంది', loadingBody: 'ప్రస్తుత పరిస్థితులు అందుబాటులోకి వచ్చినప్పుడు వాతావరణ ఆధారిత నీటిపారుదల సలహా కనిపిస్తుంది.', unavailableLocation: 'లైవ్ పరిస్థితులు అందుబాటులో లేవు', unavailableCondition: 'వాతావరణ సేవ అందుబాటులో లేదు', unavailableTitle: 'లైవ్ నీటిపారుదల సలహా లేదు', unavailableBody: 'నీటిపారుదల ప్రణాళికకు ముందు మళ్లీ కనెక్ట్ చేసి ప్రస్తుత పరిస్థితులను పొందండి.', fallbackAdvice: 'మీ పంటకు సాధారణ నీటిపారుదల మార్గదర్శకాన్ని అనుసరించండి.' },
+      history: { eyebrow: 'మీ రికార్డులు', title: 'స్కాన్ చరిత్ర', subtitle: 'మీ ఇటీవలి పంట విశ్లేషణలను సమీక్షించండి.', sync: 'రికార్డులను సమకాలీకరించండి', search: 'పంట లేదా వ్యాధిని వెతకండి', emptyTitle: 'ఇంకా స్కాన్ చరిత్ర లేదు', emptyBody: 'మీరు సేవ్ చేసిన పంట విశ్లేషణలు ఇక్కడ కనిపిస్తాయి.', analysisRecord: 'విశ్లేషణ రికార్డు', severity: '{{value}} తీవ్రత', detail: 'నిర్ధారణ వివరాలు', date: 'తేదీ', status: 'స్థితి', symptoms: 'లక్షణాలు', treatment: 'చికిత్స', syncAlready: 'అన్ని స్కాన్ రికార్డులు ఇప్పటికే సమకాలీకరించబడ్డాయి.', syncStart: 'క్లౌడ్‌తో రికార్డులను సమకాలీకరిస్తోంది...', syncSuccess: 'పెండింగ్ రికార్డులన్నీ సమకాలీకరించబడ్డాయి.', syncFailed: 'రికార్డులను సమకాలీకరించలేకపోయాం. అవి ఈ పరికరంలో అందుబాటులో ఉన్నాయి.' },
+      profile: { eyebrow: 'ఖాతా', title: 'ప్రొఫైల్ సెట్టింగులు', subtitle: 'మీ కార్యస్థల వివరాలు మరియు ప్రాధాన్యతలను నవీకరించండి.', fullName: 'పూర్తి పేరు', phone: 'మొబైల్ నంబర్', crop: 'ప్రధాన పంట', location: 'గ్రామం / జిల్లా', save: 'ప్రొఫైల్ సేవ్ చేయండి', statusEyebrow: 'కార్యస్థల స్థితి', network: 'నెట్‌వర్క్', bridge: 'ఆఫ్‌లైన్ మోడల్ బ్రిడ్జ్', accountSync: 'ఖాతా సమకాలీకరణ', signOut: 'సైన్ అవుట్', signedIn: '{{email}}గా సైన్ ఇన్ అయ్యారు. స్కాన్లు మరియు సెట్టింగులు సమకాలీకరించబడ్డాయి.', signInToSync: 'రికార్డులను సమకాలీకరించడానికి సైన్ ఇన్ చేయండి.', connected: 'కనెక్ట్ అయింది', localMode: 'ఆఫ్‌లైన్ (స్థానిక మోడ్)', bridgeAvailable: 'అందుబాటులో ఉంది (Android యాప్)', bridgeUnavailable: 'అందుబాటులో లేదు (సాధారణ బ్రౌజర్)', saved: 'ప్రొఫైల్ సమాచారం విజయవంతంగా సేవ్ చేయబడింది.' },
+      shops: { eyebrow: 'స్థానిక సహాయం', title: 'సమీప వ్యవసాయ దుకాణాలు', subtitle: 'మీ ప్రస్తుత స్థానానికి సమీపంలోని వ్యవసాయ సరఫరాదారులను కనుగొనండి.', store: 'వ్యవసాయ దుకాణం', pesticides: 'పురుగుమందులు', fertilizer: 'ఎరువులు', seeds: 'విత్తనాలు', detect: 'నా స్థానాన్ని గుర్తించండి', detecting: 'GPS స్థానాన్ని గుర్తిస్తోంది...', found: 'స్థానం కనుగొనబడింది ({{lat}}, {{lon}})', manual: 'సాధారణ ప్రాంత శోధనను ఉపయోగిస్తోంది', unavailable: 'బ్రౌజర్ స్థాన సౌకర్యం అందుబాటులో లేదు', search: 'శోధన: “{{category}}” {{near}}', near: 'ప్రస్తుత స్థానానికి సమీపంలో', open: 'Google Maps తెరవండి', noteTitle: 'స్థాన ఆధారిత శోధన', noteBody: 'మ్యాప్ శోధనను కేంద్రీకరించడానికి మీ బ్రౌజర్ స్థానాన్ని మాత్రమే ఉపయోగిస్తాం.' },
+      language: { eyebrow: 'ప్రాధాన్యతలు', title: 'భాష', subtitle: 'పొలంలో ఉపయోగించడానికి మీకు అనుకూలమైన భాషను ఎంచుకోండి.', default: 'డిఫాల్ట్ భాష', hindi: 'హిందీ', marathi: 'మరాఠీ', tamil: 'తమిళం', telugu: 'తెలుగు', changed: 'భాష {{language}}కి మార్చబడింది.' }, validation: { invalidEmail: 'దయచేసి సరైన ఇమెయిల్ చిరునామాను నమోదు చేయండి.', weakPassword: 'పాస్‌వర్డ్ కనీసం 6 అక్షరాలు ఉండాలి.', missingEmail: 'దయచేసి మీ ఇమెయిల్ చిరునామాను నమోదు చేయండి.', wrongPassword: 'ఇమెయిల్ లేదా పాస్‌వర్డ్ తప్పుగా ఉంది.', emailInUse: 'ఈ ఇమెయిల్ ఇప్పటికే నమోదు చేయబడింది.', network: 'కనెక్ట్ కాలేదు. ఇంటర్నెట్ కనెక్షన్‌ను తనిఖీ చేయండి.', default: 'ఏదో తప్పు జరిగింది. మళ్లీ ప్రయత్నించండి.', resetUnavailable: 'పాస్‌వర్డ్ రీసెట్ ఇమెయిల్ పంపలేకపోయాం.' }, authStatus: { loginSuccess: 'విజయవంతంగా సైన్ ఇన్ అయ్యారు.', registerSuccess: 'ఖాతా విజయవంతంగా సృష్టించబడింది.', logoutSuccess: 'విజయవంతంగా సైన్ అవుట్ అయ్యారు.', tooMany: 'చాలా ప్రయత్నాలు జరిగాయి. కొంతసేపు వేచి ఉండండి.', disabled: 'ఈ ఖాతా నిలిపివేయబడింది. సహాయాన్ని సంప్రదించండి.', notAllowed: 'Firebaseలో ఇమెయిల్ మరియు పాస్‌వర్డ్ సైన్ ఇన్ ప్రారంభించబడలేదు.' }, common: { back: 'వెనుకకు', retry: 'మళ్లీ ప్రయత్నించండి', cancel: 'రద్దు', remove: 'చిత్రాన్ని తీసివేయండి', change: 'చిత్రాన్ని మార్చండి', loading: 'లోడ్ అవుతోంది...', online: 'ఆన్‌లైన్', offline: 'ఆఫ్‌లైన్' }
     }
   },
+  bindings: [
+    ['.auth-visual .auth-overline', 'auth.visualOverline'], ['.auth-visual h1', 'auth.visualTitle'], ['.auth-visual-copy > p:last-child', 'auth.visualBody'], ['.auth-trust-line span:nth-child(1)', 'auth.secure'], ['.auth-trust-line span:nth-child(2)', 'auth.connected'], ['.auth-heading .auth-overline', 'auth.workspace'], ['#auth-legal', 'auth.legal'], ['#auth-name-group .form-label', 'auth.fullName'], ['label[for="auth-email"]', 'auth.email'], ['label[for="auth-password"]', 'auth.password'], ['label[for="auth-confirm-password"]', 'auth.confirmPassword'], ['#auth-remember-label', 'auth.remember'], ['#btn-forgot-password', 'auth.forgot'], ['#dashboard-intro-subtitle', 'dashboard.subtitle'], ['.dashboard-hero h2', 'dashboard.heroTitle'], ['#dashboard-hero-body', 'dashboard.heroBody'], ['.dashboard-lower .page-eyebrow', 'dashboard.quickEyebrow'], ['.dashboard-lower h2', 'dashboard.quickTitle'], ['.feature-link:nth-child(1) strong', 'dashboard.scanTitle'], ['.feature-link:nth-child(1) small', 'dashboard.scanBody'], ['.feature-link:nth-child(2) strong', 'dashboard.weatherTitle'], ['.feature-link:nth-child(2) small', 'dashboard.weatherBody'], ['.feature-link:nth-child(3) strong', 'dashboard.historyTitle'], ['.feature-link:nth-child(3) small', 'dashboard.historyBody'], ['#quick-nearby-text', 'dashboard.nearby'], ['#quick-settings-text', 'dashboard.settings'], ['#view-scan .page-eyebrow', 'scan.eyebrow'], ['#view-scan .page-title', 'scan.title'], ['#view-scan .page-subtitle', 'scan.subtitle'], ['#upload-zone strong', 'scan.upload'], ['#upload-zone > span', 'scan.formats'], ['#upload-zone > small', 'scan.photoTip'], ['#btn-trigger-camera-text', 'scan.takePhoto'], ['#btn-trigger-gallery-text', 'scan.uploadImage'], ['#preview-ready-text', 'scan.ready'], ['#preview-review-text', 'scan.review'], ['#btn-run-diagnose-text', 'scan.analyze'], ['#scan-guidance-eyebrow', 'scan.guideEyebrow'], ['.scan-guidance h3', 'scan.guideTitle'], ['.scan-guidance li:nth-child(1)', 'scan.guideOne'], ['.scan-guidance li:nth-child(2)', 'scan.guideTwo'], ['.scan-guidance li:nth-child(3)', 'scan.guideThree'], ['#scan-privacy-text', 'scan.privacy'], ['#analysis-title', 'scan.analyzing'], ['#analysis-step', 'scan.stepSymptoms'], ['#view-result .page-eyebrow', 'diagnosis.eyebrow'], ['#view-result .page-title', 'diagnosis.title'], ['#btn-scan-another-text', 'scan.newScan'], ['#confidence-label', 'diagnosis.confidence'], ['#confidence-source', 'diagnosis.aiVision'], ['#observation-eyebrow', 'diagnosis.observation'], ['#observation-title', 'diagnosis.observationTitle'], ['#action-eyebrow', 'diagnosis.nextStep'], ['#action-title', 'diagnosis.actionTitle'], ['#severity-label', 'diagnosis.severity'], ['#crop-label', 'diagnosis.crop'], ['#prevention-title', 'diagnosis.prevention'], ['#inputs-title', 'diagnosis.inputs'], ['#btn-save-scan-text', 'diagnosis.save'], ['#btn-result-find-shops-text', 'diagnosis.findShops'], ['#view-weather .page-eyebrow', 'weather.eyebrow'], ['#view-weather .page-title', 'weather.title'], ['#weather-current-label', 'weather.current'], ['#weather-humidity-label', 'weather.humidity'], ['#weather-wind-label', 'weather.wind'], ['#weather-rain-label', 'weather.rain'], ['#weather-advice-eyebrow', 'weather.adviceEyebrow'], ['#weather-advice-body', 'weather.loadingBody'], ['#view-history .page-eyebrow', 'history.eyebrow'], ['#view-history .page-title', 'history.title'], ['#view-history .page-subtitle', 'history.subtitle'], ['#btn-sync-history-text', 'history.sync'], ['#view-language .page-eyebrow', 'language.eyebrow'], ['#view-language .page-title', 'language.title'], ['#view-language .page-subtitle', 'language.subtitle'], ['#view-shops .page-eyebrow', 'shops.eyebrow'], ['#view-shops .page-title', 'shops.title'], ['#view-shops .page-subtitle', 'shops.subtitle'], ['#shop-store-text', 'shops.store'], ['#shop-pesticides-text', 'shops.pesticides'], ['#shop-fertilizer-text', 'shops.fertilizer'], ['#shop-seeds-text', 'shops.seeds'], ['#maps-open-text', 'shops.open'], ['#shop-note-title', 'shops.noteTitle'], ['#shop-note-body', 'shops.noteBody'], ['#view-profile .page-eyebrow', 'profile.eyebrow'], ['#view-profile .page-title', 'profile.title'], ['#view-profile .page-subtitle', 'profile.subtitle'], ['label[for="profile-name"]', 'profile.fullName'], ['label[for="profile-phone"]', 'profile.phone'], ['label[for="profile-crop"]', 'profile.crop'], ['label[for="profile-location"]', 'profile.location'], ['#btn-save-profile-text', 'profile.save'], ['#profile-status-eyebrow', 'profile.statusEyebrow'], ['#profile-network-label', 'profile.network'], ['#profile-bridge-label', 'profile.bridge'], ['#profile-account-label', 'profile.accountSync'], ['#btn-logout-text', 'profile.signOut']
+  ],
+  init() { const stored = localStorage.getItem(this.storageKey); this.currentLang = this.supportedLanguages[stored] ? stored : 'en'; this.bindSelectors(); this.applyTranslations(); this.syncSelectors(); },
+  getCurrentLanguage() { return this.currentLang; },
+  t(key, variables = {}) { const read = source => key.split('.').reduce((value, segment) => value && value[segment], source); let value = read(this.translations[this.currentLang]); if (typeof value !== 'string') value = read(this.translations.en); if (typeof value !== 'string') return ''; return value.replace(/\{\{(\w+)\}\}/g, (_, name) => variables[name] === undefined ? '' : String(variables[name])); },
+  setLanguage(language) { if (!this.supportedLanguages[language]) language = 'en'; this.currentLang = language; localStorage.setItem(this.storageKey, language); document.documentElement.lang = language; this.applyTranslations(); this.syncSelectors(); document.dispatchEvent(new CustomEvent('languagechange', { detail: { language } })); },
+  bindSelectors() { const authSelect = document.getElementById('auth-language-select'); if (authSelect && !authSelect.dataset.bound) { authSelect.dataset.bound = 'true'; authSelect.addEventListener('change', event => this.setLanguage(event.target.value)); } document.querySelectorAll('.lang-card[data-lang]').forEach(card => { if (card.dataset.bound) return; card.dataset.bound = 'true'; card.addEventListener('click', () => { this.setLanguage(card.dataset.lang); if (window.App) window.App.showToast(this.t('language.changed', { language: this.supportedLanguages[card.dataset.lang] }), 'success'); }); }); },
+  syncSelectors() { const select = document.getElementById('auth-language-select'); if (select) select.value = this.currentLang; document.querySelectorAll('.lang-card[data-lang]').forEach(card => card.classList.toggle('selected', card.dataset.lang === this.currentLang)); const pill = document.getElementById('active-lang-text'); if (pill) pill.textContent = this.currentLang.toUpperCase(); },
+  applyTranslations() {
+    document.documentElement.lang = this.currentLang;
+    this.bindSelectors();
 
-  init() {
-    this.setLanguage(this.currentLang);
-    this.setupUI();
-  },
+    const text = (selector, key, variables) => {
+      document.querySelectorAll(selector).forEach(element => { element.textContent = this.t(key, variables); });
+    };
+    const html = (selector, value) => {
+      document.querySelectorAll(selector).forEach(element => { element.innerHTML = value; });
+    };
 
-  setLanguage(langCode) {
-    if (!this.translations[langCode]) {
-      langCode = 'en';
+    this.bindings.forEach(([selector, key]) => text(selector, key));
+
+    // The application shell contains a few composite controls where replacing
+    // textContent would remove icons, status dots, or the farmer name.
+    const dashboardName = document.getElementById('dashboard-farmer-name');
+    const displayName = dashboardName?.textContent?.trim() || 'farmer';
+    const greeting = this.t('dashboard.greeting', { name: displayName });
+    const greetingTitle = document.getElementById('dashboard-intro-title');
+    if (greetingTitle) greetingTitle.innerHTML = greeting.replace(displayName, `<span id="dashboard-farmer-name">${displayName}</span>`);
+
+    const heroLabel = document.querySelector('.dashboard-hero .hero-label');
+    if (heroLabel) heroLabel.innerHTML = `<span class="hero-label-line"></span> ${this.t('dashboard.heroEyebrow')}`;
+
+    const authLanguageLabel = document.getElementById('auth-visual-language-label');
+    if (authLanguageLabel) authLanguageLabel.textContent = this.t('nav.language');
+    const quickLanguage = document.querySelector('.quick-links button:nth-child(2)');
+    if (quickLanguage) quickLanguage.innerHTML = `<span aria-hidden="true">&#9788;</span> ${this.t('nav.language')}`;
+    const offlineBanner = document.querySelector('#offline-banner > span:last-child');
+    if (offlineBanner) offlineBanner.textContent = this.t('network.offlineBanner');
+    const languageCards = document.querySelectorAll('#view-language .lang-card');
+    const languageDescriptions = [this.t('language.default'), this.t('language.marathi'), this.t('language.hindi'), this.t('language.tamil'), this.t('language.telugu')];
+    languageCards.forEach((card, index) => { const description = card.querySelector('small'); if (description && languageDescriptions[index]) description.textContent = languageDescriptions[index]; });
+
+    const navLabels = [this.t('nav.dashboard'), this.t('nav.scan'), this.t('nav.weather'), this.t('nav.history')];
+    document.querySelectorAll('.desktop-nav-item').forEach((element, index) => { if (navLabels[index]) element.textContent = navLabels[index]; });
+    const bottomLabels = [this.t('nav.home'), this.t('nav.scan'), this.t('nav.weather'), this.t('nav.history'), this.t('nav.profile')];
+    document.querySelectorAll('.bottom-nav .nav-item').forEach((element, index) => { const label = element.querySelector('span:last-child'); if (label && bottomLabels[index]) label.textContent = bottomLabels[index]; });
+
+    const camera = document.getElementById('btn-trigger-camera');
+    if (camera) camera.innerHTML = `<span aria-hidden="true">&#9673;</span> ${this.t('scan.takePhoto')}`;
+    const gallery = document.getElementById('btn-trigger-gallery');
+    if (gallery) gallery.innerHTML = `<span aria-hidden="true">&#9634;</span> ${this.t('scan.uploadImage')}`;
+    const analyze = document.getElementById('btn-run-diagnose');
+    if (analyze) analyze.innerHTML = `<span aria-hidden="true">&#8594;</span> ${this.t('scan.analyze')}`;
+    const previewReady = document.querySelector('#preview-container .preview-actions strong');
+    if (previewReady) previewReady.textContent = this.t('scan.ready');
+    const previewReview = document.querySelector('#preview-container .preview-actions span');
+    if (previewReview) previewReview.textContent = this.t('scan.review');
+    const analysisTitle = document.querySelector('#scan-loading-box strong');
+    if (analysisTitle) analysisTitle.textContent = this.t('scan.analyzing');
+    const guidance = document.querySelector('#view-scan .scan-guidance');
+    if (guidance) {
+      const eyebrow = guidance.querySelector('.page-eyebrow');
+      if (eyebrow) eyebrow.textContent = this.t('scan.guideEyebrow');
     }
-    this.currentLang = langCode;
-    localStorage.setItem('smart_ag_lang', langCode);
 
-    // Update active state in Language Selection View cards
-    document.querySelectorAll('.lang-card').forEach(card => {
-      if (card.getAttribute('data-lang') === langCode) {
-        card.classList.add('selected');
-      } else {
-        card.classList.remove('selected');
-      }
-    });
-
-    // Update header pill text
-    const langPillText = document.getElementById('active-lang-text');
-    if (langPillText) {
-      const labels = { en: 'EN', hi: 'हिंदी', mr: 'मराठी' };
-      langPillText.innerText = labels[langCode] || 'EN';
+    const resultTopline = document.querySelector('#view-result .result-topline');
+    if (resultTopline) {
+      const eyebrow = resultTopline.querySelector('.page-eyebrow');
+      const title = resultTopline.querySelector('.page-title');
+      if (eyebrow) eyebrow.textContent = this.t('diagnosis.eyebrow');
+      if (title) title.textContent = this.t('diagnosis.title');
     }
+    const confidenceBlock = document.querySelector('#view-result .confidence-block');
+    if (confidenceBlock) { const label = confidenceBlock.querySelector('span'); const source = confidenceBlock.querySelector('small'); if (label) label.textContent = this.t('diagnosis.confidence'); if (source) source.textContent = this.t('diagnosis.aiVision'); }
+    const insightBlocks = document.querySelectorAll('#view-result .insight-block');
+    if (insightBlocks[0]) { const eyebrow = insightBlocks[0].querySelector('.page-eyebrow'); const title = insightBlocks[0].querySelector('h2'); if (eyebrow) eyebrow.textContent = this.t('diagnosis.observation'); if (title) title.textContent = this.t('diagnosis.observationTitle'); }
+    if (insightBlocks[1]) { const eyebrow = insightBlocks[1].querySelector('.page-eyebrow'); const title = insightBlocks[1].querySelector('h2'); if (eyebrow) eyebrow.textContent = this.t('diagnosis.nextStep'); if (title) title.textContent = this.t('diagnosis.actionTitle'); }
+    text('#view-result .result-meta-panel > div:nth-child(1) span', 'diagnosis.severity');
+    text('#view-result .result-meta-panel > div:nth-child(2) span', 'diagnosis.crop');
+    const resultMiniBlocks = document.querySelectorAll('#view-result .result-mini-block h3');
+    if (resultMiniBlocks[0]) resultMiniBlocks[0].textContent = this.t('diagnosis.prevention');
+    if (resultMiniBlocks[1]) resultMiniBlocks[1].textContent = this.t('diagnosis.inputs');
+    const saveButton = document.getElementById('btn-save-scan');
+    if (saveButton) saveButton.innerHTML = this.t('diagnosis.save');
+    const shopsButton = document.getElementById('btn-result-find-shops');
+    if (shopsButton) shopsButton.innerHTML = this.t('diagnosis.findShops');
+    text('#modal-history-title', 'history.detail');
 
-    this.translateDOM();
-  },
+    const weatherLabels = [this.t('weather.humidity'), this.t('weather.wind'), this.t('weather.rain')];
+    const weatherLabel = document.querySelector('#view-weather .weather-label');
+    if (weatherLabel) weatherLabel.textContent = this.t('weather.current');
+    document.querySelectorAll('#view-weather .weather-stats > div').forEach((element, index) => { const label = element.querySelector('span'); if (label && weatherLabels[index]) label.textContent = weatherLabels[index]; });
+    const weatherAdviceEyebrow = document.querySelector('#weather-advisory-card .page-eyebrow');
+    if (weatherAdviceEyebrow) weatherAdviceEyebrow.textContent = this.t('weather.adviceEyebrow');
+    const weatherAdvice = document.getElementById('advisory-detail');
+    if (weatherAdvice && !weatherAdvice.dataset.live) weatherAdvice.textContent = this.t('weather.loadingBody');
 
-  t(key) {
-    const dict = this.translations[this.currentLang] || this.translations.en;
-    return dict[key] || this.translations.en[key] || key;
-  },
+    const shopButtons = document.querySelectorAll('.shop-cat-btn');
+    ['shops.store', 'shops.pesticides', 'shops.fertilizer', 'shops.seeds'].forEach((key, index) => { const label = shopButtons[index]?.querySelector('strong'); if (label) label.textContent = this.t(key); });
+    const mapsOpen = document.getElementById('btn-launch-google-maps');
+    if (mapsOpen) mapsOpen.innerHTML = `${this.t('shops.open')} <span aria-hidden="true">&#8599;</span>`;
 
-  translateDOM() {
-    document.querySelectorAll('[data-i18n]').forEach(elem => {
-      const key = elem.getAttribute('data-i18n');
-      const translated = this.t(key);
-      if (translated) {
-        if (elem.tagName === 'INPUT' && (elem.type === 'button' || elem.type === 'submit')) {
-          elem.value = translated;
-        } else if (elem.tagName === 'INPUT' && elem.placeholder) {
-          elem.placeholder = translated;
-        } else {
-          elem.innerText = translated;
-        }
-      }
-    });
+    const placeholders = { '#auth-name': 'auth.fullName', '#auth-email': 'auth.email', '#auth-password': 'auth.password', '#auth-confirm-password': 'auth.confirmPassword', '#history-search-input': 'history.search', '#profile-name': 'profile.fullName', '#profile-phone': 'profile.phone', '#profile-crop': 'profile.crop', '#profile-location': 'profile.location' };
+    Object.entries(placeholders).forEach(([selector, key]) => { const element = document.querySelector(selector); if (element) element.placeholder = this.t(key); });
+    const aria = { '#btn-toggle-password': this.t('auth.show'), '#btn-weather-location': this.t('weather.refresh'), '#btn-clear-photo': this.t('common.remove'), '#header-profile-initial': this.t('nav.profile'), '#history-search-input': this.t('history.search') };
+    Object.entries(aria).forEach(([selector, label]) => { const element = document.querySelector(selector); if (element) element.setAttribute('aria-label', label); });
 
-    // Update connectivity UI text if App is loaded
-    if (window.App) {
-      window.App.updateConnectivityUI();
-    }
-  },
-
-  setupUI() {
-    document.querySelectorAll('.lang-card').forEach(card => {
-      card.addEventListener('click', (e) => {
-        const lang = e.currentTarget.getAttribute('data-lang');
-        if (lang) {
-          this.setLanguage(lang);
-          if (window.App) {
-            window.App.showToast(`Language set to ${lang.toUpperCase()}`, 'success');
-          }
-        }
-      });
-    });
+    if (window.ProfileModule && typeof window.ProfileModule.refreshAuthCopy === 'function') window.ProfileModule.refreshAuthCopy();
+    if (window.ProfileModule && window.AuthModule && typeof window.ProfileModule.onAuthStateChange === 'function') window.ProfileModule.onAuthStateChange(window.AuthModule.getCurrentUser());
+    if (window.App && typeof window.App.updateConnectivityUI === 'function') window.App.updateConnectivityUI();
   }
 };
-
-document.addEventListener('DOMContentLoaded', () => {
-  LanguageModule.init();
-});
-
+document.addEventListener('DOMContentLoaded', () => LanguageModule.init());
 window.i18n = LanguageModule;
 window.LanguageModule = LanguageModule;

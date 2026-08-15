@@ -1045,3 +1045,11 @@ button { -webkit-appearance: none; }
 @media (prefers-reduced-motion: reduce) { .field-scan-line, .field-leaf, .radar-core, .analysis-orbit, .analysis-progress span { animation: none !important; } }
 .history-empty { padding: 48px 20px; border: 1px dashed var(--line-strong); border-radius: var(--r-md); color: var(--ink-soft); text-align: center; }.history-empty-mark { display: grid; place-items: center; width: 42px; height: 42px; margin: 0 auto 13px; border-radius: 50%; color: var(--leaf); background: var(--sage); font-size: 1.3rem; }.history-empty strong { display: block; color: var(--forest); font-size: .85rem; }.history-empty p { margin-top: 5px; font-size: .74rem; }.history-severity { margin-top: 4px; color: var(--ink-soft); font-size: .67rem; }
 
+/* Language-aware controls and Indic-script typography */
+body, button, input, select, textarea { font-family: Inter, "Noto Sans", "Noto Sans Devanagari", "Noto Sans Tamil", "Noto Sans Telugu", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+.auth-language-control { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-bottom: 22px; color: var(--ink-soft); font-size: .74rem; font-weight: 700; }
+.auth-language-control select { min-height: 34px; padding: 0 28px 0 10px; border: 1px solid var(--line); border-radius: 8px; color: var(--forest); background: #fff; font-size: .74rem; cursor: pointer; }
+.auth-language-control select:focus { outline: 2px solid rgba(62,139,91,.25); outline-offset: 2px; }
+.lang-card { cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+@media (max-width: 760px) { .auth-language-control { justify-content: space-between; margin-bottom: 20px; } .auth-language-control select { flex: 0 1 170px; } }
+

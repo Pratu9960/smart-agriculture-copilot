@@ -62,6 +62,8 @@ const App = {
     const headerInitial = document.getElementById('header-profile-initial');
     const profileAvatar = document.getElementById('profile-avatar');
     if (dashboardName) dashboardName.textContent = displayName;
+    const greetingTitle = document.getElementById('dashboard-intro-title');
+    if (greetingTitle && window.i18n) greetingTitle.innerHTML = window.i18n.t('dashboard.greeting', { name: displayName }).replace(displayName, `<span id="dashboard-farmer-name">${displayName}</span>`);
     if (headerInitial) headerInitial.textContent = displayName.charAt(0).toUpperCase();
     if (profileAvatar) profileAvatar.textContent = displayName.charAt(0).toUpperCase();
   },
@@ -147,16 +149,17 @@ const App = {
     const mode = this.getAIMode();
     const scanLabel = document.getElementById('scan-mode-label');
     const dashboardLabel = document.getElementById('dashboard-network-label');
-    const copy = mode === 'online' ? 'Using Online AI' : mode === 'offline' ? 'Using Offline AI' : 'Offline AI unavailable on this device';
+    const t = key => window.i18n ? window.i18n.t(key) : key;
+    const copy = mode === 'online' ? t('network.usingOnline') : mode === 'offline' ? t('network.usingOffline') : t('network.offlineUnavailable');
     if (scanLabel) scanLabel.textContent = copy;
-    if (dashboardLabel) dashboardLabel.textContent = mode === 'online' ? 'Online AI available' : mode === 'offline' ? 'Offline AI available' : 'Offline mode available with the app model';
+    if (dashboardLabel) dashboardLabel.textContent = mode === 'online' ? t('network.onlineAI') : mode === 'offline' ? t('network.offlineAI') : t('network.offlineUnavailable');
   },
 
   setupConnectivityMonitor() {
     window.addEventListener('online', () => {
       this.isOnline = true;
       this.updateConnectivityUI();
-      this.showToast('Connection restored. Online AI is available.', 'success');
+      this.showToast(window.i18n ? window.i18n.t('network.connectionRestored') : 'Connection restored. Online AI is available.', 'success');
       // Attempt auto-sync of pending records if available
       if (window.HistoryModule) {
         window.HistoryModule.autoSyncPending();
@@ -166,7 +169,7 @@ const App = {
     window.addEventListener('offline', () => {
       this.isOnline = false;
       this.updateConnectivityUI();
-      this.showToast('You are offline. Checking local AI availability.', 'warning');
+      this.showToast(window.i18n ? window.i18n.t('network.connectionLost') : 'You are offline. Checking local AI availability.', 'warning');
     });
   },
 
@@ -178,14 +181,14 @@ const App = {
 
     if (this.isOnline) {
       if (badge) badge.classList.remove('offline');
-      if (badgeText) badgeText.innerText = window.i18n ? window.i18n.t('online') : 'Online';
+      if (badgeText) badgeText.innerText = window.i18n ? window.i18n.t('network.online') : 'Online';
       if (offlineBanner) offlineBanner.classList.add('hidden');
-      if (dashboardStatus) dashboardStatus.textContent = 'Online AI available';
+      if (dashboardStatus) dashboardStatus.textContent = window.i18n ? window.i18n.t('network.onlineAI') : 'Online AI available';
     } else {
       if (badge) badge.classList.add('offline');
-      if (badgeText) badgeText.innerText = window.i18n ? window.i18n.t('offline') : 'Offline';
+      if (badgeText) badgeText.innerText = window.i18n ? window.i18n.t('network.offline') : 'Offline';
       if (offlineBanner) offlineBanner.classList.remove('hidden');
-      if (dashboardStatus) dashboardStatus.textContent = this.getAIMode() === 'offline' ? 'Offline AI available' : 'Offline AI unavailable on this device';
+      if (dashboardStatus) dashboardStatus.textContent = window.i18n ? (this.getAIMode() === 'offline' ? window.i18n.t('network.offlineAI') : window.i18n.t('network.offlineUnavailable')) : 'Offline AI unavailable on this device';
     }
     this.updateAIModeUI();
   },
