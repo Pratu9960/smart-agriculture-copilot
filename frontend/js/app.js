@@ -160,6 +160,9 @@ const App = {
       this.isOnline = true;
       this.updateConnectivityUI();
       this.showToast(window.i18n ? window.i18n.t('network.connectionRestored') : 'Connection restored. Online AI is available.', 'success');
+      if (this.activeView === 'view-weather' && window.WeatherModule && typeof window.WeatherModule.handleConnectivityChange === 'function') {
+        window.WeatherModule.handleConnectivityChange(true);
+      }
       // Attempt auto-sync of pending records if available
       if (window.HistoryModule) {
         window.HistoryModule.autoSyncPending();
@@ -170,6 +173,9 @@ const App = {
       this.isOnline = false;
       this.updateConnectivityUI();
       this.showToast(window.i18n ? window.i18n.t('network.connectionLost') : 'You are offline. Checking local AI availability.', 'warning');
+      if (this.activeView === 'view-weather' && window.WeatherModule && typeof window.WeatherModule.handleConnectivityChange === 'function') {
+        window.WeatherModule.handleConnectivityChange(false);
+      }
     });
   },
 

@@ -28,6 +28,17 @@ class IrrigationAdvisory(BaseModel):
     detail: str
     urgency: str
 
+
+class WeatherForecastDay(BaseModel):
+    date: str
+    temperatureMax: Optional[float] = None
+    temperatureMin: Optional[float] = None
+    precipitation: Optional[float] = None
+    rainProbability: Optional[float] = None
+    condition: str
+    icon: str
+
+
 class WeatherResponse(BaseModel):
     location: str
     latitude: float
@@ -40,7 +51,14 @@ class WeatherResponse(BaseModel):
     rainProbability: float
     timestamp: str
     irrigationAdvisory: IrrigationAdvisory
-    isDevMockPayload: Optional[bool] = True
+    feelsLike: Optional[float] = None
+    windDirection: Optional[float] = None
+    cloudCover: Optional[float] = None
+    visibility: Optional[float] = None
+    pressure: Optional[float] = None
+    precipitation: Optional[float] = None
+    forecast: List[WeatherForecastDay] = Field(default_factory=list)
+    isDevMockPayload: Optional[bool] = False
 
 # --- Scan History Schemas ---
 class ScanRecordItem(BaseModel):

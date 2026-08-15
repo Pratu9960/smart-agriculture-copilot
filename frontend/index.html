@@ -154,7 +154,55 @@
       </section>
 
       <!-- Weather -->
-      <section class="view-section" id="view-weather"><div class="page-header"><p class="page-eyebrow">FIELD CONDITIONS</p><h1 class="page-title">Weather & water</h1><p class="page-subtitle" id="weather-location-text">Detecting your location...</p></div><div class="weather-layout"><div class="weather-current"><div class="weather-current-top"><div><p class="weather-label">CURRENT CONDITIONS</p><div id="weather-condition-text">Partly cloudy</div></div><button class="icon-button" id="btn-weather-location" type="button" aria-label="Refresh weather location">&#8635;</button></div><div class="weather-temp" id="weather-temp-val">—</div><div class="weather-stats"><div><strong id="weather-humidity">—</strong><span>Humidity</span></div><div><strong id="weather-wind">—</strong><span>Wind</span></div><div><strong id="weather-rain-prob">—</strong><span>Rain chance</span></div></div></div><div class="weather-advice" id="weather-advisory-card"><p class="page-eyebrow">IRRIGATION ADVISORY</p><h2 id="advisory-headline">Loading field guidance</h2><p id="advisory-detail">Weather-based irrigation guidance will appear when the current conditions are available.</p><div class="advice-mark">&#10003;</div></div></div></section>
+      <section class="view-section" id="view-weather">
+        <div class="page-header weather-page-header">
+          <div>
+            <p class="page-eyebrow" id="weather-eyebrow">FIELD CONDITIONS</p>
+            <h1 class="page-title" id="weather-title">Weather &amp; water</h1>
+            <p class="page-subtitle" id="weather-page-subtitle">Your local weather and farming conditions</p>
+          </div>
+          <button class="btn btn-outline btn-compact" id="btn-weather-change-location" type="button">Change location</button>
+        </div>
+
+        <div class="weather-location-bar">
+          <div class="weather-location-copy">
+            <span class="weather-location-pin" aria-hidden="true">&#128205;</span>
+            <div><span class="weather-location-label" id="weather-location-label">Location</span><strong id="weather-location-text">Location not selected</strong><small id="weather-last-updated"></small></div>
+          </div>
+          <button class="icon-button weather-refresh-button" id="btn-weather-location" type="button" aria-label="Refresh weather">&#8635;</button>
+        </div>
+
+        <div class="weather-status-card" id="weather-status-card" role="status" aria-live="polite">
+          <div class="weather-status-icon" id="weather-status-icon" aria-hidden="true">&#9906;</div>
+          <div class="weather-status-copy"><strong id="weather-status-title">Use your location for local weather</strong><p id="weather-status-detail">Allow location access to provide local weather and agricultural recommendations.</p></div>
+          <div class="weather-status-actions"><button class="btn btn-primary" id="btn-weather-use-location" type="button">Use My Location</button><button class="btn btn-outline" id="btn-weather-search-location" type="button">Search Location</button></div>
+        </div>
+
+        <div class="weather-location-panel hidden" id="weather-location-panel">
+          <div class="weather-panel-heading"><div><p class="page-eyebrow" id="weather-search-eyebrow">LOCATION SEARCH</p><h2 id="weather-search-title">Search for your location</h2></div><button class="text-button" id="btn-weather-close-search" type="button">Cancel</button></div>
+          <form class="weather-search-form" id="weather-search-form"><label class="search-field" for="weather-location-search"><span aria-hidden="true">&#8981;</span><input id="weather-location-search" type="search" autocomplete="address-level2" minlength="2" placeholder="City, town, district or locality" required><button class="btn btn-primary" type="submit" id="btn-weather-submit-search">Search</button></label></form>
+          <div class="weather-search-results" id="weather-search-results" aria-live="polite"></div>
+        </div>
+
+        <div class="weather-content hidden" id="weather-content">
+          <div class="weather-layout">
+            <div class="weather-current">
+              <div class="weather-current-top"><div><p class="weather-label" id="weather-current-label">CURRENT CONDITIONS</p><div id="weather-condition-text">—</div></div><span class="weather-live-badge" id="weather-data-status">Live</span></div>
+              <div class="weather-temp" id="weather-temp-val">—</div>
+              <div class="weather-stats"><div><strong id="weather-humidity">—</strong><span id="weather-humidity-label">Humidity</span></div><div><strong id="weather-wind">—</strong><span id="weather-wind-label">Wind</span></div><div><strong id="weather-rain-prob">—</strong><span id="weather-rain-label">Rain chance</span></div></div>
+            </div>
+            <div class="weather-advice" id="weather-advisory-card"><p class="page-eyebrow" id="weather-advice-eyebrow">IRRIGATION ADVISORY</p><h2 id="advisory-headline">—</h2><p id="advisory-detail">—</p><div class="advice-mark" aria-hidden="true">&#10003;</div></div>
+          </div>
+
+          <section class="weather-detail-section" aria-labelledby="weather-details-title"><div class="weather-section-heading"><div><p class="page-eyebrow" id="weather-details-eyebrow">CURRENT WEATHER</p><h2 id="weather-details-title">At a glance</h2></div></div><div class="weather-detail-grid"><div class="weather-detail-item" id="weather-feels-item"><span id="weather-feels-label">Feels like</span><strong id="weather-feels">—</strong></div><div class="weather-detail-item" id="weather-precipitation-item"><span id="weather-precipitation-label">Precipitation</span><strong id="weather-precipitation">—</strong></div><div class="weather-detail-item" id="weather-direction-item"><span id="weather-direction-label">Wind direction</span><strong id="weather-direction">—</strong></div><div class="weather-detail-item" id="weather-cloud-item"><span id="weather-cloud-label">Cloud cover</span><strong id="weather-cloud">—</strong></div><div class="weather-detail-item" id="weather-visibility-item"><span id="weather-visibility-label">Visibility</span><strong id="weather-visibility">—</strong></div><div class="weather-detail-item" id="weather-pressure-item"><span id="weather-pressure-label">Pressure</span><strong id="weather-pressure">—</strong></div></div></section>
+
+          <section class="weather-detail-section" aria-labelledby="weather-rain-title"><div class="weather-section-heading"><div><p class="page-eyebrow" id="weather-rain-eyebrow">RAIN &amp; WATER</p><h2 id="weather-rain-title">Rain &amp; irrigation</h2></div></div><div class="weather-rain-summary"><span class="weather-rain-icon" aria-hidden="true">&#9730;</span><div><strong id="weather-rain-summary-title">Rain information</strong><p id="weather-rain-summary-detail">—</p></div></div></section>
+
+          <section class="weather-detail-section" aria-labelledby="weather-forecast-title"><div class="weather-section-heading"><div><p class="page-eyebrow" id="weather-forecast-eyebrow">UPCOMING CONDITIONS</p><h2 id="weather-forecast-title">Forecast</h2></div></div><div class="weather-forecast-list" id="weather-forecast-list"></div></section>
+        </div>
+
+        <div class="weather-error-actions hidden" id="weather-error-actions"><button class="btn btn-primary" id="btn-weather-retry" type="button">Retry</button><button class="btn btn-outline" id="btn-weather-error-change" type="button">Change location</button></div>
+      </section>
 
       <!-- History -->
       <section class="view-section" id="view-history"><div class="page-header split-header"><div><p class="page-eyebrow">YOUR RECORDS</p><h1 class="page-title">Scan history</h1><p class="page-subtitle">Review your recent crop analyses.</p></div><button class="btn btn-outline btn-compact" id="btn-sync-history" type="button">Sync records</button></div><div class="history-toolbar"><label class="search-field"><span>&#8981;</span><input type="search" id="history-search-input" placeholder="Search crop or condition" aria-label="Search crop or condition"></label></div><div class="history-list" id="history-list-container"></div></section>

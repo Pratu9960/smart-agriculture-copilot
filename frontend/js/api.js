@@ -57,13 +57,53 @@ const SmartAgAPI = {
     try {
       const response = await fetch(`${API_BASE_URL}/weather?latitude=${latitude}&longitude=${longitude}`);
       if (!response.ok) {
-        throw new Error(`Server returned status ${response.status}`);
+        let detail = '';
+        try {
+          const payload = await response.json();
+          detail = payload && payload.detail ? String(payload.detail) : '';
+        } catch (parseError) {
+          // Keep the status code when the server did not return JSON.
+        }
+        const error = new Error(detail || `Weather service returned status ${response.status}.`);
+        error.status = response.status;
+        throw error;
       }
-      return await response.json();
+      const data = await response.json();
+      if (!data || data.isDevMockPayload === true) {
+        throw new Error('The weather service returned non-live data.');
+      }
+      return data;
     } catch (error) {
       console.warn('[SmartAgAPI] Weather API unavailable.', error);
-      throw new Error('Live weather is unavailable right now. Check your connection and try again.');
+      if (error && error.status) throw error;
+      const networkError = new Error('Weather service is temporarily unavailable.');
+      networkError.code = 'NETWORK';
+      throw networkError;
     }
+  },
+
+  /** Search a city, town, district, or locality through the backend geocoder. */
+  async searchLocation(query) {
+    const cleanQuery = String(query || '').trim();
+    if (!cleanQuery) return [];
+    const response = await fetch(`${API_BASE_URL}/location/search?q=${encodeURIComponent(cleanQuery)}`);
+    if (!response.ok) {
+      const error = new Error('Location search is temporarily unavailable.');
+      error.status = response.status;
+      throw error;
+    }
+    return response.json();
+  },
+
+  /** Reverse geocode coordinates through the backend geocoder. */
+  async reverseGeocode(latitude, longitude) {
+    const response = await fetch(`${API_BASE_URL}/location/reverse?latitude=${latitude}&longitude=${longitude}`);
+    if (!response.ok) {
+      const error = new Error('Location details are temporarily unavailable.');
+      error.status = response.status;
+      throw error;
+    }
+    return response.json();
   },
 
   /**
@@ -178,28 +218,6 @@ const SmartAgAPI = {
         'Mulch around base of plant to prevent soil spores splashing onto leaves.',
         'Maintain proper plant spacing (45-60cm) for adequate airflow.'
       ],
-      isDevMockPayload: true
-    };
-  },
-
-  _getMockWeatherResponse(lat, lon) {
-    return {
-      location: 'Nashik, Maharashtra',
-      latitude: lat || 20.0,
-      longitude: lon || 73.78,
-      temperature: 28.5,
-      humidity: 65,
-      windSpeed: 14.2,
-      condition: 'Partly Cloudy',
-      icon: '🌤️',
-      rainProbability: 20,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      irrigationAdvisory: {
-        recommendation: 'DELAY_IRRIGATION',
-        headline: 'Rain expected within 24 hours (60% probability)',
-        detail: 'Soil moisture levels are currently adequate. Holding off on irrigation today will conserve water and avoid waterlogging crop roots.',
-        urgency: 'Low'
-      },
       isDevMockPayload: true
     };
   },

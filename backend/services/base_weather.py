@@ -25,49 +25,6 @@ class BaseWeatherService(ABC):
         pass
 
 
-class MockWeatherService(BaseWeatherService):
-    """
-    Development mock weather service.
-    """
-
-    async def get_weather(
-        self,
-        latitude: float,
-        longitude: float
-    ) -> WeatherResponse:
-
-        now_str = datetime.now().strftime("%I:%M %p")
-
-        location_name = f"Location ({latitude:.2f}, {longitude:.2f})"
-
-        if 19.0 <= latitude <= 21.0 and 73.0 <= longitude <= 75.0:
-            location_name = "Nashik, Maharashtra"
-        elif 18.0 <= latitude <= 19.5 and 73.5 <= longitude <= 74.5:
-            location_name = "Pune, Maharashtra"
-
-        advisory = IrrigationAdvisory(
-            recommendation="DELAY_IRRIGATION",
-            headline="Development mock weather",
-            detail="This is simulated weather data used for local development.",
-            urgency="Low"
-        )
-
-        return WeatherResponse(
-            location=location_name,
-            latitude=latitude,
-            longitude=longitude,
-            temperature=28.5,
-            humidity=65.0,
-            windSpeed=14.2,
-            condition="Partly Cloudy",
-            icon="🌤️",
-            rainProbability=20.0,
-            timestamp=now_str,
-            irrigationAdvisory=advisory,
-            isDevMockPayload=True
-        )
-
-
 class RealWeatherService(BaseWeatherService):
     """
     Real weather service using Open-Meteo.
@@ -87,13 +44,26 @@ class RealWeatherService(BaseWeatherService):
             "longitude": longitude,
             "current": (
                 "temperature_2m,"
+                "apparent_temperature,"
                 "relative_humidity_2m,"
                 "precipitation,"
                 "weather_code,"
-                "wind_speed_10m"
+                "wind_speed_10m,"
+                "wind_direction_10m,"
+                "cloud_cover,"
+                "visibility,"
+                "surface_pressure"
             ),
             "hourly": "precipitation_probability",
             "forecast_hours": 24,
+            "daily": (
+                "weather_code,"
+                "temperature_2m_max,"
+                "temperature_2m_min,"
+                "precipitation_sum,"
+                "precipitation_probability_max"
+            ),
+            "forecast_days": 5,
             "timezone": "auto"
         }
 
@@ -149,6 +119,13 @@ class RealWeatherService(BaseWeatherService):
                 current["wind_speed_10m"]
             )
 
+            feels_like = self._optional_float(current.get("apparent_temperature"))
+
+            wind_direction = self._optional_float(current.get("wind_direction_10m"))
+            cloud_cover = self._optional_float(current.get("cloud_cover"))
+            visibility = self._optional_float(current.get("visibility"))
+            pressure = self._optional_float(current.get("surface_pressure"))
+
             precipitation = float(
                 current.get("precipitation", 0.0)
             )
@@ -172,6 +149,27 @@ class RealWeatherService(BaseWeatherService):
                     default=0
                 )
             )
+
+            daily = data.get("daily", {})
+            daily_dates = daily.get("time", [])
+            daily_codes = daily.get("weather_code", [])
+            daily_max = daily.get("temperature_2m_max", [])
+            daily_min = daily.get("temperature_2m_min", [])
+            daily_precip = daily.get("precipitation_sum", [])
+            daily_rain_prob = daily.get("precipitation_probability_max", [])
+            forecast = []
+            for index, date in enumerate(daily_dates):
+                code = int(daily_codes[index]) if index < len(daily_codes) else 0
+                day_condition, day_icon = self._weather_description(code)
+                forecast.append({
+                    "date": str(date),
+                    "temperatureMax": self._optional_float(daily_max[index]) if index < len(daily_max) else None,
+                    "temperatureMin": self._optional_float(daily_min[index]) if index < len(daily_min) else None,
+                    "precipitation": self._optional_float(daily_precip[index]) if index < len(daily_precip) else None,
+                    "rainProbability": self._optional_float(daily_rain_prob[index]) if index < len(daily_rain_prob) else None,
+                    "condition": day_condition,
+                    "icon": day_icon
+                })
 
         except (KeyError, TypeError, ValueError) as exc:
             logger.error(
@@ -207,10 +205,26 @@ class RealWeatherService(BaseWeatherService):
             condition=condition,
             icon=icon,
             rainProbability=rain_probability,
-            timestamp=datetime.now().strftime("%I:%M %p"),
+            timestamp=current.get("time") or datetime.now().astimezone().isoformat(),
             irrigationAdvisory=advisory,
+            feelsLike=feels_like,
+            windDirection=wind_direction,
+            cloudCover=cloud_cover,
+            visibility=visibility,
+            pressure=pressure,
+            precipitation=precipitation,
+            forecast=forecast,
             isDevMockPayload=False
         )
+
+    @staticmethod
+    def _optional_float(value):
+        if value is None:
+            return None
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            return None
 
     @staticmethod
     def _weather_description(code: int):
