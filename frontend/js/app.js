@@ -110,6 +110,10 @@ const App = {
     // View specific initialization triggers
     if (viewId === 'view-weather' && window.WeatherModule) {
       window.WeatherModule.initView();
+    } else if (viewId === 'view-market' && window.MarketModule) {
+      window.MarketModule.initView();
+    } else if (viewId === 'view-schemes' && window.SchemesModule) {
+      window.SchemesModule.initView();
     } else if (viewId === 'view-history' && window.HistoryModule) {
       window.HistoryModule.loadHistory();
     } else if (viewId === 'view-shops' && window.MapsModule) {
