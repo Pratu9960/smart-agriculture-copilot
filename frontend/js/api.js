@@ -64,20 +64,25 @@ const SmartAgAPI = {
         } catch (parseError) {
           // Keep the status code when the server did not return JSON.
         }
-        const error = new Error(detail || `Weather service returned status ${response.status}.`);
+        const error = new Error(detail || `Weather service returned HTTP ${response.status}.`);
         error.status = response.status;
+        console.error(`[SmartAgAPI] Weather endpoint returned HTTP ${response.status}:`, detail);
         throw error;
       }
       const data = await response.json();
       if (!data || data.isDevMockPayload === true) {
-        throw new Error('The weather service returned non-live data.');
+        console.error('[SmartAgAPI] Weather endpoint returned non-live/mock data.');
+        const mockError = new Error('The weather service returned non-live data.');
+        mockError.code = 'MOCK_DATA';
+        throw mockError;
       }
       return data;
     } catch (error) {
-      console.warn('[SmartAgAPI] Weather API unavailable.', error);
-      if (error && error.status) throw error;
-      const networkError = new Error('Weather service is temporarily unavailable.');
+      if (error && (error.status || error.code === 'MOCK_DATA')) throw error;
+      console.error('[SmartAgAPI] Network/fetch error reaching weather endpoint:', error);
+      const networkError = new Error('Weather service is unreachable. Please check your connection.');
       networkError.code = 'NETWORK';
+      networkError.originalError = error;
       throw networkError;
     }
   },
@@ -86,24 +91,56 @@ const SmartAgAPI = {
   async searchLocation(query) {
     const cleanQuery = String(query || '').trim();
     if (!cleanQuery) return [];
-    const response = await fetch(`${API_BASE_URL}/location/search?q=${encodeURIComponent(cleanQuery)}`);
-    if (!response.ok) {
-      const error = new Error('Location search is temporarily unavailable.');
-      error.status = response.status;
-      throw error;
+    try {
+      const response = await fetch(`${API_BASE_URL}/location/search?q=${encodeURIComponent(cleanQuery)}`);
+      if (!response.ok) {
+        let detail = '';
+        try {
+          const payload = await response.json();
+          detail = payload && payload.detail ? String(payload.detail) : '';
+        } catch (e) {
+          // Ignore json parse error
+        }
+        console.error(`[SmartAgAPI] Location search failed with HTTP ${response.status}:`, detail);
+        const error = new Error(detail || `Location search returned HTTP ${response.status}.`);
+        error.status = response.status;
+        throw error;
+      }
+      return await response.json();
+    } catch (error) {
+      if (error && error.status) throw error;
+      console.error('[SmartAgAPI] Network error reaching location search endpoint:', error);
+      const netErr = new Error('Location search is unreachable.');
+      netErr.code = 'NETWORK';
+      throw netErr;
     }
-    return response.json();
   },
 
   /** Reverse geocode coordinates through the backend geocoder. */
   async reverseGeocode(latitude, longitude) {
-    const response = await fetch(`${API_BASE_URL}/location/reverse?latitude=${latitude}&longitude=${longitude}`);
-    if (!response.ok) {
-      const error = new Error('Location details are temporarily unavailable.');
-      error.status = response.status;
-      throw error;
+    try {
+      const response = await fetch(`${API_BASE_URL}/location/reverse?latitude=${latitude}&longitude=${longitude}`);
+      if (!response.ok) {
+        let detail = '';
+        try {
+          const payload = await response.json();
+          detail = payload && payload.detail ? String(payload.detail) : '';
+        } catch (e) {
+          // Ignore json parse error
+        }
+        console.warn(`[SmartAgAPI] Reverse geocoding failed with HTTP ${response.status}:`, detail);
+        const error = new Error(detail || `Reverse geocode returned HTTP ${response.status}.`);
+        error.status = response.status;
+        throw error;
+      }
+      return await response.json();
+    } catch (error) {
+      if (error && error.status) throw error;
+      console.warn('[SmartAgAPI] Network error during reverse geocoding:', error);
+      const netErr = new Error('Reverse geocoding is unreachable.');
+      netErr.code = 'NETWORK';
+      throw netErr;
     }
-    return response.json();
   },
 
   /**

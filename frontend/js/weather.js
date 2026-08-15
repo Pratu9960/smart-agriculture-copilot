@@ -93,7 +93,11 @@ const WeatherModule = {
     this.currentLocation = saved;
     localStorage.setItem(this.locationStorageKey, JSON.stringify(saved));
     const locationText = document.getElementById('weather-location-text');
-    if (locationText) locationText.textContent = saved.displayName || [saved.city, saved.state].filter(Boolean).join(', ') || `(${saved.latitude.toFixed(4)}, ${saved.longitude.toFixed(4)})`;
+    if (locationText) {
+      locationText.textContent = saved.displayName
+        || [saved.city, saved.state].filter(Boolean).join(', ')
+        || this.t('weather.currentLocation');
+    }
     return saved;
   },
 
@@ -187,28 +191,45 @@ const WeatherModule = {
   },
 
   async handleLocationSuccess(position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    if (!this.validCoordinates(lat, lon)) {
+      this.showStatus('unavailable');
+      this.openSearchPanel();
+      return;
+    }
+
     const location = {
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude,
+      latitude: lat,
+      longitude: lon,
       displayName: '',
       city: '',
       state: '',
       country: ''
     };
-    if (!this.validCoordinates(location.latitude, location.longitude)) {
-      this.showStatus('unavailable');
-      this.openSearchPanel();
-      return;
-    }
-    if (this.isOnline() && window.SmartAgAPI?.reverseGeocode) {
-      try {
-        Object.assign(location, await window.SmartAgAPI.reverseGeocode(location.latitude, location.longitude));
-      } catch (error) {
-        console.warn('[WeatherModule] Reverse geocoding unavailable.', error);
-      }
-    }
     this.saveLocation(location);
-    await this.loadWeatherData(this.currentLocation);
+
+    // Weather must load immediately from coordinates; reverse geocoding runs in parallel
+    const weatherPromise = this.loadWeatherData(this.currentLocation);
+
+    if (this.isOnline() && window.SmartAgAPI?.reverseGeocode) {
+      window.SmartAgAPI.reverseGeocode(lat, lon)
+        .then(resolved => {
+          if (resolved && (resolved.displayName || resolved.city)) {
+            Object.assign(this.currentLocation, resolved);
+            this.saveLocation(this.currentLocation);
+            const locationText = document.getElementById('weather-location-text');
+            if (locationText) {
+              locationText.textContent = this.locationLabel(this.currentData || { latitude: lat, longitude: lon });
+            }
+          }
+        })
+        .catch(error => {
+          console.warn('[WeatherModule] Reverse geocoding unavailable. Weather continues with coordinates.', error);
+        });
+    }
+
+    await weatherPromise;
   },
 
   handleLocationError(error) {
@@ -388,10 +409,11 @@ const WeatherModule = {
   },
 
   locationLabel(data) {
-    return this.currentLocation?.displayName
-      || data.location
-      || [this.currentLocation?.city, this.currentLocation?.state].filter(Boolean).join(', ')
-      || `(${Number(data.latitude).toFixed(4)}, ${Number(data.longitude).toFixed(4)})`;
+    if (this.currentLocation?.displayName) return this.currentLocation.displayName;
+    const cityState = [this.currentLocation?.city, this.currentLocation?.state].filter(Boolean).join(', ');
+    if (cityState) return cityState;
+    if (data?.location && !data.location.startsWith('Location (')) return data.location;
+    return this.t('weather.currentLocation');
   },
 
   formatTimestamp(value) {

@@ -29,7 +29,7 @@ async def get_weather(
     weather_service = get_weather_service()
     try:
         return await weather_service.get_weather(latitude, longitude)
-    except RuntimeError as exc:
+    except Exception as exc:
         # Never substitute fabricated conditions for a failed live request.
         # The frontend can decide whether to show a real cached snapshot.
         logger.warning("Live weather unavailable: %s", exc)

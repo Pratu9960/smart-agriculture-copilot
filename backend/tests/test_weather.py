@@ -22,3 +22,22 @@ def test_get_weather_invalid_latitude():
 def test_get_weather_missing_params():
     response = client.get("/api/weather")
     assert response.status_code == 422
+
+
+def test_reverse_location_success():
+    response = client.get("/api/location/reverse?latitude=17.7518&longitude=76.1277")
+    assert response.status_code == 200
+    data = response.json()
+    assert "displayName" in data
+    assert "latitude" in data
+    assert "longitude" in data
+
+
+def test_search_location_success():
+    response = client.get("/api/location/search?q=Osmanabad")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
+    assert len(data) > 0
+    assert "latitude" in data[0]
+    assert "longitude" in data[0]
