@@ -100,3 +100,129 @@ class SyncResponse(BaseModel):
     syncedCount: int
     isDevMock: Optional[bool] = True
 
+
+# --- Market Prices Schemas ---
+class CropMetadataItem(BaseModel):
+    id: str
+    name: str
+    category: str
+    accentColor: str
+    iconKey: str
+    defaultVariety: Optional[str] = "Standard"
+    unit: Optional[str] = "₹ / Quintal"
+
+
+class MarketPriceRecord(BaseModel):
+    commodity: str
+    variety: Optional[str] = "Standard"
+    state: str
+    district: str
+    market: str
+    arrivalDate: str
+    minPrice: float
+    maxPrice: float
+    modalPrice: float
+    unit: str = "₹ / Quintal"
+    source: str = "Government of India — Data.gov.in / AGMARKNET"
+
+
+class MarketComparisonItem(BaseModel):
+    market: str
+    district: str
+    state: str
+    modalPrice: float
+    minPrice: float
+    maxPrice: float
+    variety: str
+    arrivalDate: str
+    relation: str  # 'selected', 'same_district', 'nearby_district', 'same_state'
+
+
+class MarketPriceLatestResponse(BaseModel):
+    commodity: str
+    selectedMarket: Optional[MarketPriceRecord] = None
+    nearbyMarkets: List[MarketComparisonItem] = Field(default_factory=list)
+    stateAverageModal: Optional[float] = None
+    timestamp: str
+    source: str = "Government of India — Data.gov.in / AGMARKNET"
+    isRealData: bool = True
+    isDevFallback: bool = False
+
+
+class MarketPriceHistoryPoint(BaseModel):
+    date: str
+    modalPrice: float
+    minPrice: float
+    maxPrice: float
+    market: str
+    variety: str
+
+
+class MarketPriceHistoryResponse(BaseModel):
+    commodity: str
+    market: str
+    district: str
+    state: str
+    variety: str
+    period: str
+    records: List[MarketPriceHistoryPoint] = Field(default_factory=list)
+    latestModal: Optional[float] = None
+    periodHigh: Optional[float] = None
+    periodLow: Optional[float] = None
+    netChange: Optional[float] = None
+    percentageChange: Optional[float] = None
+    trend: str  # 'Increasing', 'Stable', 'Decreasing', 'Insufficient data'
+    trendSummary: str
+    whatChartShows: str
+    unit: str = "₹ / Quintal"
+    latestDataDate: Optional[str] = None
+    source: str = "Government of India — Data.gov.in / AGMARKNET"
+    isRealData: bool = True
+
+
+class LocationHierarchyItem(BaseModel):
+    state: str
+    districts: Dict[str, List[str]]  # District Name -> List of Markets/APMCs
+
+
+# --- Government Schemes Schemas ---
+class SchemeCategoryItem(BaseModel):
+    id: str
+    name: str
+    count: int
+    icon: str
+
+
+class GovernmentSchemeItem(BaseModel):
+    id: str
+    name: str
+    shortName: str
+    category: str
+    level: str  # 'Central' or 'State'
+    state: str  # 'All India' or specific state (e.g. 'Maharashtra')
+    description: str
+    benefits: List[str]
+    eligibility: List[str]
+    documentsRequired: List[str]
+    applicationProcess: List[str]
+    officialUrl: str
+    lastVerified: str
+    icon: str
+    applicableCrops: List[str] = Field(default_factory=list)
+    farmTypes: List[str] = Field(default_factory=list)
+    maxSubsidyAmount: Optional[str] = None
+
+
+class SchemeEligibilityCheckRequest(BaseModel):
+    answers: Dict[str, Any]
+
+
+class SchemeEligibilityCheckResponse(BaseModel):
+    schemeId: str
+    eligible: bool
+    statusText: str
+    matchedCriteria: List[str]
+    unmatchedCriteria: List[str]
+    recommendation: str
+    officialUrl: str
+
