@@ -9,6 +9,8 @@ from routes.history import router as history_router
 from routes.translation import router as translation_router
 from routes.sync import router as sync_router
 from routes.location import router as location_router
+from routes.market import router as market_router
+from routes.schemes import router as schemes_router
 
 app = FastAPI(
     title="Smart Agriculture Copilot API",
@@ -50,6 +52,8 @@ app.include_router(history_router)
 app.include_router(translation_router)
 app.include_router(sync_router)
 app.include_router(location_router)
+app.include_router(market_router)
+app.include_router(schemes_router)
 
 # Custom Exception Handler
 @app.exception_handler(Exception)
