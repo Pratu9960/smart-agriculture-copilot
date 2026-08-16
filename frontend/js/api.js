@@ -9,7 +9,31 @@ const API_BASE_URL = window.location.origin.includes('localhost') || window.loca
   ? 'http://127.0.0.1:8000/api'
   : '/api';
 
-const SmartAgAPI = {
+const SmartAgAPI = {  
+  /**
+   * Get authentication headers for protected backend endpoints.
+   */
+  async getAuthHeaders() {
+    if (
+      !window.AuthModule ||
+      typeof window.AuthModule.getCurrentUser !== 'function'
+    ) {
+      throw new Error('Authentication module is not available.');
+    }
+
+    const user = window.AuthModule.getCurrentUser();
+
+    if (!user) {
+      throw new Error('Please log in to access your scan history.');
+    }
+
+    const idToken = await user.getIdToken();
+
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${idToken}`
+    };
+  },
   /**
    * Send crop leaf image to FastAPI for online Gemini diagnosis.
    * @param {File|Blob} imageFile 
@@ -147,16 +171,49 @@ const SmartAgAPI = {
    * Fetch scan history for authenticated user.
    * @returns {Promise<Array>} List of scan records
    */
+  
   async getHistory() {
     try {
-      const response = await fetch(`${API_BASE_URL}/history`);
-      if (!response.ok) throw new Error(`Status ${response.status}`);
+      const headers = await this.getAuthHeaders();
+
+      const response = await fetch(`${API_BASE_URL}/history`, {
+        method: 'GET',
+        headers
+      });
+
+      if (!response.ok) {
+        let detail = '';
+
+        try {
+          const payload = await response.json();
+          detail = payload && payload.detail
+            ? String(payload.detail)
+            : '';
+        } catch (e) {
+          // Ignore JSON parsing failure.
+        }
+
+        const error = new Error(
+          detail || `History service returned HTTP ${response.status}.`
+        );
+
+        error.status = response.status;
+        throw error;
+      }
+
       return await response.json();
+
     } catch (error) {
-      console.warn('[SmartAgAPI] History API unavailable. Retrieving from local dev cache.', error);
-      const localData = localStorage.getItem('smart_ag_scan_history');
-      return localData ? JSON.parse(localData) : [];
+      console.error(
+        '[SmartAgAPI] Failed to retrieve Firestore history:',
+        error
+      );
+
+      // Do NOT silently replace an authentication/Firestore failure
+      // with fake history data.
+      throw error;
     }
+  
   },
 
   /**
@@ -164,23 +221,46 @@ const SmartAgAPI = {
    * @param {Object} scanRecord 
    * @returns {Promise<Object>} Saved record details
    */
-  async saveHistory(scanRecord) {
+  
+    async saveHistory(scanRecord) {
     try {
+      const headers = await this.getAuthHeaders();
+
       const response = await fetch(`${API_BASE_URL}/history`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify(scanRecord)
       });
-      if (!response.ok) throw new Error(`Status ${response.status}`);
+
+      if (!response.ok) {
+        let detail = '';
+
+        try {
+          const payload = await response.json();
+          detail = payload && payload.detail
+            ? String(payload.detail)
+            : '';
+        } catch (e) {
+          // Ignore JSON parsing failure.
+        }
+
+        const error = new Error(
+          detail || `History service returned HTTP ${response.status}.`
+        );
+
+        error.status = response.status;
+        throw error;
+      }
+
       return await response.json();
+
     } catch (error) {
-      console.warn('[SmartAgAPI] Save history endpoint unavailable. Saving to dev LocalStorage cache.', error);
-      const existing = JSON.parse(localStorage.getItem('smart_ag_scan_history') || '[]');
-      scanRecord.id = scanRecord.id || 'scan_' + Date.now();
-      scanRecord.syncStatus = 'SYNCED_LOCAL_DEV';
-      existing.unshift(scanRecord);
-      localStorage.setItem('smart_ag_scan_history', JSON.stringify(existing));
-      return { success: true, record: scanRecord, isLocalDevMock: true };
+      console.error(
+        '[SmartAgAPI] Failed to save scan to Firestore:',
+        error
+      );
+
+      throw error;
     }
   },
 
@@ -210,18 +290,47 @@ const SmartAgAPI = {
    * @param {Array} pendingRecords 
    * @returns {Promise<Object>} Sync status
    */
-  async syncRecords(pendingRecords) {
+    async syncRecords(pendingRecords) {
     try {
+      const headers = await this.getAuthHeaders();
+
       const response = await fetch(`${API_BASE_URL}/sync`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ records: pendingRecords })
+        headers,
+        body: JSON.stringify({
+          records: pendingRecords
+        })
       });
-      if (!response.ok) throw new Error(`Status ${response.status}`);
+
+      if (!response.ok) {
+        let detail = '';
+
+        try {
+          const payload = await response.json();
+          detail = payload && payload.detail
+            ? String(payload.detail)
+            : '';
+        } catch (e) {
+          // Ignore JSON parsing failure.
+        }
+
+        const error = new Error(
+          detail || `Sync service returned HTTP ${response.status}.`
+        );
+
+        error.status = response.status;
+        throw error;
+      }
+
       return await response.json();
+
     } catch (error) {
-      console.warn('[SmartAgAPI] Sync API unavailable.', error);
-      throw new Error('Records could not be synchronized. They remain available on this device.');
+      console.error(
+        '[SmartAgAPI] Failed to synchronize records:',
+        error
+      );
+
+      throw error;
     }
   },
 
