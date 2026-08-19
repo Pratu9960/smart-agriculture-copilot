@@ -103,8 +103,20 @@
           <button class="desktop-nav-item" data-target="view-history" type="button">History</button>
         </nav>
         <div class="header-actions">
-          <div class="status-badge" id="status-badge" title="Current network status"><span class="status-dot"></span><span id="status-badge-text">Online</span></div>
-          <button class="lang-pill" data-target="view-language" type="button"><span aria-hidden="true">&#9788;</span><span id="active-lang-text">EN</span></button>
+          <div class="lang-dropdown-wrapper" id="header-lang-dropdown">
+            <button class="lang-pill dropdown-trigger" id="lang-dropdown-btn" type="button" aria-expanded="false" aria-haspopup="true" aria-label="Select language">
+              <span aria-hidden="true">🌐</span>
+              <span id="active-lang-text">EN</span>
+              <span class="dropdown-chevron" aria-hidden="true">▼</span>
+            </button>
+            <div class="lang-dropdown-menu hidden" id="lang-dropdown-menu" role="menu" aria-orientation="vertical">
+              <button class="lang-dropdown-item selected" data-lang="en" role="menuitem" type="button"><span>English</span><span class="lang-check">✓</span></button>
+              <button class="lang-dropdown-item" data-lang="mr" role="menuitem" type="button"><span>मराठी</span><span class="lang-check">✓</span></button>
+              <button class="lang-dropdown-item" data-lang="hi" role="menuitem" type="button"><span>हिन्दी</span><span class="lang-check">✓</span></button>
+              <button class="lang-dropdown-item" data-lang="ta" role="menuitem" type="button"><span>தமிழ்</span><span class="lang-check">✓</span></button>
+              <button class="lang-dropdown-item" data-lang="te" role="menuitem" type="button"><span>తెలుగు</span><span class="lang-check">✓</span></button>
+            </div>
+          </div>
           <button class="header-profile" data-target="view-profile" type="button" aria-label="Open profile"><span id="header-profile-initial">F</span></button>
         </div>
       </div>

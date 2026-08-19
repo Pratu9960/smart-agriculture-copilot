@@ -264,24 +264,45 @@ const SmartAgAPI = {
     }
   },
 
+  _translationCache: new Map(),
+
   /**
-   * Translate text via FastAPI Bhashini service wrapper.
+   * Translate text via FastAPI translation service wrapper with in-memory caching.
    * @param {string} text 
-   * @param {string} targetLang ('en', 'hi', 'mr')
+   * @param {string} targetLang ('en', 'hi', 'mr', 'ta', 'te')
+   * @param {string} sourceLang ('en')
    * @returns {Promise<Object>} Translated string wrapper
    */
-  async translateText(text, targetLang) {
+  async translateText(text, targetLang, sourceLang = 'en') {
+    if (!text || typeof text !== 'string' || !text.trim()) {
+      return { translatedText: text || '', isDevFallback: false };
+    }
+
+    const cleanText = text.trim();
+    if (!targetLang || targetLang === sourceLang) {
+      return { translatedText: cleanText, isDevFallback: false };
+    }
+
+    const cacheKey = `${sourceLang}:${targetLang}:${cleanText}`;
+    if (this._translationCache.has(cacheKey)) {
+      return Promise.resolve(this._translationCache.get(cacheKey));
+    }
+
     try {
       const response = await fetch(`${API_BASE_URL}/translate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text, target_language: targetLang })
+        body: JSON.stringify({ text: cleanText, target_language: targetLang, source_language: sourceLang })
       });
       if (!response.ok) throw new Error(`Status ${response.status}`);
-      return await response.json();
+      const data = await response.json();
+      if (data && typeof data.translatedText === 'string') {
+        this._translationCache.set(cacheKey, data);
+      }
+      return data;
     } catch (error) {
       console.warn('[SmartAgAPI] Translate API unavailable. Returning original text.', error);
-      return { translatedText: text, isDevFallback: true };
+      return { translatedText: cleanText, isDevFallback: true };
     }
   },
 

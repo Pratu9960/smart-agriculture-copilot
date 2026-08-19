@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     GEMINI_MODEL: str = "gemini-3.6-flash"
     OPENWEATHER_API_KEY: str = ""
     BHASHINI_API_KEY: str = ""
+    SARVAM_API_KEY: str = ""
     DATAGOV_API_KEY: str = ""
     MYSCHEME_API_KEY: str = ""
     FIREBASE_CREDENTIALS_PATH: str = ""

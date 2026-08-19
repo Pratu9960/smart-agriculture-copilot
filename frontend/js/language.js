@@ -1,6 +1,6 @@
 /* Central UI language service for HaritKranti. */
 const LanguageModule = {
-  storageKey: 'app_language',
+  storageKey: 'smart_ag_language',
   supportedLanguages: { en: 'English', mr: 'मराठी', hi: 'हिन्दी', ta: 'தமிழ்', te: 'తెలుగు' },
   currentLang: 'en',
   translations: {
@@ -637,12 +637,69 @@ const LanguageModule = {
   },
 
   init() {
-    const saved = localStorage.getItem(this.storageKey);
+    const saved = localStorage.getItem(this.storageKey) || localStorage.getItem('app_language');
     if (saved && this.supportedLanguages[saved]) {
       this.currentLang = saved;
+      localStorage.setItem(this.storageKey, saved);
     }
+    this.setupHeaderDropdown();
+    this.setupEventListeners();
     this.updateLanguageCards();
     this.updateDOM();
+  },
+
+  setupHeaderDropdown() {
+    const btn = document.getElementById('lang-dropdown-btn');
+    const wrapper = document.getElementById('header-lang-dropdown');
+    const menu = document.getElementById('lang-dropdown-menu');
+    if (!btn || !wrapper || !menu) return;
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = wrapper.classList.contains('open');
+      if (isOpen) {
+        this.closeDropdown();
+      } else {
+        wrapper.classList.add('open');
+        menu.classList.remove('hidden');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') this.closeDropdown();
+    });
+  },
+
+  closeDropdown() {
+    const wrapper = document.getElementById('header-lang-dropdown');
+    const menu = document.getElementById('lang-dropdown-menu');
+    const btn = document.getElementById('lang-dropdown-btn');
+    if (wrapper) wrapper.classList.remove('open');
+    if (menu) menu.classList.add('hidden');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  },
+
+  setupEventListeners() {
+    if (this._listenersAttached) return;
+    this._listenersAttached = true;
+
+    document.addEventListener('click', (event) => {
+      const targetLangEl = event.target.closest('[data-lang]');
+      if (!targetLangEl) {
+        // Close header dropdown when clicking outside
+        this.closeDropdown();
+        return;
+      }
+
+      if (targetLangEl.tagName === 'OPTION') return;
+
+      const langCode = targetLangEl.dataset.lang;
+      if (!langCode || !this.supportedLanguages[langCode]) return;
+
+      this.setLanguage(langCode);
+      this.closeDropdown();
+    });
   },
 
   setLanguage(langCode) {
@@ -651,7 +708,19 @@ const LanguageModule = {
     localStorage.setItem(this.storageKey, langCode);
     this.updateLanguageCards();
     this.updateDOM();
-    document.dispatchEvent(new CustomEvent('languagechange', { detail: { language: langCode } }));
+
+    // Broadcast global language change custom events
+    const detail = { language: langCode };
+    window.dispatchEvent(new CustomEvent('smartag:languagechange', { detail }));
+    document.dispatchEvent(new CustomEvent('languagechange', { detail }));
+
+    // Notify active modules directly
+    if (window.DiagnosisModule && typeof window.DiagnosisModule.onLanguageChange === 'function') {
+      window.DiagnosisModule.onLanguageChange(langCode);
+    }
+    if (window.HistoryModule && typeof window.HistoryModule.onLanguageChange === 'function') {
+      window.HistoryModule.onLanguageChange(langCode);
+    }
   },
 
   t(path, params = {}) {
@@ -668,11 +737,15 @@ const LanguageModule = {
   },
 
   updateLanguageCards() {
-    document.querySelectorAll('.lang-card').forEach(card => {
-      card.classList.toggle('selected', card.dataset.lang === this.currentLang);
+    // Update all data-lang elements (Language page cards & header dropdown items)
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      if (el.tagName === 'OPTION') return;
+      el.classList.toggle('selected', el.dataset.lang === this.currentLang);
     });
+
     const activeText = document.getElementById('active-lang-text');
     if (activeText) activeText.textContent = this.currentLang.toUpperCase();
+
     const selectEl = document.getElementById('auth-language-select');
     if (selectEl) selectEl.value = this.currentLang;
   },

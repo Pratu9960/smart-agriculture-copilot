@@ -29,6 +29,15 @@ const DiagnosisModule = {
   },
 
   setupEventListeners() {
+    if (this.initialized) return;
+    this.initialized = true;
+
+    window.addEventListener('smartag:languagechange', (e) => {
+      if (e.detail && e.detail.language) {
+        this.onLanguageChange(e.detail.language);
+      }
+    });
+
     const fileInputCamera = document.getElementById('input-camera');
     const fileInputGallery = document.getElementById('input-gallery');
     const uploadZone = document.getElementById('upload-zone');
@@ -277,7 +286,28 @@ const DiagnosisModule = {
 
       this.currentResult = result;
 
-      this.renderDiagnosisResult(result);
+      const targetLang = (window.LanguageModule && window.LanguageModule.currentLang) || 'en';
+      let displayResult = result;
+
+      if (targetLang !== 'en') {
+        if (analysisStep) {
+          analysisStep.textContent = this.t('common.loading', 'Translating diagnosis...');
+        }
+        try {
+          displayResult = await this.translateDiagnosisPayload(result, targetLang);
+        } catch (transErr) {
+          console.warn('[DiagnosisModule] Dynamic translation failed, using original English payload:', transErr);
+          if (window.App) {
+            window.App.showToast(
+              this.t('validation.default', 'Translation service unavailable. Displaying original diagnosis.'),
+              'warning'
+            );
+          }
+          displayResult = result;
+        }
+      }
+
+      this.renderDiagnosisResult(displayResult);
 
       if (window.App) {
         window.App.navigateTo('view-result');
@@ -756,6 +786,153 @@ const DiagnosisModule = {
     div.textContent = String(value);
 
     return div.innerHTML;
+  },
+
+  /**
+   * Translate diagnosis fields efficiently using SmartAgAPI.translateText without mutating original result.
+   */
+  async translateDiagnosisPayload(result, targetLang) {
+    if (!result || typeof result !== 'object') return result;
+    if (!targetLang || targetLang === 'en') return result;
+
+    const stringsToTranslate = new Set();
+    const addStr = (val) => {
+      if (typeof val === 'string' && val.trim().length > 0) {
+        stringsToTranslate.add(val.trim());
+      }
+    };
+
+    addStr(result.crop);
+    addStr(result.disease);
+    addStr(result.severity);
+    addStr(result.cause);
+    addStr(result.overview);
+    addStr(result.treatment);
+    addStr(result.fertilizer);
+
+    if (Array.isArray(result.symptoms)) {
+      result.symptoms.forEach(s => addStr(s));
+    } else if (typeof result.symptoms === 'string') {
+      addStr(result.symptoms);
+    }
+
+    if (Array.isArray(result.prevention)) {
+      result.prevention.forEach(p => addStr(p));
+    } else if (typeof result.prevention === 'string') {
+      addStr(result.prevention);
+    }
+
+    if (Array.isArray(result.pesticides)) {
+      result.pesticides.forEach(p => {
+        if (p && typeof p === 'object') {
+          addStr(p.name);
+          addStr(p.dosage);
+          addStr(p.application);
+          addStr(p.formulation);
+        } else if (typeof p === 'string') {
+          addStr(p);
+        }
+      });
+    } else if (typeof result.pesticides === 'string') {
+      addStr(result.pesticides);
+    }
+
+    const textList = Array.from(stringsToTranslate);
+    if (textList.length === 0) return result;
+
+    const translationMap = new Map();
+    try {
+      const results = await Promise.all(
+        textList.map(text =>
+          window.SmartAgAPI.translateText(text, targetLang)
+            .then(res => ({ original: text, translated: (res && res.translatedText) || text }))
+            .catch(() => ({ original: text, translated: text }))
+        )
+      );
+      results.forEach(item => {
+        translationMap.set(item.original, item.translated);
+      });
+    } catch (err) {
+      console.warn('[DiagnosisModule] Error translating diagnosis fields:', err);
+      throw err;
+    }
+
+    const tr = (val) => {
+      if (typeof val !== 'string' || !val.trim()) return val;
+      return translationMap.get(val.trim()) || val;
+    };
+
+    const translatedResult = {
+      ...result,
+      crop: tr(result.crop),
+      disease: tr(result.disease),
+      severity: tr(result.severity),
+      cause: tr(result.cause),
+      overview: tr(result.overview),
+      treatment: tr(result.treatment),
+      fertilizer: tr(result.fertilizer)
+    };
+
+    if (Array.isArray(result.symptoms)) {
+      translatedResult.symptoms = result.symptoms.map(s => tr(s));
+    } else if (typeof result.symptoms === 'string') {
+      translatedResult.symptoms = tr(result.symptoms);
+    }
+
+    if (Array.isArray(result.prevention)) {
+      translatedResult.prevention = result.prevention.map(p => tr(p));
+    } else if (typeof result.prevention === 'string') {
+      translatedResult.prevention = tr(result.prevention);
+    }
+
+    if (Array.isArray(result.pesticides)) {
+      translatedResult.pesticides = result.pesticides.map(p => {
+        if (p && typeof p === 'object') {
+          return {
+            ...p,
+            name: tr(p.name),
+            dosage: tr(p.dosage),
+            application: tr(p.application),
+            formulation: tr(p.formulation)
+          };
+        } else if (typeof p === 'string') {
+          return tr(p);
+        }
+        return p;
+      });
+    } else if (typeof result.pesticides === 'string') {
+      translatedResult.pesticides = tr(result.pesticides);
+    }
+
+    return translatedResult;
+  },
+
+  /**
+   * Handler triggered when user changes active language.
+   * If a diagnosis is currently loaded, re-translates and re-renders immediately.
+   */
+  async onLanguageChange(newLang) {
+    if (!this.currentResult) return;
+
+    const targetLang = newLang || (window.LanguageModule && window.LanguageModule.currentLang) || 'en';
+    let displayResult = this.currentResult;
+
+    if (targetLang !== 'en') {
+      if (window.App) {
+        window.App.showToast('Translating diagnosis...', 'info');
+      }
+      try {
+        displayResult = await this.translateDiagnosisPayload(this.currentResult, targetLang);
+      } catch (err) {
+        console.warn('[DiagnosisModule] Failed to translate diagnosis on language change:', err);
+        if (window.App) {
+          window.App.showToast('Translation service unavailable. Displaying original diagnosis.', 'warning');
+        }
+        displayResult = this.currentResult;
+      }
+    }
+
+    this.renderDiagnosisResult(displayResult);
   },
 
   /**

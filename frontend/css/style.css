@@ -120,18 +120,104 @@ body {
   background-color: var(--status-offline);
 }
 
+.lang-dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
 .lang-pill {
   background: var(--accent-gold);
   color: var(--primary-dark);
-  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   padding: 6px 12px;
   border-radius: var(--radius-full);
   font-weight: 700;
   font-size: 0.85rem;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.lang-pill:hover,
+.lang-pill:focus-visible {
+  background: #f0cd75;
+}
+
+.dropdown-chevron {
+  font-size: 0.7rem;
+  opacity: 0.75;
+  transition: transform var(--transition-fast);
+}
+
+.lang-dropdown-wrapper.open .dropdown-chevron {
+  transform: rotate(180deg);
+}
+
+.lang-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 140px;
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: 6px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: fadeInDown 0.15s ease-out;
+}
+
+.lang-dropdown-menu.hidden {
+  display: none !important;
+}
+
+.lang-dropdown-item {
   display: flex;
   align-items: center;
-  gap: 4px;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.lang-dropdown-item:hover,
+.lang-dropdown-item:focus-visible {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+}
+
+.lang-dropdown-item.selected {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+.lang-dropdown-item .lang-check {
+  font-size: 0.85rem;
+  color: var(--primary);
+  opacity: 0;
+}
+
+.lang-dropdown-item.selected .lang-check {
+  opacity: 1;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Offline Global Banner */
