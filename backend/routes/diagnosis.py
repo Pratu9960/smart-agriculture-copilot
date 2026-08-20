@@ -72,16 +72,72 @@ async def diagnose_crop(file: UploadFile = File(...)):
     confidence = float(classification.get("confidence", 0.90))
 
     # 5. Lookup Recommendations from Agricultural Recommendation Knowledge Base
-    recommendations = knowledge_service.get_recommendations(crop, disease)
+    crop_res = knowledge_service.get_knowledge_record(crop, disease)
+    is_healthy = disease.strip().lower() == "healthy"
+
+    if is_healthy and not crop_res:
+        # Healthy plant fallback
+        healthy_info = knowledge_service.get_healthy_fallback()
+        severity = healthy_info["severity"]
+        symptoms = healthy_info["symptoms"]
+        cause = healthy_info["cause"]
+        treatment = healthy_info["treatment"]
+        raw_pesticides = healthy_info["pesticides"]
+        fertilizer = healthy_info["fertilizer"]
+        prevention = healthy_info["prevention"]
+        sources = healthy_info["sources"]
+        recommendations_verified = healthy_info["recommendationsVerified"]
+        knowledge_match = healthy_info["knowledgeMatch"]
+        knowledge_match_type = healthy_info["knowledgeMatchType"]
+    elif crop_res:
+        # Enriched database match
+        record, match_type = crop_res
+        severity = record.get("severity")
+        symptoms = record.get("symptoms", [])
+        cause = record.get("cause", "")
+        treatment = record.get("treatment", "")
+        raw_pesticides = record.get("pesticides", [])
+        fertilizer = record.get("fertilizer", "")
+        prevention = record.get("prevention", [])
+        sources = record.get("sources", [])
+        recommendations_verified = bool(record.get("recommendationsVerified", True))
+        knowledge_match = True
+        knowledge_match_type = match_type
+    else:
+        # No database match
+        unmatched_info = knowledge_service.get_unmatched_fallback()
+        severity = unmatched_info["severity"]
+        symptoms = unmatched_info["symptoms"]
+        cause = unmatched_info["cause"]
+        treatment = unmatched_info["treatment"]
+        raw_pesticides = unmatched_info["pesticides"]
+        fertilizer = unmatched_info["fertilizer"]
+        prevention = unmatched_info["prevention"]
+        sources = unmatched_info["sources"]
+        recommendations_verified = unmatched_info["recommendationsVerified"]
+        knowledge_match = unmatched_info["knowledgeMatch"]
+        knowledge_match_type = unmatched_info["knowledgeMatchType"]
 
     # Format pesticide items list
     pesticide_items = []
-    raw_pesticides = recommendations.get("pesticides", [])
     for p in raw_pesticides:
         if isinstance(p, dict):
-            pesticide_items.append(PesticideItem(name=p.get("name", ""), dosage=p.get("dosage", "")))
+            pesticide_items.append(
+                PesticideItem(
+                    name=p.get("name", ""),
+                    dosage=p.get("dosage", ""),
+                    formulation=p.get("formulation"),
+                    application=p.get("application"),
+                    source=p.get("source"),
+                )
+            )
         elif isinstance(p, str):
-            pesticide_items.append(PesticideItem(name=p, dosage="As per local product label"))
+            pesticide_items.append(
+                PesticideItem(
+                    name=p,
+                    dosage="As per local product label",
+                )
+            )
 
     scan_id = f"scan_{int(time.time())}"
     timestamp_iso = time.strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -91,13 +147,18 @@ async def diagnose_crop(file: UploadFile = File(...)):
         crop=crop,
         disease=disease,
         confidence=confidence,
-        severity=recommendations.get("severity", "Unknown"),
+        severity=severity,
         timestamp=timestamp_iso,
-        symptoms=recommendations.get("symptoms", []),
-        cause=recommendations.get("cause", ""),
-        treatment=recommendations.get("treatment", ""),
+        symptoms=symptoms,
+        cause=cause,
+        treatment=treatment,
         pesticides=pesticide_items,
-        fertilizer=recommendations.get("fertilizer", ""),
-        prevention=recommendations.get("prevention", []),
+        fertilizer=fertilizer,
+        prevention=prevention,
+        sources=sources,
+        recommendationsVerified=recommendations_verified,
+        knowledgeMatch=knowledge_match,
+        knowledgeMatchType=knowledge_match_type,
+        mode="online",
         isDevMockPayload=gemini_service.is_mock
     )

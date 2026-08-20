@@ -5,20 +5,28 @@ from pydantic import BaseModel, Field, ConfigDict
 class PesticideItem(BaseModel):
     name: str
     dosage: str
+    formulation: Optional[str] = None
+    application: Optional[str] = None
+    source: Optional[str] = None
 
 class DiagnosisResponse(BaseModel):
     id: str
     crop: str
     disease: str
     confidence: float
-    severity: str
+    severity: Optional[str] = None
     timestamp: str
-    symptoms: List[str]
-    cause: str
+    symptoms: List[str] = Field(default_factory=list)
+    cause: Optional[str] = ""
     treatment: str
-    pesticides: List[PesticideItem]
-    fertilizer: str
-    prevention: List[str]
+    pesticides: List[PesticideItem] = Field(default_factory=list)
+    fertilizer: Optional[str] = ""
+    prevention: List[str] = Field(default_factory=list)
+    sources: List[Dict[str, Any]] = Field(default_factory=list)
+    recommendationsVerified: Optional[bool] = False
+    knowledgeMatch: Optional[bool] = False
+    knowledgeMatchType: Optional[str] = None
+    mode: Optional[str] = "online"
     isDevMockPayload: Optional[bool] = False
 
 # --- Weather Schemas ---

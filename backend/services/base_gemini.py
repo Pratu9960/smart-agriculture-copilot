@@ -113,18 +113,77 @@ Apple:
 - Black Rot
 - Cedar Apple Rust
 
+Bell Pepper:
+- Bacterial Spot
+
+Black Gram (Urad):
+- Yellow Mosaic Virus (YMV)
+- Leaf Crinkle Virus
+- Cercospora Leaf Spot
+
+Brinjal:
+- Phomopsis Blight and Fruit Rot
+- Bacterial Wilt
+- Little Leaf Disease
+
+Cabbage:
+- Black Rot
+- Damping Off
+- Downy Mildew
+
+Cauliflower:
+- Black Rot
+- Downy Mildew
+- Alternaria Leaf Spot (Blight)
+
 Cherry:
+- Powdery Mildew
+
+Chickpea (Gram):
+- Fusarium Wilt
+- Ascochyta Blight
+- Botrytis Grey Mold (BGM)
+
+Chilli:
+- Anthracnose (Fruit Rot / Die-back)
+- Chilli Leaf Curl Virus (ChiLCV)
 - Powdery Mildew
 
 Corn (Maize):
 - Cercospora Leaf Spot / Gray Leaf Spot
 - Common Rust
 - Northern Leaf Blight
+- Turcicum Leaf Blight (Northern Corn Leaf Blight)
+
+Cotton:
+- Bacterial Blight (Angular Leaf Spot)
+- Grey Mildew (Ramularia Leaf Spot)
+- Cotton Leaf Curl Virus (CLCuV)
 
 Grape:
 - Black Rot
 - Esca (Black Measles)
 - Leaf Blight (Isariopsis Leaf Spot)
+
+Green Gram (Moong):
+- Yellow Mosaic Virus (MYMV)
+- Cercospora Leaf Spot
+- Powdery Mildew
+
+Groundnut:
+- Early Leaf Spot (Tikka Disease)
+- Late Leaf Spot
+- Rust
+
+Okra (Bhindi):
+- Yellow Vein Mosaic Virus (YVMV)
+- Powdery Mildew
+- Cercospora Leaf Spot
+
+Onion:
+- Purple Blotch
+- Stemphylium Blight
+- Downy Mildew
 
 Orange:
 - Huanglongbing (Citrus Greening)
@@ -132,18 +191,45 @@ Orange:
 Peach:
 - Bacterial Spot
 
-Bell Pepper:
-- Bacterial Spot
+Pearl Millet (Bajra):
+- Downy Mildew (Green Ear Disease)
+- Ergot
+- Grain Smut
+
+Pigeon Pea (Tur):
+- Fusarium Wilt
+- Sterility Mosaic Disease (SMD)
+- Phytophthora Blight
 
 Potato:
 - Early Blight
 - Late Blight
+
+Rice:
+- Rice Blast
+- Bacterial Leaf Blight (BLB)
+- Sheath Blight
+
+Sorghum (Jowar):
+- Grain Mold
+- Anthracnose
+- Downy Mildew
+
+Soybean:
+- Soybean Rust
+- Yellow Mosaic Virus (YMV)
+- Bacterial Pustule
 
 Squash:
 - Powdery Mildew
 
 Strawberry:
 - Leaf Scorch
+
+Sugarcane:
+- Red Rot
+- Smut
+- Wilt
 
 Tomato:
 - Bacterial Spot
@@ -155,101 +241,47 @@ Tomato:
 - Target Spot
 - Tomato Yellow Leaf Curl Virus
 - Tomato Mosaic Virus
+
+Wheat:
+- Brown (Leaf) Rust
+- Yellow (Stripe) Rust
+- Karnal Bunt
 """
 
         prompt = f"""
-You are an expert agricultural plant pathology classifier
-for the Smart Agriculture Copilot application.
+You are an expert agricultural plant pathology classifier for the Smart Agriculture Copilot application.
 
 Analyze the provided crop leaf image carefully.
 
 YOUR RESPONSIBILITY IS STRICTLY LIMITED TO:
-1. Identifying the crop.
-2. Identifying the disease/condition.
-3. Providing an estimated confidence score from 0.0 to 1.0.
+1. Identifying the crop name.
+2. Identifying the disease name or specifying "Healthy" if no disease is present.
+3. Providing an estimated confidence score between 0.0 and 1.0.
 
-You MUST NOT provide:
-- treatment instructions
-- pesticide recommendations
-- pesticide names
-- pesticide dosages
-- fertilizer recommendations
-- prevention instructions
-- chemical recommendations
-- any other agricultural advice
+STRICT RESTRICTIONS:
+- You MUST NOT provide treatment instructions.
+- You MUST NOT provide pesticide recommendations, names, or dosages.
+- You MUST NOT provide fertilizer guidance.
+- You MUST NOT provide prevention instructions.
+- You MUST NOT return markdown or additional explanation.
+- You MUST NOT invent additional fields.
 
-All agricultural recommendations are handled separately by the
-application's verified KnowledgeService.
+All verified agricultural recommendations are retrieved separately from the authoritative agricultural knowledge database.
 
 ============================================================
-SUPPORTED DISEASE CLASSES
+SUPPORTED CROPS & DISEASES
 ============================================================
-
-The application currently supports ONLY these disease classes:
 
 {supported_classes}
-
-============================================================
-CLASSIFICATION RULE
-============================================================
-
-If the image clearly matches one of the supported classes,
-return that supported crop and disease.
-
-If the image does NOT clearly match one of the supported classes,
-DO NOT invent or guess another disease.
-
-Instead return:
-
-{{
-  "crop": "Unknown",
-  "disease": "Unknown",
-  "confidence": 0.0
-}}
-
-If the image is healthy and clearly corresponds to a supported crop,
-you may return:
-
-{{
-  "crop": "<crop>",
-  "disease": "Healthy",
-  "confidence": <score>
-}}
-
-============================================================
-IMPORTANT
-============================================================
-
-Do not return diseases that are not present in the supported list.
-
-For example:
-
-Wheat + Leaf Rust
-
-is NOT currently supported.
-
-Therefore, if the uploaded image appears to be Wheat Leaf Rust,
-return:
-
-{{
-  "crop": "Unknown",
-  "disease": "Unknown",
-  "confidence": 0.0
-}}
-
-Do not substitute it with another disease.
 
 ============================================================
 OUTPUT FORMAT
 ============================================================
 
-Return ONLY valid JSON.
-
-Required schema:
-
+Return STRICT JSON only matching this schema:
 {{
-  "crop": "string",
-  "disease": "string",
+  "crop": "Detected crop name",
+  "disease": "Detected disease name or Healthy",
   "confidence": 0.0
 }}
 """

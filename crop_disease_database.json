@@ -830,7 +830,7 @@
     "disease": "Leaf Mold",
     "severity": "Moderate",
     "symptoms": [
-      "Pale green or yellowish spots on upper leaf surface",
+      "Pale green or average yellowish spots on upper leaf surface",
       "Olive-green to grayish-purple fungal growth on lower leaf surface",
       "Leaves may curl and die",
       "Most severe in greenhouse or high-humidity conditions"
@@ -887,7 +887,7 @@
     "sources": [
       {
         "title": "AESA Based IPM Package – Tomato",
-        "organization": "Directorate of Plant Protection Quarantine & Storage",
+        "organization": "NIPHM / Directorate of Plant Protection, Quarantine & Storage",
         "url": "https://ppqs.gov.in/sites/default/files/tomato.pdf"
       }
     ],
