@@ -2,680 +2,1773 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#113b2a">
-  <title>HaritKranti | Smart Agriculture Copilot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#062E1B">
+  <meta name="description" content="HaritKranti — AI-Powered Smart Agriculture Copilot for Indian Farmers providing crop disease diagnosis, weather insights, market prices, and government schemes.">
+  <title>HaritKranti — Smart Agriculture Copilot</title>
+
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- Authenticated entry experience -->
-  <section class="auth-screen" id="auth-screen" aria-labelledby="auth-title">
+
+  <!-- ========================================================================
+       AUTHENTICATION SCREEN (Dual-Pane SaaS Layout)
+       ======================================================================== -->
+  <div id="auth-screen" class="auth-screen mode-login is-hidden" aria-label="Sign in to HaritKranti">
     <div class="auth-visual">
-        <div class="auth-brand">
-        <span class="brand-mark" aria-hidden="true">&#10022;</span>
+      <div class="auth-brand">
+        <div class="brand-logo-icon">
+          <svg viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+          </svg>
+        </div>
         <span>HaritKranti</span>
       </div>
+
       <div class="auth-visual-copy">
-        <p class="auth-overline">Intelligence for every growing season</p>
-        <h1>Smarter decisions for healthier crops.</h1>
-        <p>AI-powered crop insights and agricultural guidance, designed to work online and offline when your field needs it.</p>
+        <span class="auth-overline" data-i18n="auth.visualOverline">AGRICULTURAL INTELLIGENCE FOR EVERY GROWING SEASON</span>
+        <h1 data-i18n="auth.visualTitle">Smarter decisions.<br>Healthier crops.</h1>
+        <p data-i18n="auth.visualBody">AI-powered crop diagnosis, weather insights, mandi prices, and verified agricultural guidance — all in one workspace.</p>
+
+        <!-- Feature Highlights -->
+        <div class="auth-feature-list">
+          <div class="auth-feature-card">
+            <div class="auth-feature-icon">🌱</div>
+            <div class="auth-feature-text">
+              <strong>AI Crop Diagnosis</strong>
+              <p>Identify crop diseases and get actionable treatment guidance.</p>
+            </div>
+          </div>
+          <div class="auth-feature-card">
+            <div class="auth-feature-icon">☁</div>
+            <div class="auth-feature-text">
+              <strong>Smart Weather Insights</strong>
+              <p>Get weather-based irrigation and farming recommendations.</p>
+            </div>
+          </div>
+          <div class="auth-feature-card">
+            <div class="auth-feature-icon">📈</div>
+            <div class="auth-feature-text">
+              <strong>Market & Scheme Intelligence</strong>
+              <p>Track mandi prices and discover relevant government schemes.</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="field-visual" aria-hidden="true">
-        <div class="field-scan-line"></div>
-        <div class="field-sun"></div>
-        <div class="field-row row-one"></div>
-        <div class="field-row row-two"></div>
-        <div class="field-leaf">&#127807;</div>
-        <span class="field-chip chip-one">VISION AI</span>
-        <span class="field-chip chip-two">FIELD READY</span>
-      </div>
+
       <div class="auth-trust-line">
-        <span><i class="trust-dot"></i> Secure workspace</span>
-        <span><i class="trust-dot"></i> Online + on-device ready</span>
+        <span><span class="trust-dot"></span> Secure Workspace</span>
+        <span><span class="trust-dot"></span> AI-Powered Insights</span>
+        <span><span class="trust-dot"></span> Online + Offline Ready</span>
       </div>
     </div>
 
     <div class="auth-panel">
       <div class="auth-panel-inner">
-        <div class="mobile-auth-brand auth-brand">
-          <span class="brand-mark" aria-hidden="true">&#10022;</span>
-          <span>HaritKranti</span>
+        <div class="mobile-auth-brand">
+          <div class="brand-logo-icon">
+            <svg viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+            </svg>
+          </div>
+          <h2>HaritKranti</h2>
         </div>
-        <label class="auth-language-control" for="auth-language-select"><span id="auth-visual-language-label">Language</span><select id="auth-language-select" aria-label="Language"><option value="en">English</option><option value="mr">मराठी</option><option value="hi">हिन्दी</option><option value="ta">தமிழ்</option><option value="te">తెలుగు</option></select></label>
+
         <div class="auth-heading">
-          <p class="auth-overline" id="auth-overline">Your farm workspace</p>
           <h2 id="auth-title">Welcome back</h2>
           <p id="auth-subtitle">Sign in to continue to your crop intelligence workspace.</p>
+          <div class="auth-language-control hidden">
+            <select id="auth-language-select">
+              <option value="en">English</option>
+              <option value="mr">मराठी</option>
+              <option value="hi">हिन्दी</option>
+              <option value="ta">தமிழ்</option>
+              <option value="te">తెలుగు</option>
+            </select>
+          </div>
         </div>
 
-        <div class="auth-tabs" role="tablist" aria-label="Account access">
-          <button class="auth-tab active" id="tab-auth-login" type="button" role="tab" aria-selected="true">Sign in</button>
-          <button class="auth-tab" id="tab-auth-register" type="button" role="tab" aria-selected="false">Create account</button>
-        </div>
+        <div id="auth-error-msg" class="auth-error-box" role="alert"></div>
 
-        <div class="auth-error-box" id="auth-error-msg" role="alert"></div>
+        <!-- Integrated Auth Form (Sign In & Create Account) -->
+        <form id="auth-form" class="auth-form mode-login" novalidate>
+          <div id="auth-name-group" class="form-group">
+            <label class="form-label" for="auth-name">Full Name</label>
+            <input type="text" id="auth-name" class="form-input" placeholder="Full name" autocomplete="name">
+          </div>
 
-        <form id="auth-form" novalidate>
-          <div class="form-group auth-register-field" id="auth-name-group">
-            <label class="form-label" for="auth-name">Full name</label>
-            <input type="text" id="auth-name" class="form-input" placeholder="e.g. Ramesh Patil" autocomplete="name">
+          <div id="auth-email-group" class="form-group">
+            <label class="form-label" for="auth-email">Email Address</label>
+            <input type="email" id="auth-email" class="form-input" placeholder="Email address" required autocomplete="email">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="auth-email">Email address</label>
-            <input type="email" id="auth-email" class="form-input" placeholder="you@example.com" required autocomplete="email">
-          </div>
-          <div class="form-group password-group">
+
+          <div id="auth-password-group" class="form-group">
             <label class="form-label" for="auth-password">Password</label>
             <div class="password-field">
-              <input type="password" id="auth-password" class="form-input" placeholder="At least 6 characters" required autocomplete="current-password">
-              <button class="password-toggle" id="btn-toggle-password" type="button" aria-label="Show password">Show</button>
+              <input type="password" id="auth-password" class="form-input" placeholder="Password" required autocomplete="current-password">
+              <button type="button" id="btn-toggle-password" class="password-toggle" aria-label="Show password">Show</button>
             </div>
           </div>
-          <div class="form-group auth-register-field" id="auth-confirm-group">
-            <label class="form-label" for="auth-confirm-password">Confirm password</label>
-            <input type="password" id="auth-confirm-password" class="form-input" placeholder="Repeat your password" autocomplete="new-password">
+
+          <div id="auth-confirm-group" class="form-group">
+            <label class="form-label" for="auth-confirm-password">Confirm Password</label>
+            <div class="password-field">
+              <input type="password" id="auth-confirm-password" class="form-input" placeholder="Confirm password" autocomplete="new-password">
+              <button type="button" id="btn-toggle-confirm-password" class="password-toggle" aria-label="Show password">Show</button>
+            </div>
           </div>
-          <div class="auth-form-options" id="auth-login-options">
-            <label class="check-label" id="auth-remember-label"><input type="checkbox" id="auth-remember"> <span>Remember me</span></label>
-            <button class="link-button" id="btn-forgot-password" type="button">Forgot password?</button>
+
+          <div id="auth-login-options" class="auth-form-options">
+            <label class="check-label" id="auth-remember-label">
+              <input type="checkbox" id="auth-remember" checked>
+              <span>Remember me</span>
+            </label>
+            <button type="button" id="btn-forgot-password" class="link-button">Forgot password?</button>
           </div>
-          <button class="btn btn-primary auth-submit" type="submit" id="btn-auth-submit">Sign in <span aria-hidden="true">&#8594;</span></button>
+
+          <button type="submit" id="btn-auth-submit" class="btn btn-primary btn-block auth-submit">Sign in</button>
+
+          <p class="auth-switch-copy">
+            <span id="auth-switch-copy">Don't have an account? </span>
+            <button type="button" id="auth-switch-link" class="link-button">Create account</button>
+          </p>
         </form>
-        <p class="auth-switch-copy" id="auth-switch-copy">New to HaritKranti? <button class="link-button" id="auth-switch-link" type="button">Create an account</button></p>
-        <p class="auth-legal" id="auth-legal">By continuing, you agree to use AI guidance alongside local agricultural expertise.</p>
+
+        <p id="auth-legal" class="auth-legal-note">By continuing, you agree to use AI guidance alongside local agricultural expertise.</p>
+        <span id="auth-status-hint" class="hidden"></span>
       </div>
     </div>
-  </section>
+  </div>
 
-  <div class="app-shell is-hidden" id="app-shell">
-    <header class="app-header">
-      <div class="header-inner">
-        <button class="brand-container" id="brand-home-btn" type="button" aria-label="Go to dashboard">
-          <span class="brand-icon" aria-hidden="true">&#10022;</span>
-          <span class="brand-lockup"><strong class="brand-title">HaritKranti</strong><small>Smart Agriculture Copilot</small></span>
+
+  <!-- ========================================================================
+       APPLICATION SHELL (Desktop Left Sidebar + Top Header)
+       ======================================================================== -->
+  <div id="app-shell" class="app-shell">
+
+    <!-- Mobile Drawer Backdrop -->
+    <div id="sidebar-backdrop" class="sidebar-backdrop" aria-hidden="true"></div>
+
+    <!-- LEFT SIDEBAR (~276px Fixed Desktop / Off-Canvas Mobile Drawer) -->
+    <aside id="app-sidebar" class="app-sidebar" aria-label="Main Navigation">
+      <div class="sidebar-brand">
+        <button id="brand-home-btn" class="brand-container" type="button" data-target="view-home">
+          <div class="brand-logo-icon">
+            <svg viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+            </svg>
+          </div>
+          <div class="brand-lockup">
+            <span class="brand-title">HaritKranti</span>
+            <small>Smart Agriculture Copilot</small>
+          </div>
         </button>
-        <nav class="desktop-nav" aria-label="Primary navigation">
-          <button class="desktop-nav-item active" data-target="view-home" type="button">Dashboard</button>
-          <button class="desktop-nav-item" data-target="view-scan" type="button">Scan crop</button>
-          <button class="desktop-nav-item" data-target="view-weather" type="button">Weather</button>
-          <button class="desktop-nav-item" data-target="view-market" type="button">Market prices</button>
-          <button class="desktop-nav-item" data-target="view-schemes" type="button">Govt schemes</button>
-          <button class="desktop-nav-item" data-target="view-history" type="button">History</button>
-        </nav>
-        <div class="header-actions">
-          <div class="lang-dropdown-wrapper" id="header-lang-dropdown">
-            <button class="lang-pill dropdown-trigger" id="lang-dropdown-btn" type="button" aria-expanded="false" aria-haspopup="true" aria-label="Select language">
-              <span aria-hidden="true">🌐</span>
-              <span id="active-lang-text">EN</span>
-              <span class="dropdown-chevron" aria-hidden="true">▼</span>
-            </button>
-            <div class="lang-dropdown-menu hidden" id="lang-dropdown-menu" role="menu" aria-orientation="vertical">
-              <button class="lang-dropdown-item selected" data-lang="en" role="menuitem" type="button"><span>English</span><span class="lang-check">✓</span></button>
-              <button class="lang-dropdown-item" data-lang="mr" role="menuitem" type="button"><span>मराठी</span><span class="lang-check">✓</span></button>
-              <button class="lang-dropdown-item" data-lang="hi" role="menuitem" type="button"><span>हिन्दी</span><span class="lang-check">✓</span></button>
-              <button class="lang-dropdown-item" data-lang="ta" role="menuitem" type="button"><span>தமிழ்</span><span class="lang-check">✓</span></button>
-              <button class="lang-dropdown-item" data-lang="te" role="menuitem" type="button"><span>తెలుగు</span><span class="lang-check">✓</span></button>
-            </div>
-          </div>
-          <button class="header-profile" data-target="view-profile" type="button" aria-label="Open profile"><span id="header-profile-initial">F</span></button>
-        </div>
+        <button id="btn-sidebar-close" class="modal-close hidden" type="button" aria-label="Close sidebar">&times;</button>
       </div>
-    </header>
 
-    <div class="offline-banner hidden" id="offline-banner" role="status"><span class="status-dot"></span><span>Offline right now. Local capabilities remain available.</span></div>
+      <nav class="sidebar-nav" aria-label="Primary Navigation">
+        <button class="desktop-nav-item active" data-target="view-home" type="button">
+          <span class="nav-icon icon">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav.dashboard">Dashboard</span>
+        </button>
 
-    <main class="app-container">
-      <!-- Dashboard -->
-      <section class="view-section active" id="view-home">
-        <div class="dashboard-intro">
-          <div><p class="page-eyebrow">YOUR FIELD WORKSPACE</p><h1 id="dashboard-intro-title">Good to see you, <span id="dashboard-farmer-name">farmer</span>.</h1><p id="dashboard-intro-subtitle">Clear signals for better crop decisions.</p></div>
-          <div class="dashboard-status"><span class="status-dot"></span><span id="dashboard-network-label">Online AI available</span></div>
-        </div>
-        <div class="dashboard-hero">
-          <div class="dashboard-hero-copy"><p class="hero-label"><span class="hero-label-line"></span> Crop intelligence</p><h2>Smarter decisions for healthier crops.</h2><p id="dashboard-hero-body">Upload a leaf image and get practical, explainable guidance for what to do next.</p><button class="btn btn-light" data-target="view-scan" type="button"><span id="dashboard-start-scan-text">Start a crop scan</span> <span aria-hidden="true">&#8594;</span></button></div>
-          <div class="dashboard-hero-art" aria-hidden="true"><div class="radar-ring ring-one"></div><div class="radar-ring ring-two"></div><div class="radar-core">&#127807;</div><span class="radar-label">LIVE<br>SCAN</span></div>
-        </div>
-        <div class="dashboard-grid">
-          <button class="feature-link feature-link-primary" data-target="view-scan" type="button"><span class="feature-icon">&#127807;</span><span><strong data-i18n="dashboard.scanTitle">Scan crop health</strong><small data-i18n="dashboard.scanBody">Photo to practical next steps</small></span><span class="arrow">&#8594;</span></button>
-          <button class="feature-link" data-target="view-weather" type="button"><span class="feature-icon weather-icon">&#9788;</span><span><strong data-i18n="dashboard.weatherTitle">Weather &amp; water</strong><small data-i18n="dashboard.weatherBody">Make irrigation decisions with confidence</small></span><span class="arrow">&#8594;</span></button>
-          <button class="feature-link" data-target="view-market" type="button"><span class="feature-icon market-icon">&#128200;</span><span><strong data-i18n="dashboard.marketTitle">Market prices &amp; trends</strong><small data-i18n="dashboard.marketBody">Latest mandi prices and 30-day historical trends</small></span><span class="arrow">&#8594;</span></button>
-          <button class="feature-link" data-target="view-schemes" type="button"><span class="feature-icon schemes-icon">&#128220;</span><span><strong data-i18n="dashboard.schemesTitle">Government schemes</strong><small data-i18n="dashboard.schemesBody">Explore subsidies, PM-KISAN, crop insurance &amp; more</small></span><span class="arrow">&#8594;</span></button>
-          <button class="feature-link" data-target="view-history" type="button"><span class="feature-icon history-icon">&#9673;</span><span><strong data-i18n="dashboard.historyTitle">Scan history</strong><small data-i18n="dashboard.historyBody">Review your farm’s recent insights</small></span><span class="arrow">&#8594;</span></button>
-        </div>
-        <div class="dashboard-lower"><div class="section-heading compact-heading"><div><p class="page-eyebrow">QUICK ACCESS</p><h2>Useful around the farm</h2></div></div><div class="quick-links"><button data-target="view-shops" type="button"><span>&#9678;</span> <span id="quick-nearby-text">Nearby agri shops</span></button><button data-target="view-language" type="button"><span>&#9788;</span> Language</button><button data-target="view-profile" type="button"><span>&#9679;</span> <span id="quick-settings-text">Profile settings</span></button></div></div>
-      </section>
+        <button class="desktop-nav-item" data-target="view-scan" type="button">
+          <span class="nav-icon icon">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
+              <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
+              <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
+              <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav.scan">Scan crop</span>
+        </button>
 
-      <!-- Crop scan -->
-      <section class="view-section" id="view-scan">
-        <div class="page-header scan-header"><div><p class="page-eyebrow">CROP INTELLIGENCE</p><h1 class="page-title">Crop scan</h1><p class="page-subtitle">Upload a clear image of your crop or leaf for AI analysis.</p></div><div class="using-status"><span class="status-dot"></span><span id="scan-mode-label">Using Online AI</span></div></div>
-        <div class="scan-layout">
-          <div class="scan-main">
-            <div class="upload-zone" id="upload-zone"><div class="upload-visual"><span class="upload-corner corner-tl"></span><span class="upload-corner corner-tr"></span><span class="upload-corner corner-bl"></span><span class="upload-corner corner-br"></span><span class="upload-visual-icon">&#127807;</span></div><strong>Upload crop image</strong><span>JPG or PNG <i>•</i> Up to 10 MB</span><small>For best results, use a well-lit photo of one leaf.</small></div>
-            <input type="file" accept="image/*" capture="environment" id="input-camera" class="file-input-hidden">
-            <input type="file" accept="image/*" id="input-gallery" class="file-input-hidden">
-            <div class="scan-options"><button class="btn btn-secondary" id="btn-trigger-camera" type="button"><span aria-hidden="true">&#9673;</span> Take photo</button><button class="btn btn-outline" id="btn-trigger-gallery" type="button"><span aria-hidden="true">&#9634;</span> Upload image</button></div>
-            <div class="preview-container" id="preview-container"><div class="preview-frame"><img src="" alt="Selected crop preview" id="img-preview" class="preview-image"><button class="preview-remove" id="btn-clear-photo" type="button" aria-label="Remove selected image">&#215;</button></div><div class="preview-actions"><div><strong>Ready for analysis</strong><span>Review your image before continuing.</span></div><button class="btn btn-primary" id="btn-run-diagnose" type="button"><span aria-hidden="true">&#8594;</span> Analyze crop</button></div></div>
-            <div class="analysis-panel" id="scan-loading-box"><div class="analysis-visual"><div class="analysis-orbit"></div><span>&#127807;</span></div><div><strong>Analyzing your crop...</strong><p id="analysis-step">Checking visual symptoms</p></div><div class="analysis-progress"><span></span></div></div>
-          </div>
-          <aside class="scan-guidance"><p class="page-eyebrow">PHOTO GUIDE</p><h3>Help the model see clearly</h3><ul><li>Use natural light and avoid glare.</li><li>Keep the leaf centered and in focus.</li><li>Include one affected leaf at a time.</li></ul><div class="scan-privacy"><span>&#9679;</span><p>Your image is sent only to the connected analysis service.</p></div></aside>
-        </div>
-      </section>
+        <button class="desktop-nav-item" data-target="view-weather" type="button">
+          <span class="nav-icon icon">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 2v2"/>
+              <path d="M12 20v2"/>
+              <path d="m4.93 4.93 1.41 1.41"/>
+              <path d="m17.66 17.66 1.41 1.41"/>
+              <path d="M2 12h2"/>
+              <path d="M20 12h2"/>
+              <path d="m6.34 17.66-1.41 1.41"/>
+              <path d="m19.07 4.93-1.41 1.41"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav.weather">Weather</span>
+        </button>
 
-      <!-- Diagnosis result -->
-      <section class="view-section" id="view-result">
-        <div class="result-topline"><div><p class="page-eyebrow">ANALYSIS COMPLETE</p><h1 class="page-title">Crop analysis</h1></div><button class="btn btn-outline btn-compact" id="btn-scan-another" type="button">New scan</button></div>
-        <div class="result-summary"><div><span class="result-crop-badge" id="result-crop-name">Crop</span><h2 class="result-disease-name" id="result-disease-name">Condition detected</h2><p id="result-overview">Your crop image has been reviewed for visible symptoms.</p></div><div class="confidence-block"><span>Confidence</span><strong id="result-confidence">94%</strong><small>AI vision analysis</small></div></div>
-        <div class="result-grid"><div class="result-primary-column"><article class="insight-block"><div class="insight-heading"><span class="insight-number">01</span><div><p class="page-eyebrow">OBSERVATION</p><h3>What we found</h3></div></div><div id="result-symptoms">Visual symptoms will appear here.</div></article><article class="insight-block action-block"><div class="insight-heading"><span class="insight-number">02</span><div><p class="page-eyebrow">NEXT STEP</p><h3>Recommended action</h3></div></div><div id="result-treatment">Treatment guidance will appear here.</div></article></div><aside class="result-secondary-column"><div class="result-meta-panel"><div><span>Severity</span><strong id="result-severity">Review</strong></div><div><span>Crop</span><strong id="result-crop-meta">—</strong></div></div><article class="result-mini-block"><h3>Prevention</h3><div id="result-prevention">Prevention guidance will appear here.</div></article><article class="result-mini-block"><h3>Inputs to consider</h3><div id="result-fertilizer">Fertilizer guidance will appear here.</div><div class="pesticide-line" id="result-pesticides">Recommended products will appear here.</div></article></aside></div>
-        <div class="disclaimer-box" data-i18n="disclaimer">AI guidance supports farm decisions and should be verified with local agricultural authorities and product labels.</div><div class="result-actions"><button class="btn btn-primary" id="btn-save-scan" type="button">Save to scan history</button><button class="btn btn-secondary" id="btn-result-find-shops" type="button">Find nearby agri shops</button></div>
-      </section>
+        <button class="desktop-nav-item" data-target="view-market" type="button">
+          <span class="nav-icon icon">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+              <polyline points="16 7 22 7 22 13"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav.market">Market prices</span>
+        </button>
 
-      <!-- Weather -->
-      <section class="view-section" id="view-weather">
-        <div class="page-header weather-page-header">
-          <div>
-            <p class="page-eyebrow" id="weather-eyebrow">FIELD CONDITIONS</p>
-            <h1 class="page-title" id="weather-title">Weather &amp; water</h1>
-            <p class="page-subtitle" id="weather-page-subtitle">Your local weather and farming conditions</p>
-          </div>
-          <button class="btn btn-outline btn-compact" id="btn-weather-change-location" type="button">Change location</button>
-        </div>
+        <button class="desktop-nav-item" data-target="view-schemes" type="button">
+          <span class="nav-icon icon">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="21" x2="21" y2="21"/>
+              <line x1="6" y1="18" x2="6" y2="11"/>
+              <line x1="10" y1="18" x2="10" y2="11"/>
+              <line x1="14" y1="18" x2="14" y2="11"/>
+              <line x1="18" y1="18" x2="18" y2="11"/>
+              <polygon points="12 2 20 7 4 7"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav.schemes">Govt schemes</span>
+        </button>
 
-        <div class="weather-location-bar">
-          <div class="weather-location-copy">
-            <span class="weather-location-pin" aria-hidden="true">&#128205;</span>
-            <div><span class="weather-location-label" id="weather-location-label">Location</span><strong id="weather-location-text">Location not selected</strong><small id="weather-last-updated"></small></div>
-          </div>
-          <button class="icon-button weather-refresh-button" id="btn-weather-location" type="button" aria-label="Refresh weather">&#8635;</button>
-        </div>
+        <button class="desktop-nav-item" data-target="view-history" type="button">
+          <span class="nav-icon icon">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav.history">History</span>
+        </button>
+      </nav>
 
-        <div class="weather-status-card" id="weather-status-card" role="status" aria-live="polite">
-          <div class="weather-status-icon" id="weather-status-icon" aria-hidden="true">&#9906;</div>
-          <div class="weather-status-copy"><strong id="weather-status-title">Use your location for local weather</strong><p id="weather-status-detail">Allow location access to provide local weather and agricultural recommendations.</p></div>
-          <div class="weather-status-actions"><button class="btn btn-primary" id="btn-weather-use-location" type="button">Use My Location</button><button class="btn btn-outline" id="btn-weather-search-location" type="button">Search Location</button></div>
-        </div>
+      <div class="sidebar-bottom">
+        <button class="desktop-nav-item" data-target="view-language" type="button">
+          <span class="nav-icon icon">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav.language">Language</span>
+        </button>
 
-        <div class="weather-location-panel hidden" id="weather-location-panel">
-          <div class="weather-panel-heading"><div><p class="page-eyebrow" id="weather-search-eyebrow">LOCATION SEARCH</p><h2 id="weather-search-title">Search for your location</h2></div><button class="text-button" id="btn-weather-close-search" type="button">Cancel</button></div>
-          <form class="weather-search-form" id="weather-search-form"><label class="search-field" for="weather-location-search"><span aria-hidden="true">&#8981;</span><input id="weather-location-search" type="search" autocomplete="address-level2" minlength="2" placeholder="City, town, district or locality" required><button class="btn btn-primary" type="submit" id="btn-weather-submit-search">Search</button></label></form>
-          <div class="weather-search-results" id="weather-search-results" aria-live="polite"></div>
-        </div>
+        <button class="desktop-nav-item" data-target="view-profile" type="button">
+          <span class="nav-icon icon">
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </span>
+          <span class="nav-label" data-i18n="nav.profile">Profile</span>
+        </button>
+      </div>
+    </aside>
 
-        <div class="weather-content hidden" id="weather-content">
-          <div class="weather-layout">
-            <div class="weather-current">
-              <div class="weather-current-top"><div><p class="weather-label" id="weather-current-label">CURRENT CONDITIONS</p><div id="weather-condition-text">—</div></div><span class="weather-live-badge" id="weather-data-status">Live</span></div>
-              <div class="weather-temp" id="weather-temp-val">—</div>
-              <div class="weather-stats"><div><strong id="weather-humidity">—</strong><span id="weather-humidity-label">Humidity</span></div><div><strong id="weather-wind">—</strong><span id="weather-wind-label">Wind</span></div><div><strong id="weather-rain-prob">—</strong><span id="weather-rain-label">Rain chance</span></div></div>
+    <!-- MAIN APPLICATION LAYOUT -->
+    <div class="app-main-layout">
+
+      <!-- TOP APPLICATION HEADER -->
+      <header class="app-header">
+        <div class="header-inner">
+          <div class="header-left">
+            <button id="btn-sidebar-toggle" class="hamburger-btn" type="button" aria-label="Toggle navigation menu">
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+              </svg>
+            </button>
+            <div class="header-divider"></div>
+            <div class="header-greeting-block">
+              <h2 id="dashboard-intro-title" class="header-greeting-title">Good to see you, <span id="dashboard-farmer-name">Prathamesh</span> 👋</h2>
+              <span class="header-greeting-sub">AI insights for smarter farming decisions</span>
             </div>
-            <div class="weather-advice" id="weather-advisory-card"><p class="page-eyebrow" id="weather-advice-eyebrow">IRRIGATION ADVISORY</p><h2 id="advisory-headline">—</h2><p id="advisory-detail">—</p><div class="advice-mark" aria-hidden="true">&#10003;</div></div>
           </div>
 
-          <section class="weather-detail-section" aria-labelledby="weather-details-title"><div class="weather-section-heading"><div><p class="page-eyebrow" id="weather-details-eyebrow">CURRENT WEATHER</p><h2 id="weather-details-title">At a glance</h2></div></div><div class="weather-detail-grid"><div class="weather-detail-item" id="weather-feels-item"><span id="weather-feels-label">Feels like</span><strong id="weather-feels">—</strong></div><div class="weather-detail-item" id="weather-precipitation-item"><span id="weather-precipitation-label">Precipitation</span><strong id="weather-precipitation">—</strong></div><div class="weather-detail-item" id="weather-direction-item"><span id="weather-direction-label">Wind direction</span><strong id="weather-direction">—</strong></div><div class="weather-detail-item" id="weather-cloud-item"><span id="weather-cloud-label">Cloud cover</span><strong id="weather-cloud">—</strong></div><div class="weather-detail-item" id="weather-visibility-item"><span id="weather-visibility-label">Visibility</span><strong id="weather-visibility">—</strong></div><div class="weather-detail-item" id="weather-pressure-item"><span id="weather-pressure-label">Pressure</span><strong id="weather-pressure">—</strong></div></div></section>
+          <div class="header-right">
+            <!-- Online Status Pill -->
+            <div id="status-badge" class="status-pill" title="Network status">
+              <span class="status-dot"></span>
+              <span id="status-badge-text">Online</span>
+            </div>
 
-          <section class="weather-detail-section" aria-labelledby="weather-rain-title"><div class="weather-section-heading"><div><p class="page-eyebrow" id="weather-rain-eyebrow">RAIN &amp; WATER</p><h2 id="weather-rain-title">Rain &amp; irrigation</h2></div></div><div class="weather-rain-summary"><span class="weather-rain-icon" aria-hidden="true">&#9730;</span><div><strong id="weather-rain-summary-title">Rain information</strong><p id="weather-rain-summary-detail">—</p></div></div></section>
-
-          <section class="weather-detail-section" aria-labelledby="weather-forecast-title"><div class="weather-section-heading"><div><p class="page-eyebrow" id="weather-forecast-eyebrow">UPCOMING CONDITIONS</p><h2 id="weather-forecast-title">Forecast</h2></div></div><div class="weather-forecast-list" id="weather-forecast-list"></div></section>
-        </div>
-
-        <div class="weather-error-actions hidden" id="weather-error-actions"><button class="btn btn-primary" id="btn-weather-retry" type="button">Retry</button><button class="btn btn-outline" id="btn-weather-error-change" type="button">Change location</button></div>
-      </section>
-
-      <!-- Market Prices & Price History -->
-      <section class="view-section" id="view-market">
-        <div class="page-header market-page-header">
-          <div>
-            <p class="page-eyebrow" id="market-eyebrow" data-i18n="market.eyebrow">MANDI INTELLIGENCE</p>
-            <h1 class="page-title" id="market-title" data-i18n="market.title">Market prices</h1>
-            <p class="page-subtitle" id="market-page-subtitle" data-i18n="market.subtitle">Check recent mandi prices and historical trends for your crop and location.</p>
-          </div>
-          <div class="header-action-group">
-            <button class="btn btn-outline btn-compact" id="btn-market-refresh" type="button" aria-label="Refresh market data">&#8635; Refresh</button>
-          </div>
-        </div>
-
-        <div class="offline-banner hidden" id="market-offline-banner" role="status"></div>
-
-        <!-- Filter Controls: Crop & Location -->
-        <div class="market-controls-card">
-          <div class="market-crop-select-row">
-            <div class="crop-select-header">
-              <strong data-i18n="market.selectCrop">Select your crop</strong>
-              <div class="crop-search-box">
-                <span>&#8981;</span>
-                <input type="search" id="market-crop-search" placeholder="Search crop..." aria-label="Search crop">
+            <!-- Global Language Selector Dropdown -->
+            <div class="lang-dropdown-wrapper" id="header-lang-dropdown">
+              <button type="button" class="lang-pill" id="lang-dropdown-btn" aria-haspopup="true" aria-expanded="false">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="2" y1="12" x2="22" y2="12"/>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+                <span id="active-lang-text">EN</span>
+                <span class="dropdown-chevron">▼</span>
+              </button>
+              <div class="lang-dropdown-menu hidden" id="lang-dropdown-menu" role="menu">
+                <button type="button" class="lang-dropdown-item selected" data-lang="en" role="menuitem">
+                  <span>English (EN)</span>
+                  <span class="lang-check">✓</span>
+                </button>
+                <button type="button" class="lang-dropdown-item" data-lang="mr" role="menuitem">
+                  <span>मराठी (MR)</span>
+                  <span class="lang-check">✓</span>
+                </button>
+                <button type="button" class="lang-dropdown-item" data-lang="hi" role="menuitem">
+                  <span>हिन्दी (HI)</span>
+                  <span class="lang-check">✓</span>
+                </button>
+                <button type="button" class="lang-dropdown-item" data-lang="ta" role="menuitem">
+                  <span>தமிழ் (TA)</span>
+                  <span class="lang-check">✓</span>
+                </button>
+                <button type="button" class="lang-dropdown-item" data-lang="te" role="menuitem">
+                  <span>తెలుగు (TE)</span>
+                  <span class="lang-check">✓</span>
+                </button>
               </div>
             </div>
-            <div class="crop-chips-scroll" id="market-crop-chips"></div>
+
+            <!-- Notifications Button & Panel -->
+            <button id="btn-header-notifications" class="icon-button" type="button" aria-label="Notifications">
+              <svg viewBox="0 0 24 24" width="19" height="19" stroke="currentColor" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+              <span class="notif-badge"></span>
+            </button>
+
+            <div id="header-notifications-panel" class="notif-panel hidden">
+              <div class="notif-header">
+                <h4>Farm Notifications</h4>
+              </div>
+              <div class="notif-list">
+                <div class="notif-item">
+                  <strong>🌾 Mandi Price Alert</strong>
+                  <span>Soybean modal price increased in Dharashiv APMC.</span>
+                </div>
+                <div class="notif-item">
+                  <strong>☁️ Irrigation Advisory</strong>
+                  <span>Favorable soil moisture window detected for tomato crop.</span>
+                </div>
+                <div class="notif-item">
+                  <strong>🏛️ PM-KISAN Installment</strong>
+                  <span>Verification open for next direct benefit transfer.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Profile Avatar Circle -->
+            <button class="header-profile" id="header-profile-initial" type="button" data-target="view-profile" aria-label="User profile">
+              P
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Offline Notice Banner -->
+      <div id="offline-banner" class="offline-banner hidden" role="status">
+        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span data-i18n="network.offlineBanner">Offline right now. Cached guidance and offline AI capabilities are active.</span>
+      </div>
+
+      <!-- Hidden AI Network Status Helper Labels for app.js sync -->
+      <span id="dashboard-network-label" class="hidden">Online AI available</span>
+
+      <!-- MAIN CONTAINER FOR SPA VIEWS -->
+      <main class="app-container">
+
+        <!-- ====================================================================
+             PAGE 1 — DASHBOARD (Hero + 5 Full-Width Horizontal Feature Rows)
+             ==================================================================== -->
+        <section id="view-home" class="view-section active" aria-label="Dashboard Overview">
+
+          <!-- Dashboard Dark Forest-Green Hero Section -->
+          <div class="dashboard-hero">
+            <div class="dashboard-hero-copy">
+              <span class="hero-eyebrow">AI-POWERED CROP INTELLIGENCE</span>
+              <h2>Smarter decisions for<br>healthier crops.</h2>
+              <p>Upload a leaf image and get practical, explainable guidance for what to do next.</p>
+              <div class="hero-cta-group">
+                <button type="button" class="btn-hero-primary" data-target="view-scan">
+                  <span>Scan crop →</span>
+                </button>
+                <button type="button" class="btn-hero-secondary" data-target="view-history">
+                  <span>View history</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- AI Vision Agriculture Visualization (SVG + CSS Radar) -->
+            <div class="dashboard-hero-art" aria-hidden="true">
+              <svg class="hero-svg-canvas" viewBox="0 0 320 240">
+                <defs>
+                  <linearGradient id="gridGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#A6CF3A" stop-opacity="0.25"/>
+                    <stop offset="100%" stop-color="#A6CF3A" stop-opacity="0.02"/>
+                  </linearGradient>
+                  <radialGradient id="leafGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#C4E86B" stop-opacity="0.6"/>
+                    <stop offset="100%" stop-color="#A6CF3A" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+
+                <!-- Perspective Grid Lines -->
+                <line x1="30" y1="200" x2="160" y2="110" stroke="#A6CF3A" stroke-opacity="0.2" stroke-width="1"/>
+                <line x1="80" y1="210" x2="160" y2="110" stroke="#A6CF3A" stroke-opacity="0.2" stroke-width="1"/>
+                <line x1="140" y1="220" x2="160" y2="110" stroke="#A6CF3A" stroke-opacity="0.2" stroke-width="1"/>
+                <line x1="200" y1="220" x2="160" y2="110" stroke="#A6CF3A" stroke-opacity="0.2" stroke-width="1"/>
+                <line x1="260" y1="210" x2="160" y2="110" stroke="#A6CF3A" stroke-opacity="0.2" stroke-width="1"/>
+                <line x1="300" y1="200" x2="160" y2="110" stroke="#A6CF3A" stroke-opacity="0.2" stroke-width="1"/>
+
+                <ellipse cx="160" cy="180" rx="130" ry="30" fill="none" stroke="#A6CF3A" stroke-opacity="0.15" stroke-width="1"/>
+                <ellipse cx="160" cy="150" rx="90" ry="20" fill="none" stroke="#A6CF3A" stroke-opacity="0.2" stroke-width="1"/>
+
+                <!-- Radar Circles -->
+                <circle class="radar-scan-circle" cx="160" cy="110" r="45" fill="none" stroke="#A6CF3A" stroke-width="1.5" stroke-opacity="0.4"/>
+                <circle cx="160" cy="110" r="65" fill="none" stroke="#A6CF3A" stroke-width="1" stroke-opacity="0.25"/>
+
+                <!-- Central Glow & Leaf Emblem -->
+                <circle cx="160" cy="110" r="32" fill="url(#leafGlow)"/>
+                <circle cx="160" cy="110" r="28" fill="#0B4228" stroke="#A6CF3A" stroke-width="1.5"/>
+
+                <g transform="translate(148, 98) scale(1)">
+                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" fill="#A6CF3A" stroke="#C4E86B" stroke-width="1"/>
+                  <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" stroke="#052E1A" stroke-width="1.5" fill="none"/>
+                </g>
+              </svg>
+
+              <!-- Floating AI Vision Status Card -->
+              <div class="ai-status-card">
+                <div class="ai-status-header">
+                  <span class="ai-status-dot"></span>
+                  <span>AI VISION</span>
+                </div>
+                <p>Analyzing crop health<br>with confidence</p>
+              </div>
+            </div>
           </div>
 
-          <div class="market-location-select-row">
-            <div class="location-group">
-              <label for="market-state-select">State</label>
-              <select id="market-state-select" class="form-select"></select>
+          <!-- 5 Full-Width Horizontal Feature Rows -->
+          <div class="feature-rows-container" role="list">
+
+            <!-- Row 1: Scan Crop Health -->
+            <article class="feature-row" role="listitem" data-target="view-scan">
+              <div class="feature-row-left">
+                <div class="feature-row-icon">
+                  <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+                    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+                  </svg>
+                </div>
+                <div class="feature-row-content">
+                  <strong>Scan crop health</strong>
+                  <p>Photo to practical next steps</p>
+                </div>
+              </div>
+              <div class="feature-row-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </div>
+            </article>
+
+            <!-- Row 2: Weather & Water -->
+            <article class="feature-row" role="listitem" data-target="view-weather">
+              <div class="feature-row-left">
+                <div class="feature-row-icon">
+                  <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+                    <line x1="8" y1="19" x2="8" y2="22"/>
+                    <line x1="12" y1="19" x2="12" y2="22"/>
+                    <line x1="16" y1="19" x2="16" y2="22"/>
+                  </svg>
+                </div>
+                <div class="feature-row-content">
+                  <strong>Weather & water</strong>
+                  <p>Make irrigation decisions with confidence</p>
+                </div>
+              </div>
+              <div class="feature-row-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </div>
+            </article>
+
+            <!-- Row 3: Market Prices & Trends -->
+            <article class="feature-row" role="listitem" data-target="view-market">
+              <div class="feature-row-left">
+                <div class="feature-row-icon">
+                  <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+                    <polyline points="16 7 22 7 22 13"/>
+                  </svg>
+                </div>
+                <div class="feature-row-content">
+                  <strong>Market prices & trends</strong>
+                  <p>Latest mandi prices and 30-day historical trends</p>
+                </div>
+              </div>
+              <div class="feature-row-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </div>
+            </article>
+
+            <!-- Row 4: Government Schemes -->
+            <article class="feature-row" role="listitem" data-target="view-schemes">
+              <div class="feature-row-left">
+                <div class="feature-row-icon">
+                  <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="21" x2="21" y2="21"/>
+                    <line x1="6" y1="18" x2="6" y2="11"/>
+                    <line x1="10" y1="18" x2="10" y2="11"/>
+                    <line x1="14" y1="18" x2="14" y2="11"/>
+                    <line x1="18" y1="18" x2="18" y2="11"/>
+                    <polygon points="12 2 20 7 4 7"/>
+                  </svg>
+                </div>
+                <div class="feature-row-content">
+                  <strong>Government schemes</strong>
+                  <p>Explore subsidies, PM-KISAN, crop insurance & more</p>
+                </div>
+              </div>
+              <div class="feature-row-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </div>
+            </article>
+
+            <!-- Row 5: Scan History -->
+            <article class="feature-row" role="listitem" data-target="view-history">
+              <div class="feature-row-left">
+                <div class="feature-row-icon">
+                  <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                </div>
+                <div class="feature-row-content">
+                  <strong>Scan history</strong>
+                  <p>Review your farm's recent insights</p>
+                </div>
+              </div>
+              <div class="feature-row-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             PAGE 2 — SCAN CROP (Upload, Camera, Diagnosis Flow)
+             ==================================================================== -->
+        <section id="view-scan" class="view-section" aria-label="Scan Crop Health">
+          <div class="page-header">
+            <div>
+              <span class="page-eyebrow" data-i18n="scan.eyebrow">CROP INTELLIGENCE</span>
+              <h1 class="page-title" data-i18n="scan.title">Crop scan</h1>
+              <p class="page-subtitle" data-i18n="scan.subtitle">Upload a clear image of your crop or leaf for AI analysis.</p>
             </div>
-            <div class="location-group">
-              <label for="market-district-select">District</label>
-              <select id="market-district-select" class="form-select"></select>
+            <span id="scan-mode-label" class="badge badge-category">Using online AI</span>
+          </div>
+
+          <div class="scan-layout">
+            <div class="scan-main">
+              <!-- Custom Drag and Drop Upload Zone -->
+              <div id="upload-zone" class="upload-zone" tabindex="0" role="button" aria-label="Upload crop image">
+                <div class="upload-visual">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                  </svg>
+                </div>
+                <strong data-i18n="scan.upload">Upload crop image</strong>
+                <span data-i18n="scan.formats">Drag and drop your crop or leaf image or browse files</span>
+                <small data-i18n="scan.photoTip">JPG / PNG • Max 10 MB</small>
+              </div>
+
+              <!-- Functional Hidden File Inputs -->
+              <input type="file" id="input-camera" accept="image/*" capture="environment" class="file-input-hidden" aria-label="Capture photo with camera">
+              <input type="file" id="input-gallery" accept="image/*" class="file-input-hidden" aria-label="Upload photo from device">
+
+              <!-- Clean Action Buttons -->
+              <div class="scan-options">
+                <button type="button" id="btn-trigger-camera" class="btn btn-secondary">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  <span data-i18n="scan.takePhoto">Take photo</span>
+                </button>
+                <button type="button" id="btn-trigger-gallery" class="btn btn-outline">
+                  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  <span data-i18n="scan.uploadImage">Choose image</span>
+                </button>
+              </div>
+
+              <!-- Preview Frame -->
+              <div id="preview-container" class="preview-container">
+                <div class="preview-frame">
+                  <img id="img-preview" class="preview-image" src="" alt="Selected crop leaf for diagnosis">
+                  <button type="button" id="btn-clear-photo" class="preview-remove" aria-label="Remove image">&times;</button>
+                </div>
+                <div class="preview-actions">
+                  <div>
+                    <strong data-i18n="scan.ready">Ready for diagnosis</strong>
+                    <span data-i18n="scan.review">Review your crop photo before analyzing.</span>
+                  </div>
+                  <button type="button" id="btn-run-diagnose" class="btn btn-lime">
+                    <span data-i18n="scan.analyze">Diagnose Crop Now</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Analysis Loading Panel -->
+              <div id="scan-loading-box" class="analysis-panel">
+                <div class="spinner"></div>
+                <div>
+                  <strong data-i18n="scan.analyzing">Analyzing your crop...</strong>
+                  <p id="analysis-step" data-i18n="scan.stepSymptoms">Checking visual symptoms with agricultural AI...</p>
+                </div>
+              </div>
             </div>
-            <div class="location-group">
-              <label for="market-select">Market / APMC</label>
-              <select id="market-select" class="form-select"></select>
+
+            <!-- Guidance Sidebar -->
+            <div class="scan-guidance">
+              <h3 data-i18n="scan.guideTitle">Help the model see clearly</h3>
+              <ul>
+                <li data-i18n="scan.guideOne">Use natural light and avoid glare.</li>
+                <li data-i18n="scan.guideTwo">Keep the leaf centered and in focus.</li>
+                <li data-i18n="scan.guideThree">Include one affected leaf at a time.</li>
+              </ul>
+              <div class="scan-privacy">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <small data-i18n="scan.privacy">Your image is sent securely for analysis.</small>
+              </div>
             </div>
-            <div class="location-action-col">
-              <button class="btn btn-secondary btn-compact" id="btn-market-detect-location" type="button">
-                <span>&#8982;</span> <span data-i18n="market.detectLocation">Detect Location</span>
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             PAGE 3 — DIAGNOSIS RESULT (Enriched Gemini + Knowledge DB)
+             ==================================================================== -->
+        <section id="view-result" class="view-section" aria-label="Crop Diagnosis Result">
+          <div class="result-topline">
+            <button type="button" id="btn-scan-another" class="btn btn-outline btn-compact">
+              ← <span data-i18n="scan.newScan">New scan</span>
+            </button>
+            <div class="result-badges-row">
+              <span id="result-recommendation-status" class="badge badge-subsidy">✓ Verified Agricultural Knowledge</span>
+              <span id="result-dev-mock-indicator" class="badge badge-region"></span>
+            </div>
+          </div>
+
+          <!-- Top Summary Card -->
+          <div class="result-summary">
+            <div>
+              <span id="result-crop-name" class="result-crop-badge">Crop</span>
+              <h2 id="result-disease-name" class="result-disease-name">Diagnosed Condition</h2>
+              <p id="result-overview">Verified observation information is currently loading...</p>
+            </div>
+            <div class="confidence-block">
+              <span data-i18n="diagnosis.confidence">Confidence</span>
+              <strong id="result-confidence">95%</strong>
+              <small data-i18n="diagnosis.aiVision">AI Vision Match</small>
+            </div>
+          </div>
+
+          <!-- Structured Result Content Grid -->
+          <div class="result-grid">
+            <div class="result-primary-column">
+              <!-- Observation / Symptoms -->
+              <div class="insight-block">
+                <div class="insight-heading">
+                  <div class="insight-number">01</div>
+                  <h3 data-i18n="diagnosis.observationTitle">Symptoms & Observations</h3>
+                </div>
+                <div id="result-symptoms" class="insight-content">
+                  <p>Symptoms loading...</p>
+                </div>
+              </div>
+
+              <!-- Cause -->
+              <div class="insight-block">
+                <div class="insight-heading">
+                  <div class="insight-number">02</div>
+                  <h3>Cause & Spread</h3>
+                </div>
+                <div id="result-cause" class="insight-content">
+                  <p>Cause information loading...</p>
+                </div>
+              </div>
+
+              <!-- Recommended Treatment -->
+              <div class="insight-block action-block">
+                <div class="insight-heading">
+                  <div class="insight-number">03</div>
+                  <h3 data-i18n="diagnosis.actionTitle">Recommended Treatment</h3>
+                </div>
+                <div id="result-treatment" class="insight-content">
+                  <p>Treatment steps loading...</p>
+                </div>
+              </div>
+
+              <!-- Pesticides & Inputs -->
+              <div class="insight-block">
+                <div class="insight-heading">
+                  <div class="insight-number">04</div>
+                  <h3 data-i18n="diagnosis.inputs">Pesticide & Fertilizer Guidance</h3>
+                </div>
+                <div id="result-pesticides">
+                  <p>Pesticide recommendations loading...</p>
+                </div>
+                <div id="result-fertilizer" class="pesticide-line">
+                  <p>Fertilizer guidance loading...</p>
+                </div>
+              </div>
+
+              <!-- Prevention -->
+              <div class="insight-block">
+                <div class="insight-heading">
+                  <div class="insight-number">05</div>
+                  <h3 data-i18n="diagnosis.prevention">Preventive Measures</h3>
+                </div>
+                <div id="result-prevention">
+                  <p>Prevention tips loading...</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="result-secondary-column">
+              <div class="result-meta-panel">
+                <div>
+                  <span data-i18n="diagnosis.severity">Severity</span>
+                  <strong id="result-severity">Moderate</strong>
+                </div>
+                <div>
+                  <span data-i18n="diagnosis.crop">Crop</span>
+                  <strong id="result-crop-meta">Tomato</strong>
+                </div>
+              </div>
+
+              <div class="result-mini-block">
+                <h3>Verified Sources</h3>
+                <p><small>ICAR & NIPHM Central Knowledge Base for Indian Farmers.</small></p>
+              </div>
+
+              <div class="disclaimer-box">
+                <small data-i18n="diagnosis.disclaimer">AI guidance supports farm decisions and should be verified with local agricultural authorities and product labels.</small>
+              </div>
+
+              <div class="result-actions">
+                <button type="button" id="btn-save-scan" class="btn btn-primary btn-block">
+                  <span data-i18n="diagnosis.save">Save to Scan History</span>
+                </button>
+                <button type="button" id="btn-result-find-shops" class="btn btn-outline btn-block" data-target="view-shops">
+                  <span data-i18n="diagnosis.findShops">Find Nearby Agri Shops</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             PAGE 4 — WEATHER & WATER (Open-Meteo Integration)
+             ==================================================================== -->
+        <section id="view-weather" class="view-section" aria-label="Weather & Water Guidance">
+          <div class="page-header split-header">
+            <div>
+              <span class="page-eyebrow" data-i18n="weather.eyebrow">FIELD CONDITIONS</span>
+              <h1 class="page-title" data-i18n="weather.title">Weather & water</h1>
+              <p class="page-subtitle" data-i18n="weather.pageSubtitle">Your local weather and farming conditions.</p>
+            </div>
+            <div class="header-action-group">
+              <button type="button" id="btn-weather-use-location" class="btn btn-secondary btn-compact">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span data-i18n="weather.useLocation">📍 Use my location</span>
+              </button>
+              <button type="button" id="btn-weather-change-location" class="btn btn-outline btn-compact">
+                <span data-i18n="weather.changeLocation">Change location</span>
+              </button>
+              <button type="button" id="btn-weather-location" class="hidden"></button>
+              <button type="button" id="btn-weather-search-location" class="hidden"></button>
+            </div>
+          </div>
+
+          <!-- Clean Location Metadata Row -->
+          <div class="weather-location-bar">
+            <div class="weather-location-copy">
+              <span class="weather-location-pin">📍</span>
+              <div>
+                <span class="weather-location-label" data-i18n="weather.locationLabel">Location</span>
+                <strong id="weather-location-text">Detecting your location...</strong>
+                <span id="weather-last-updated"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weather Search Panel Modal/Inline -->
+          <div id="weather-location-panel" class="weather-location-panel hidden">
+            <div class="weather-panel-heading">
+              <h3 data-i18n="weather.searchTitle">Search for your location</h3>
+              <button type="button" id="btn-weather-close-search" class="icon-button" aria-label="Close search">&times;</button>
+            </div>
+            <form id="weather-search-form">
+              <div class="search-field">
+                <input type="text" id="weather-location-search" placeholder="City, town, district or locality (e.g. Pune, Dharashiv, Latur)">
+                <button type="submit" class="btn btn-primary btn-compact">Search</button>
+              </div>
+            </form>
+            <div id="weather-search-results" class="weather-search-results"></div>
+          </div>
+
+          <!-- Weather Status / Error Card -->
+          <div id="weather-status-card" class="weather-status-card hidden">
+            <div class="weather-status-icon">☁️</div>
+            <div class="weather-status-copy">
+              <strong id="weather-status-title">Loading field guidance...</strong>
+              <p id="weather-status-detail">Retrieving live conditions for your selected location.</p>
+            </div>
+            <div id="weather-error-actions" class="weather-status-actions">
+              <button type="button" id="btn-weather-retry" class="btn btn-primary btn-compact">Retry</button>
+              <button type="button" id="btn-weather-error-change" class="btn btn-outline btn-compact">Search Location</button>
+            </div>
+          </div>
+
+          <!-- CARD 1: Current Conditions & CARD 2: Irrigation Advisory Grid -->
+          <div id="weather-content" class="weather-layout">
+            <!-- CARD 1: Current Conditions -->
+            <div class="weather-current">
+              <div class="weather-current-top">
+                <div>
+                  <span class="weather-label" data-i18n="weather.current">CURRENT CONDITIONS</span>
+                  <h3 id="weather-condition-text">☀️ Clear sky</h3>
+                </div>
+                <span id="weather-data-status" class="badge badge-subsidy" data-i18n="weather.live">Live</span>
+              </div>
+              <div class="weather-temp">
+                <span id="weather-temp-val">29</span>°C
+              </div>
+              <div class="weather-stats">
+                <div>
+                  <span data-i18n="weather.humidity">Humidity</span>
+                  <strong id="weather-humidity">56%</strong>
+                </div>
+                <div>
+                  <span data-i18n="weather.wind">Wind</span>
+                  <strong id="weather-wind">18 km/h</strong>
+                </div>
+                <div>
+                  <span data-i18n="weather.rain">Rain chance</span>
+                  <strong id="weather-rain-prob">83%</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 2: Irrigation Advisory -->
+            <div id="weather-advisory-card" class="weather-advice">
+              <span class="page-eyebrow" data-i18n="weather.adviceEyebrow">IRRIGATION ADVISORY</span>
+              <h2 id="advisory-headline">Rain is likely</h2>
+              <p id="advisory-detail">Rainfall is currently occurring or has a high probability. Consider delaying irrigation to avoid unnecessary water use.</p>
+              <p style="margin-top: 10px; font-weight: 700; color: var(--forest-800);">💧 Recommendation: Avoid irrigation for the next few hours.</p>
+              <div class="advice-mark">💧</div>
+            </div>
+          </div>
+
+          <!-- UPCOMING CONDITIONS (5-Day Aligned Forecast) -->
+          <div class="weather-detail-section">
+            <div class="weather-section-heading">
+              <h2 data-i18n="weather.upcoming">Upcoming Conditions</h2>
+            </div>
+            <div id="weather-forecast-list" class="weather-forecast-list">
+              <!-- Rendered dynamically by weather.js -->
+            </div>
+            <div id="weather-rain-summary-detail" class="hidden"></div>
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             PAGE 5 — MARKET PRICES & MANDI TRENDS (AGMARKNET Integration)
+             ==================================================================== -->
+        <section id="view-market" class="view-section" aria-label="Market Mandi Prices">
+          <div class="page-header split-header">
+            <div>
+              <span class="page-eyebrow" data-i18n="market.eyebrow">MARKET INTELLIGENCE</span>
+              <h1 class="page-title" data-i18n="market.title">Market prices</h1>
+              <p class="page-subtitle" data-i18n="market.subtitle">Track mandi prices and historical trends.</p>
+            </div>
+            <div class="header-action-group">
+              <button type="button" id="btn-market-refresh" class="btn btn-outline btn-compact">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                <span>Refresh</span>
               </button>
             </div>
           </div>
-        </div>
 
-        <!-- Loading Skeleton -->
-        <div class="market-skeleton hidden" id="market-loading-skeleton">
-          <div class="skeleton-card skeleton-pulse"></div>
-          <div class="skeleton-chart skeleton-pulse"></div>
-        </div>
-
-        <!-- Error State -->
-        <div class="market-error-box hidden" id="market-error-box" role="alert">
-          <div class="error-icon">&#9888;</div>
-          <h3 data-i18n="market.serviceErrorTitle">Market data is temporarily unavailable</h3>
-          <p data-i18n="market.serviceErrorBody">We could not retrieve wholesale mandi prices right now. Please check your connection or retry.</p>
-          <button class="btn btn-primary" id="btn-market-retry" type="button" data-i18n="market.retry">Retry</button>
-        </div>
-
-        <!-- Main Market Content -->
-        <div class="market-content" id="market-main-content">
-          <!-- Latest Mandi Summary Card -->
-          <article class="market-hero-card" id="market-hero-card">
-            <div class="hero-card-left">
-              <div class="crop-identity">
-                <span class="crop-category-badge" id="market-summary-category">Crop</span>
-                <h2 class="crop-name-title" id="market-summary-crop-name">—</h2>
-                <div class="mandi-location-line">
-                  <span class="mandi-icon">&#127963;</span>
-                  <strong id="market-summary-mandi">— Mandi</strong>
-                  <span class="location-dot">•</span>
-                  <span id="market-summary-location">—</span>
-                </div>
+          <!-- Top Toolbar: Crop Search & Location Selectors -->
+          <div class="crop-selector-container">
+            <div class="crop-selector-header">
+              <div class="crop-search-field">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="market-crop-search" placeholder="Search crop...">
               </div>
-              <div class="variety-date-row">
-                <span class="variety-tag" id="market-summary-variety">Variety: Standard</span>
-                <span class="date-tag" id="market-summary-date">Updated: —</span>
-              </div>
-              <div class="favorite-buttons-row">
-                <button type="button" class="btn-fav" id="btn-save-fav-crop" data-i18n="market.saveCrop">☆ Save crop</button>
-                <button type="button" class="btn-fav" id="btn-save-fav-market" data-i18n="market.saveMarket">☆ Save mandi</button>
-              </div>
+              <strong data-i18n="market.selectCrop">Quick Select Crop</strong>
+            </div>
+            <div id="market-crop-chips" class="crop-chips-grid">
+              <button type="button" class="crop-chip active" data-crop="Soybean">Soybean</button>
+              <button type="button" class="crop-chip" data-crop="Tomato">Tomato</button>
+              <button type="button" class="crop-chip" data-crop="Onion">Onion</button>
+              <button type="button" class="crop-chip" data-crop="Wheat">Wheat</button>
+              <button type="button" class="crop-chip" data-crop="Cotton">Cotton</button>
+              <button type="button" class="crop-chip" data-crop="Rice (Paddy)">Rice (Paddy)</button>
+              <button type="button" class="crop-chip" data-crop="Gram (Chana)">Gram (Chana)</button>
+              <button type="button" class="crop-chip" data-crop="Maize">Maize</button>
+              <button type="button" class="crop-chip" data-crop="Turmeric">Turmeric</button>
+              <button type="button" class="crop-chip" data-crop="Groundnut">Groundnut</button>
+              <button type="button" class="crop-chip" data-crop="Sugarcane">Sugarcane</button>
+              <button type="button" class="crop-chip" data-crop="Green Chilli">Green Chilli</button>
             </div>
 
-            <div class="hero-card-right">
-              <div class="price-pill-main">
-                <span class="price-caption" data-i18n="market.modalPrice">Modal Price</span>
-                <div class="modal-price-val" id="market-summary-modal-price">₹—</div>
-                <small class="price-unit" data-i18n="market.priceUnit">₹ / Quintal</small>
+            <div class="market-location-select-row">
+              <div class="location-group">
+                <label for="market-state-select">State</label>
+                <select id="market-state-select" class="form-select"></select>
               </div>
-              <div class="price-sub-grid">
-                <div class="price-sub-box">
-                  <span data-i18n="market.minPrice">Min Price</span>
-                  <strong id="market-summary-min-price">₹—</strong>
-                </div>
-                <div class="price-sub-box">
-                  <span data-i18n="market.maxPrice">Max Price</span>
-                  <strong id="market-summary-max-price">₹—</strong>
-                </div>
+              <div class="location-group">
+                <label for="market-district-select">District</label>
+                <select id="market-district-select" class="form-select"></select>
               </div>
+              <div class="location-group">
+                <label for="market-select">Mandi / APMC</label>
+                <select id="market-select" class="form-select"></select>
+              </div>
+              <button type="button" id="btn-market-detect-location" class="btn btn-secondary btn-compact">Detect GPS</button>
             </div>
-          </article>
+          </div>
 
-          <!-- Compare Nearby Mandis Card -->
-          <section class="market-section-card" aria-labelledby="compare-mandis-title">
-            <div class="section-card-header">
+          <div id="market-offline-banner" class="offline-banner hidden"></div>
+          <div id="market-loading-skeleton" class="skeleton-card hidden"></div>
+          <div id="market-error-box" class="auth-error-box hidden">
+            <p id="market-error-message"></p>
+            <button type="button" id="btn-market-retry" class="btn btn-primary btn-compact" style="margin-top: 8px;">Retry</button>
+          </div>
+
+          <div id="market-main-content">
+            <!-- Selected Crop Summary Card -->
+            <div id="market-hero-card" class="market-hero-card">
               <div>
-                <h3 id="compare-mandis-title" data-i18n="market.compareTitle">Compare Mandis</h3>
-                <p data-i18n="market.compareSubtitle">Wholesale prices across nearby district markets</p>
+                <span id="market-summary-category" class="crop-category-badge">Oilseeds</span>
+                <h2 id="market-summary-crop-name" class="crop-name-title">Soybean</h2>
+                <div class="mandi-location-line">
+                  <span>📍 <span id="market-summary-mandi">Dharashiv Mandi</span> (<span id="market-summary-location">Dharashiv, Maharashtra</span>)</span>
+                </div>
+                <div class="variety-date-row">
+                  <span id="market-summary-variety">Variety: Yellow</span>
+                  <span id="market-summary-date">Updated: 15 Aug 2026</span>
+                </div>
+                <div class="favorite-buttons-row">
+                  <button type="button" id="btn-save-fav-crop" class="btn-fav">☆ Save crop</button>
+                  <button type="button" id="btn-save-fav-market" class="btn-fav">♡ Save mandi</button>
+                </div>
               </div>
-              <div class="table-sort-control">
-                <label for="market-compare-sort">Sort by:</label>
-                <select id="market-compare-sort" class="form-select form-select-sm">
-                  <option value="highest">Highest price</option>
-                  <option value="lowest">Lowest price</option>
-                  <option value="nearest">Nearest location</option>
+              <div class="hero-card-right">
+                <div class="price-pill-main">
+                  <span class="price-caption" data-i18n="market.modalPrice">Modal price</span>
+                  <div class="modal-price-val">₹<span id="market-summary-modal-price">4,850</span></div>
+                  <span class="price-unit">per quintal</span>
+                </div>
+                <div class="price-sub-grid">
+                  <div class="price-sub-box">
+                    <span>Min</span>
+                    <strong id="market-summary-min-price">₹4,200</strong>
+                  </div>
+                  <div class="price-sub-box">
+                    <span>Max</span>
+                    <strong id="market-summary-max-price">₹5,100</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Price History & Trend Analysis (Tabs + 4 Compact Metrics + SVG Chart) -->
+            <div class="market-section-card">
+              <div class="section-card-header">
+                <div>
+                  <h3 data-i18n="market.priceHistoryTitle">PRICE HISTORY & TREND ANALYSIS</h3>
+                  <p data-i18n="market.priceHistorySubtitle">Daily wholesale mandi price movements.</p>
+                </div>
+                <div class="chart-controls">
+                  <div class="period-chips-group">
+                    <button type="button" class="period-chip" data-period="7d">7D</button>
+                    <button type="button" class="period-chip active" data-period="30d">30D</button>
+                    <button type="button" class="period-chip" data-period="3m">3M</button>
+                    <button type="button" class="period-chip" data-period="6m">6M</button>
+                    <button type="button" class="period-chip" data-period="1y">1Y</button>
+                  </div>
+                  <div class="price-type-toggle">
+                    <button type="button" class="price-type-btn active" data-type="modal">Modal</button>
+                    <button type="button" class="price-type-btn" data-type="min">Min</button>
+                    <button type="button" class="price-type-btn" data-type="max">Max</button>
+                  </div>
+                  <button type="button" id="btn-download-market-csv" class="btn btn-outline btn-compact">
+                    <span data-i18n="market.downloadCsv">Download CSV</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- 4 Compact Metrics -->
+              <div class="history-metrics-grid">
+                <div class="metric-card">
+                  <span>Latest</span>
+                  <strong id="hist-metric-latest">₹4,850</strong>
+                </div>
+                <div class="metric-card">
+                  <span>Period high</span>
+                  <strong id="hist-metric-high">₹5,200</strong>
+                </div>
+                <div class="metric-card">
+                  <span>Period low</span>
+                  <strong id="hist-metric-low">₹4,100</strong>
+                </div>
+                <div class="metric-card">
+                  <span>Change</span>
+                  <strong id="hist-metric-change">+₹150 (+3.2%)</strong>
+                  <span id="hist-trend-badge" class="trend-indicator trend-increasing">Increasing</span>
+                </div>
+              </div>
+
+              <div id="market-chart-loading" class="spinner hidden"></div>
+              <div id="market-price-svg-wrapper" class="market-chart-container">
+                <!-- Rendered by market.js -->
+              </div>
+              <p id="hist-what-chart-shows" class="chart-insight-box"><small>Chart displays daily wholesale modal prices from official AGMARKNET arrivals.</small></p>
+            </div>
+
+            <!-- Mandi Comparison Table -->
+            <div class="market-section-card">
+              <div class="section-card-header">
+                <div>
+                  <h3 data-i18n="market.compareTitle">Compare Mandis</h3>
+                  <p data-i18n="market.compareSubtitle">Wholesale prices across nearby district markets.</p>
+                </div>
+                <div>
+                  <select id="market-compare-sort" class="form-select" style="width: auto;">
+                    <option value="highest">Highest Price</option>
+                    <option value="lowest">Lowest Price</option>
+                    <option value="nearest">Nearest Location</option>
+                  </select>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="market-table">
+                  <thead>
+                    <tr>
+                      <th>Mandi / APMC</th>
+                      <th>Variety</th>
+                      <th>Min (₹)</th>
+                      <th>Modal (₹)</th>
+                      <th>Max (₹)</th>
+                    </tr>
+                  </thead>
+                  <tbody id="market-compare-tbody"></tbody>
+                </table>
+              </div>
+              <table class="hidden"><tbody id="market-history-tbody"></tbody></table>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             PAGE 6 — GOVERNMENT SCHEMES
+             ==================================================================== -->
+        <section id="view-schemes" class="view-section" aria-label="Government Schemes">
+          <div class="page-header split-header">
+            <div>
+              <span class="page-eyebrow" data-i18n="schemes.eyebrow">GOVERNMENT INITIATIVES</span>
+              <h1 class="page-title" data-i18n="schemes.title">Government schemes</h1>
+              <p class="page-subtitle" data-i18n="schemes.subtitle">Discover financial support, subsidies, and insurance available for farmers.</p>
+            </div>
+            <div class="header-action-group">
+              <span id="schemes-count-badge" class="schemes-count-badge">8 Schemes</span>
+              <button type="button" id="btn-schemes-refresh" class="btn btn-outline btn-compact">Refresh</button>
+            </div>
+          </div>
+
+          <!-- Top Toolbar & Category Chips -->
+          <div class="schemes-search-panel">
+            <div class="schemes-search-row">
+              <div class="schemes-search-box">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="schemes-search-input" placeholder="🔍 Search schemes (PM-KISAN, solar pump, crop insurance)...">
+              </div>
+              <div class="schemes-filter-group">
+                <div class="level-tabs">
+                  <button type="button" class="scheme-level-tab active" data-level="all">All Levels</button>
+                  <button type="button" class="scheme-level-tab" data-level="central">Central</button>
+                  <button type="button" class="scheme-level-tab" data-level="state">State</button>
+                </div>
+                <select id="schemes-state-select" class="form-select" style="width: auto;">
+                  <option value="all">All States</option>
+                  <option value="Maharashtra">Maharashtra</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Madhya Pradesh">Madhya Pradesh</option>
+                  <option value="Gujarat">Gujarat</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="Haryana">Haryana</option>
                 </select>
               </div>
             </div>
-            <div class="table-responsive">
-              <table class="market-table">
-                <thead>
-                  <tr>
-                    <th>Market / APMC</th>
-                    <th>Locality</th>
-                    <th>Modal Price</th>
-                    <th>Min – Max Range</th>
-                    <th>Arrival Date</th>
-                  </tr>
-                </thead>
-                <tbody id="market-compare-tbody"></tbody>
-              </table>
-            </div>
-          </section>
 
-          <!-- Price History & Trend Analysis Section -->
-          <section class="market-section-card" aria-labelledby="price-history-title">
-            <div class="section-card-header split-header-desktop">
-              <div>
-                <p class="page-eyebrow" data-i18n="market.eyebrow">HISTORICAL OBSERVATIONS</p>
-                <h3 id="price-history-title" data-i18n="market.priceHistoryTitle">Price History &amp; Trend Analysis</h3>
-                <p data-i18n="market.priceHistorySubtitle">Understand how this crop’s wholesale mandi price has changed over time.</p>
-              </div>
-              <div class="chart-controls">
-                <div class="period-chips-group" role="group" aria-label="Time period">
-                  <button type="button" class="period-chip" data-period="7d">7D</button>
-                  <button type="button" class="period-chip active" data-period="30d">30D</button>
-                  <button type="button" class="period-chip" data-period="3m">3M</button>
-                  <button type="button" class="period-chip" data-period="6m">6M</button>
-                  <button type="button" class="period-chip" data-period="1y">1Y</button>
-                </div>
-                <div class="price-type-toggle" role="group" aria-label="Price metric">
-                  <button type="button" class="price-type-btn active" data-type="modal">Modal</button>
-                  <button type="button" class="price-type-btn" data-type="min">Min</button>
-                  <button type="button" class="price-type-btn" data-type="max">Max</button>
+            <div id="schemes-category-chips" class="schemes-category-scroll">
+              <button type="button" class="scheme-cat-chip active" data-category="ALL">All</button>
+              <button type="button" class="scheme-cat-chip" data-category="Direct Income Support">Farmer financial support</button>
+              <button type="button" class="scheme-cat-chip" data-category="Crop Insurance">Crop insurance</button>
+              <button type="button" class="scheme-cat-chip" data-category="Irrigation & Solar">Irrigation & water</button>
+              <button type="button" class="scheme-cat-chip" data-category="Soil & Nutrients">Soil & fertilizer</button>
+              <button type="button" class="scheme-cat-chip" data-category="Credit & Loan">Credit & loans</button>
+            </div>
+          </div>
+
+          <div id="schemes-offline-banner" class="offline-banner hidden"></div>
+          <div id="schemes-loading-skeleton" class="skeleton-card hidden"></div>
+          <div id="schemes-error-box" class="auth-error-box hidden">
+            <p id="schemes-error-message"></p>
+            <button type="button" id="btn-schemes-retry" class="btn btn-primary btn-compact" style="margin-top: 8px;">Retry</button>
+          </div>
+
+          <div id="schemes-main-content">
+            <!-- Personalized Farm Matches -->
+            <div id="schemes-personalized-section" class="schemes-personalized-section hidden">
+              <div class="section-card-header">
+                <div>
+                  <h3 data-i18n="schemes.recommendedTitle">Recommended for your farm profile</h3>
+                  <p data-i18n="schemes.recommendedSubtitle">Schemes matched with your primary crop and state.</p>
                 </div>
               </div>
+              <div id="schemes-personalized-container" class="schemes-grid"></div>
             </div>
 
-            <!-- Price Metrics Summary Bar -->
-            <div class="history-metrics-grid">
-              <div class="metric-card">
-                <span data-i18n="market.summaryLatest">Latest Modal Price</span>
-                <strong id="hist-metric-latest">₹—</strong>
-              </div>
-              <div class="metric-card">
-                <span data-i18n="market.summaryHigh">Period High</span>
-                <strong id="hist-metric-high">₹—</strong>
-              </div>
-              <div class="metric-card">
-                <span data-i18n="market.summaryLow">Period Low</span>
-                <strong id="hist-metric-low">₹—</strong>
-              </div>
-              <div class="metric-card">
-                <span data-i18n="market.summaryChange">Price Change</span>
-                <strong id="hist-metric-change" class="metric-value">—</strong>
-              </div>
-              <div class="metric-card metric-trend-card">
-                <span data-i18n="market.trendTitle">Price Trend</span>
-                <div id="hist-trend-badge" class="trend-indicator trend-stable">—</div>
-              </div>
+            <!-- All Schemes 3-Column Responsive Grid -->
+            <div id="schemes-grid" class="schemes-grid"></div>
+            <div id="schemes-empty-box" class="history-empty hidden">
+              <p data-i18n="schemes.noSchemesFound">No government schemes found matching your search.</p>
             </div>
-
-            <!-- SVG Line Chart Box -->
-            <div class="market-chart-container">
-              <div class="chart-loading-overlay hidden" id="market-chart-loading">
-                <div class="spinner"></div>
-              </div>
-              <div class="market-svg-wrapper" id="market-price-svg-wrapper"></div>
-            </div>
-
-            <!-- Farmer Friendly Data Insight -->
-            <div class="chart-insight-box">
-              <div class="insight-icon" aria-hidden="true">&#128161;</div>
-              <div class="insight-text">
-                <h4 data-i18n="market.whatChartShowsTitle">What the chart shows</h4>
-                <p id="hist-what-chart-shows">—</p>
-              </div>
-            </div>
-
-            <!-- Historical Records Table & CSV Export -->
-            <div class="history-table-header">
-              <h4 data-i18n="market.historicalRecordsTitle">Historical Records</h4>
-              <button type="button" class="btn btn-outline btn-compact" id="btn-download-market-csv">
-                <span>&#8681;</span> <span data-i18n="market.downloadCsv">Download Price History (CSV)</span>
-              </button>
-            </div>
-            <div class="table-responsive">
-              <table class="market-table market-history-table">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Market</th>
-                    <th>Commodity</th>
-                    <th>Variety</th>
-                    <th>Min Price</th>
-                    <th>Modal Price</th>
-                    <th>Max Price</th>
-                  </tr>
-                </thead>
-                <tbody id="market-history-tbody"></tbody>
-              </table>
-            </div>
-          </section>
-
-          <!-- Source & Official Info -->
-          <div class="official-source-card">
-            <div class="source-icon">&#127963;</div>
-            <div class="source-info-text">
-              <strong data-i18n="market.sourceLabel">Source: Government of India — Data.gov.in / AGMARKNET</strong>
-              <p data-i18n="market.sourceInfo">Daily wholesale agricultural mandi arrival data released under Open Government Data (OGD) Platform India.</p>
-            </div>
-            <a href="https://agmarknet.gov.in/" target="_blank" rel="noopener noreferrer" class="btn-link-source" data-i18n="market.officialPortal">
-              Agmarknet Portal ↗
-            </a>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Government Schemes -->
-      <section class="view-section" id="view-schemes">
-        <div class="page-header schemes-page-header">
-          <div>
-            <p class="page-eyebrow" id="schemes-eyebrow" data-i18n="schemes.eyebrow">GOVERNMENT INITIATIVES</p>
-            <h1 class="page-title" id="schemes-title" data-i18n="schemes.title">Government schemes</h1>
-            <p class="page-subtitle" id="schemes-page-subtitle" data-i18n="schemes.subtitle">Discover financial support, subsidies, and insurance available for farmers.</p>
-          </div>
-          <div class="header-action-group">
-            <span class="schemes-count-badge" id="schemes-count-badge">Loading...</span>
-            <button class="btn btn-outline btn-compact" id="btn-schemes-refresh" type="button" aria-label="Refresh schemes">&#8635;</button>
-          </div>
-        </div>
 
-        <div class="offline-banner hidden" id="schemes-offline-banner" role="status">
-          <span data-i18n="schemes.offlineBody">Showing cached verified scheme directory. Connect to internet to check latest portal updates.</span>
-        </div>
-
-        <!-- Search & Filter Bar -->
-        <div class="schemes-search-panel">
-          <div class="schemes-search-row">
-            <div class="schemes-search-box">
-              <span>&#8981;</span>
-              <input type="search" id="schemes-search-input" placeholder="Search schemes by crop, name, or keyword (e.g. crop insurance, solar pump, PM Kisan)..." aria-label="Search schemes">
+        <!-- ====================================================================
+             PAGE 7 — SCAN HISTORY (Compact Cards)
+             ==================================================================== -->
+        <section id="view-history" class="view-section" aria-label="Scan History">
+          <div class="page-header split-header">
+            <div>
+              <span class="page-eyebrow">YOUR CROP INSIGHTS</span>
+              <h1 class="page-title">Scan History</h1>
+              <p class="page-subtitle">Review previous crop scans and track crop health over time.</p>
             </div>
-            <div class="schemes-filter-group">
-              <div class="level-tabs" role="tablist">
-                <button type="button" class="scheme-level-tab active" data-level="all">All</button>
-                <button type="button" class="scheme-level-tab" data-level="Central">Central</button>
-                <button type="button" class="scheme-level-tab" data-level="State">State</button>
-              </div>
-              <select id="schemes-state-select" class="form-select form-select-sm">
-                <option value="all">All States</option>
-                <option value="Maharashtra">Maharashtra</option>
-                <option value="Madhya Pradesh">Madhya Pradesh</option>
-                <option value="Gujarat">Gujarat</option>
-                <option value="Karnataka">Karnataka</option>
-                <option value="Punjab">Punjab</option>
-              </select>
+            <button type="button" id="btn-sync-history" class="btn btn-secondary btn-compact">
+              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              <span>Sync Cloud</span>
+            </button>
+          </div>
+
+          <div class="history-toolbar">
+            <div class="search-field">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="history-search-input" placeholder="Search by crop, disease, or symptom...">
             </div>
           </div>
 
-          <!-- Category Chips -->
-          <div class="schemes-category-scroll" id="schemes-category-chips"></div>
-        </div>
+          <div id="history-list-container" class="history-list">
+            <!-- Rendered dynamically by history.js as compact 100-115px cards -->
+          </div>
+        </section>
 
-        <!-- Loading Skeleton -->
-        <div class="schemes-skeleton hidden" id="schemes-loading-skeleton">
-          <div class="skeleton-card skeleton-pulse"></div>
-          <div class="skeleton-card skeleton-pulse"></div>
-        </div>
 
-        <!-- Error State -->
-        <div class="schemes-error-box hidden" id="schemes-error-box" role="alert">
-          <div class="error-icon">&#9888;</div>
-          <h3>Government schemes directory temporarily unavailable</h3>
-          <p>We could not load official government schemes right now. Please retry.</p>
-          <button class="btn btn-primary" id="btn-schemes-retry" type="button">Retry</button>
-        </div>
+        <!-- ====================================================================
+             PAGE 8 — LANGUAGE PREFERENCES
+             ==================================================================== -->
+        <section id="view-language" class="view-section" aria-label="Language Preferences">
+          <div class="page-header">
+            <div>
+              <span class="page-eyebrow">PREFERENCES</span>
+              <h1 class="page-title">Language Settings</h1>
+              <p class="page-subtitle">Choose your preferred language for HaritKranti.</p>
+            </div>
+          </div>
 
-        <!-- Main Schemes Content -->
-        <div class="schemes-content" id="schemes-main-content">
-          <!-- Personalized Recommended Section -->
-          <div class="schemes-recommended-section hidden" id="schemes-personalized-section">
-            <div class="recommended-header">
-              <span class="rec-star">&#9733;</span>
-              <div>
-                <h3 data-i18n="schemes.recommendedTitle">Recommended for your farm</h3>
-                <p data-i18n="schemes.recommendedSubtitle">Schemes matched with your profile crop &amp; location</p>
+          <div class="language-list">
+            <div class="lang-card" data-lang="en">
+              <div><strong>English</strong><small>English (Default)</small></div>
+              <div class="lang-check">✓</div>
+            </div>
+            <div class="lang-card" data-lang="mr">
+              <div><strong>मराठी</strong><small>Marathi</small></div>
+              <div class="lang-check">✓</div>
+            </div>
+            <div class="lang-card" data-lang="hi">
+              <div><strong>हिन्दी</strong><small>Hindi</small></div>
+              <div class="lang-check">✓</div>
+            </div>
+            <div class="lang-card" data-lang="ta">
+              <div><strong>தமிழ்</strong><small>Tamil</small></div>
+              <div class="lang-check">✓</div>
+            </div>
+            <div class="lang-card" data-lang="te">
+              <div><strong>తెలుగు</strong><small>Telugu</small></div>
+              <div class="lang-check">✓</div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             PAGE 9 — FARMER PROFILE
+             ==================================================================== -->
+        <section id="view-profile" class="view-section" aria-label="Farmer Profile">
+          <div class="page-header">
+            <div>
+              <span class="page-eyebrow">ACCOUNT</span>
+              <h1 class="page-title">Farmer Profile</h1>
+              <p class="page-subtitle">Manage your farm details for tailored crop guidance.</p>
+            </div>
+            <span id="profile-auth-badge" class="badge badge-subsidy">Signed In</span>
+          </div>
+
+          <div class="profile-layout">
+            <div class="profile-card">
+              <div class="profile-heading">
+                <div id="profile-avatar" class="profile-avatar">P</div>
+                <div>
+                  <h2 id="display-farmer-name">Prathamesh Shinde</h2>
+                  <p id="display-farmer-email">farmer@example.com</p>
+                </div>
+              </div>
+
+              <form id="profile-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="profile-name">Farmer Name</label>
+                    <input type="text" id="profile-name" class="form-input" value="Prathamesh">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="profile-phone">Mobile Phone</label>
+                    <input type="tel" id="profile-phone" class="form-input" placeholder="+91 98765 43210">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="profile-location">Location / District</label>
+                    <input type="text" id="profile-location" class="form-input" value="Dharashiv, Maharashtra">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="profile-crop">Primary Crop</label>
+                    <input type="text" id="profile-crop" class="form-input" value="Soybean">
+                  </div>
+                </div>
+
+                <button type="submit" id="btn-save-profile" class="btn btn-primary">Save Profile</button>
+              </form>
+            </div>
+
+            <div class="settings-card">
+              <h3 style="margin-bottom: 16px;">System Diagnostics</h3>
+              <div class="settings-row">
+                <span>AI Cloud Connection</span>
+                <strong id="diag-status-online">Online (Active)</strong>
+              </div>
+              <div class="settings-row">
+                <span>Native Android Bridge</span>
+                <strong id="diag-status-bridge">Web Browser Mode</strong>
+              </div>
+              <div class="settings-row">
+                <span>Knowledge DB</span>
+                <strong>ICAR / NIPHM (82 Crops)</strong>
+              </div>
+              <button type="button" id="btn-logout-auth" class="btn btn-danger btn-block">Sign Out</button>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             PAGE 10 — NEARBY AGRI SHOPS
+             ==================================================================== -->
+        <section id="view-shops" class="view-section" aria-label="Nearby Agri Shops">
+          <div class="page-header split-header">
+            <div>
+              <span class="page-eyebrow">LOCAL INPUTS</span>
+              <h1 class="page-title">Nearby Agri Shops</h1>
+              <p class="page-subtitle">Find certified pesticide, seed, and fertilizer retailers near your farm.</p>
+            </div>
+            <button type="button" id="btn-detect-maps-gps" class="btn btn-secondary btn-compact">Detect GPS</button>
+          </div>
+
+          <div class="shop-layout">
+            <div class="shop-card">
+              <div class="shop-categories">
+                <button type="button" class="shop-cat-btn active" data-category="pesticides">🌾 Pesticide Retailers</button>
+                <button type="button" class="shop-cat-btn" data-category="seeds">🌱 Certified Seed Stores</button>
+                <button type="button" class="shop-cat-btn" data-category="fertilizers">🧪 Fertilizer Dealers</button>
+                <button type="button" class="shop-cat-btn" data-category="equipment">🚜 Farm Machinery</button>
+              </div>
+              <div id="maps-gps-status" class="map-query">Location: Dharashiv, Maharashtra</div>
+              <div id="maps-query-preview" class="map-query">Search: "pesticide shops near current location"</div>
+              <button type="button" id="btn-launch-google-maps" class="btn btn-primary">Open in Google Maps ↗</button>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             NEW SPA PAGE — CONTACT US
+             ==================================================================== -->
+        <section id="view-contact" class="view-section" aria-label="Contact HaritKranti Support">
+          <div class="support-page-card">
+            <div class="support-page-header">
+              <span class="page-eyebrow">HELP & SUPPORT</span>
+              <h2>Contact HaritKranti</h2>
+              <p>Need help with crop diagnosis, platform features, or government schemes? Our agricultural support team is here to assist.</p>
+            </div>
+
+            <form id="contact-support-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="contact-name">Your Name</label>
+                  <input type="text" id="contact-name" class="form-input" placeholder="Prathamesh Shinde" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="contact-email">Email Address</label>
+                  <input type="email" id="contact-email" class="form-input" placeholder="farmer@example.com" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contact-subject">Subject</label>
+                <input type="text" id="contact-subject" class="form-input" placeholder="Question regarding crop diagnosis" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contact-message">Your Message</label>
+                <textarea id="contact-message" class="form-textarea" placeholder="Describe your inquiry or field situation in detail..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             NEW SPA PAGE — HELP CENTER
+             ==================================================================== -->
+        <section id="view-help" class="view-section" aria-label="Help Center">
+          <div class="support-page-card">
+            <div class="support-page-header">
+              <span class="page-eyebrow">DOCUMENTATION & GUIDES</span>
+              <h2>Help Center</h2>
+              <p>Everything you need to know about using HaritKranti for your farm.</p>
+            </div>
+
+            <div class="faq-accordion">
+              <div class="faq-item">
+                <button type="button" class="faq-question">Getting Started with Crop Scanning <span class="faq-icon">▼</span></button>
+                <div class="faq-answer">Learn how to take clear leaf photos with natural light to ensure 95%+ AI accuracy.</div>
+              </div>
+              <div class="faq-item">
+                <button type="button" class="faq-question">Understanding AI Confidence Scores <span class="faq-icon">▼</span></button>
+                <div class="faq-answer">Confidence scores represent visual pattern matching against verified ICAR disease symptoms.</div>
+              </div>
+              <div class="faq-item">
+                <button type="button" class="faq-question">Using Weather-Based Irrigation Guidance <span class="faq-icon">▼</span></button>
+                <div class="faq-answer">Our advisory calculates rain probability, temperature, and evapotranspiration to recommend optimal watering windows.</div>
+              </div>
+              <div class="faq-item">
+                <button type="button" class="faq-question">Mandi Price Tracking & CSV Exports <span class="faq-icon">▼</span></button>
+                <div class="faq-answer">Track daily wholesale prices from AGMARKNET and download historical price CSVs for seasonal planning.</div>
               </div>
             </div>
-            <div class="schemes-grid" id="schemes-personalized-container"></div>
           </div>
+        </section>
 
-          <!-- All Schemes Grid -->
-          <div class="schemes-grid" id="schemes-grid"></div>
 
-          <!-- Empty State -->
-          <div class="schemes-empty-box hidden" id="schemes-empty-box">
-            <div class="empty-icon">&#128269;</div>
-            <h3 data-i18n="schemes.noSchemesFound">No government schemes found matching your search.</h3>
-            <p>Try searching for broader terms like "crop insurance", "irrigation", "subsidy", or clear the category filters.</p>
-          </div>
-
-          <!-- Official Source Card -->
-          <div class="official-source-card schemes-source-card">
-            <div class="source-icon">&#127963;</div>
-            <div class="source-info-text">
-              <strong data-i18n="schemes.sourceLabel">Source: Government of India — myScheme.gov.in / Ministry of Agriculture &amp; Farmers Welfare</strong>
-              <p data-i18n="schemes.sourceDisclaimer">Information is grounded in official government notifications. Always verify with local agricultural offices or official portals before applying.</p>
+        <!-- ====================================================================
+             NEW SPA PAGE — FAQS
+             ==================================================================== -->
+        <section id="view-faqs" class="view-section" aria-label="Frequently Asked Questions">
+          <div class="support-page-card">
+            <div class="support-page-header">
+              <span class="page-eyebrow">QUESTIONS & ANSWERS</span>
+              <h2>Frequently Asked Questions</h2>
+              <p>Answers to common questions about AI disease diagnosis, data privacy, and government schemes.</p>
             </div>
-            <a href="https://www.myscheme.gov.in/" target="_blank" rel="noopener noreferrer" class="btn-link-source">
-              myScheme Portal ↗
-            </a>
+
+            <div class="faq-accordion">
+              <div class="faq-item open">
+                <button type="button" class="faq-question">How does crop disease detection work? <span class="faq-icon">▼</span></button>
+                <div class="faq-answer">When you upload a crop leaf image, Gemini Vision identifies visual disease patterns. The result is then enriched with verified agricultural recommendations from our 82-crop ICAR/NIPHM knowledge base.</div>
+              </div>
+              <div class="faq-item">
+                <button type="button" class="faq-question">How accurate are the AI predictions? <span class="faq-icon">▼</span></button>
+                <div class="faq-answer">HaritKranti cross-checks AI findings against verified agricultural databases. If a condition is unverified or ambiguous, the app indicates that verified guidance is not yet available rather than guessing.</div>
+              </div>
+              <div class="faq-item">
+                <button type="button" class="faq-question">Are pesticide recommendations verified? <span class="faq-icon">▼</span></button>
+                <div class="faq-answer">Yes. Pesticide, dosage, and fertilizer guidance are sourced directly from official Indian agricultural research protocols (ICAR, NIPHM, and State Agricultural Universities).</div>
+              </div>
+              <div class="faq-item">
+                <button type="button" class="faq-question">How is my scan history stored? <span class="faq-icon">▼</span></button>
+                <div class="faq-answer">Scan history is stored locally in your browser and synced with your secure Firestore account when signed in, allowing you to review seasonal patterns across devices.</div>
+              </div>
+              <div class="faq-item">
+                <button type="button" class="faq-question">Can I change the application language? <span class="faq-icon">▼</span></button>
+                <div class="faq-answer">Yes. HaritKranti supports English, Marathi, Hindi, Tamil, and Telugu. You can switch instantly from the top header or sidebar.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             NEW SPA PAGE — USER FEEDBACK
+             ==================================================================== -->
+        <section id="view-feedback" class="view-section" aria-label="Submit Feedback">
+          <div class="support-page-card">
+            <div class="support-page-header">
+              <span class="page-eyebrow">COMMUNITY INPUT</span>
+              <h2>Share Your Feedback</h2>
+              <p>Help us improve HaritKranti for farmers across India.</p>
+            </div>
+
+            <form id="user-feedback-form">
+              <div class="form-group">
+                <label class="form-label" for="feedback-category">Category</label>
+                <select id="feedback-category" class="form-select">
+                  <option value="diagnosis">Crop Disease Diagnosis</option>
+                  <option value="weather">Weather & Irrigation</option>
+                  <option value="market">Mandi Prices</option>
+                  <option value="schemes">Government Schemes</option>
+                  <option value="translation">Language & Translation</option>
+                  <option value="other">General Experience</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="feedback-message">Feedback & Suggestions</label>
+                <textarea id="feedback-message" class="form-textarea" placeholder="What worked well? What can we improve?" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Submit Feedback</button>
+            </form>
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             NEW SPA PAGE — CROP GUIDE
+             ==================================================================== -->
+        <section id="view-crop-guide" class="view-section" aria-label="Crop Directory & Guide">
+          <div class="support-page-card">
+            <div class="support-page-header">
+              <span class="page-eyebrow">KNOWLEDGE BASE</span>
+              <h2>Crop Health & Disease Guide</h2>
+              <p>Reference guide for common diseases across major Indian cash, cereal, and horticultural crops.</p>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 24px;">
+              <input type="text" id="crop-guide-search" class="form-input" placeholder="Search crops (e.g. Tomato, Soybean, Cotton, Wheat)...">
+            </div>
+
+            <div class="schemes-grid">
+              <div class="scheme-card crop-guide-card">
+                <h3>🍅 Tomato</h3>
+                <p>Common conditions: Early Blight, Late Blight, Tomato Yellow Leaf Curl Virus, Bacterial Spot.</p>
+                <button type="button" class="btn btn-secondary btn-compact" data-target="view-scan">Diagnose Tomato</button>
+              </div>
+              <div class="scheme-card crop-guide-card">
+                <h3>🌱 Soybean</h3>
+                <p>Common conditions: Rust, Yellow Mosaic Virus, Anthracnose, Charcoal Rot.</p>
+                <button type="button" class="btn btn-secondary btn-compact" data-target="view-scan">Diagnose Soybean</button>
+              </div>
+              <div class="scheme-card crop-guide-card">
+                <h3>🌾 Cotton</h3>
+                <p>Common conditions: Bacterial Blight, Leaf Spot, Root Rot, Grey Mildew.</p>
+                <button type="button" class="btn btn-secondary btn-compact" data-target="view-scan">Diagnose Cotton</button>
+              </div>
+              <div class="scheme-card crop-guide-card">
+                <h3>🧅 Onion</h3>
+                <p>Common conditions: Purple Blotch, Stemphylium Blight, Downy Mildew.</p>
+                <button type="button" class="btn btn-secondary btn-compact" data-target="view-scan">Diagnose Onion</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ====================================================================
+             NEW SPA PAGES — PRIVACY, TERMS, COOKIES, DATA POLICY
+             ==================================================================== -->
+        <section id="view-privacy" class="view-section" aria-label="Privacy Policy">
+          <div class="support-page-card">
+            <div class="support-page-header">
+              <span class="page-eyebrow">LEGAL & PRIVACY</span>
+              <h2>Privacy Policy</h2>
+              <p>Last updated: August 2026</p>
+            </div>
+            <div class="legal-content-body">
+              <h3>1. Data We Collect</h3>
+              <p>HaritKranti collects leaf images submitted for disease analysis, farmer profile preferences (such as primary crop and district), and scan records to provide tailored agricultural guidance.</p>
+              <h3>2. How We Protect Your Farm Data</h3>
+              <p>We do not sell your farm data or landholding information to third parties. Images are processed securely with AI and cached locally for offline reliability.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-terms" class="view-section" aria-label="Terms of Service">
+          <div class="support-page-card">
+            <div class="support-page-header">
+              <span class="page-eyebrow">TERMS OF USE</span>
+              <h2>Terms of Service</h2>
+            </div>
+            <div class="legal-content-body">
+              <h3>1. Purpose of Guidance</h3>
+              <p>HaritKranti provides AI-assisted agricultural advisory designed to support on-farm decision making. Farmers should verify critical pesticide treatments with local agricultural extension officers.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-cookies" class="view-section" aria-label="Cookie Policy">
+          <div class="support-page-card">
+            <div class="support-page-header">
+              <span class="page-eyebrow">STORAGE & CACHE</span>
+              <h2>Cookie & Storage Policy</h2>
+            </div>
+            <div class="legal-content-body">
+              <p>HaritKranti uses browser localStorage and session cache to persist language preferences, offline disease database records, and active sessions.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="view-data-policy" class="view-section" aria-label="Agricultural Data Policy">
+          <div class="support-page-card">
+            <div class="support-page-header">
+              <span class="page-eyebrow">GOVERNANCE</span>
+              <h2>Agricultural Data Policy</h2>
+            </div>
+            <div class="legal-content-body">
+              <p>All agricultural disease knowledge and pesticide advisories adhere to Indian agricultural regulatory guidelines (ICAR, NIPHM, CIBRC).</p>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- ====================================================================
+           MULTI-COLUMN STRUCTURED FOOTER (6 Columns)
+           ==================================================================== -->
+      <footer class="app-footer">
+        <div class="footer-inner">
+          <div class="footer-grid">
+
+            <!-- Section 1: Logo & Brand Info -->
+            <div class="footer-col footer-brand-col">
+              <div class="footer-brand">
+                <div class="brand-logo-icon">
+                  <svg viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+                    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+                  </svg>
+                </div>
+                <span>HaritKranti</span>
+              </div>
+              <p class="footer-copyright">© 2024 HaritKranti.</p>
+              <p class="footer-tagline">AI-powered crop intelligence for smarter farming.</p>
+            </div>
+
+            <!-- Section 2: Product -->
+            <div class="footer-col">
+              <h4>Product</h4>
+              <ul>
+                <li><button type="button" data-target="view-scan">Scan crop</button></li>
+                <li><button type="button" data-target="view-weather">Weather</button></li>
+                <li><button type="button" data-target="view-market">Market prices</button></li>
+                <li><button type="button" data-target="view-schemes">Government schemes</button></li>
+                <li><button type="button" data-target="view-history">History</button></li>
+              </ul>
+            </div>
+
+            <!-- Section 3: Resources -->
+            <div class="footer-col">
+              <h4>Resources</h4>
+              <ul>
+                <li><button type="button" data-target="view-crop-guide">Blog</button></li>
+                <li><button type="button" data-target="view-crop-guide">Crop guide</button></li>
+                <li><button type="button" data-target="view-help">Help center</button></li>
+                <li><button type="button" data-target="view-data-policy">API documentation</button></li>
+              </ul>
+            </div>
+
+            <!-- Section 4: Support -->
+            <div class="footer-col">
+              <h4>Support</h4>
+              <ul>
+                <li><button type="button" data-target="view-contact">Contact us</button></li>
+                <li><button type="button" data-target="view-feedback">Feedback</button></li>
+                <li><button type="button" data-target="view-contact">Report issue</button></li>
+                <li><button type="button" data-target="view-faqs">FAQs</button></li>
+              </ul>
+            </div>
+
+            <!-- Section 5: Legal -->
+            <div class="footer-col">
+              <h4>Legal</h4>
+              <ul>
+                <li><button type="button" data-target="view-privacy">Privacy policy</button></li>
+                <li><button type="button" data-target="view-terms">Terms of service</button></li>
+                <li><button type="button" data-target="view-cookies">Cookie policy</button></li>
+                <li><button type="button" data-target="view-data-policy">Data policy</button></li>
+              </ul>
+            </div>
+
+            <!-- Section 6: Connect with us -->
+            <div class="footer-col">
+              <h4>Connect with us</h4>
+              <div class="social-icons-row">
+                <!-- WhatsApp -->
+                <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="WhatsApp">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                  </svg>
+                </a>
+                <!-- YouTube -->
+                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="YouTube">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+                    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+                  </svg>
+                </a>
+                <!-- Instagram -->
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Instagram">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                  </svg>
+                </a>
+                <!-- Facebook -->
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Facebook">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                  </svg>
+                </a>
+              </div>
+              <div class="contact-info-list">
+                <div class="contact-info-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                  <span>support@haritkranti.ai</span>
+                </div>
+                <div class="contact-info-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <span>+91 98765 43210</span>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
-      </section>
+      </footer>
 
-      <!-- History -->
-      <section class="view-section" id="view-history"><div class="page-header split-header"><div><p class="page-eyebrow">YOUR RECORDS</p><h1 class="page-title">Scan history</h1><p class="page-subtitle">Review your recent crop analyses.</p></div><button class="btn btn-outline btn-compact" id="btn-sync-history" type="button">Sync records</button></div><div class="history-toolbar"><label class="search-field"><span>&#8981;</span><input type="search" id="history-search-input" placeholder="Search crop or condition" aria-label="Search crop or condition"></label></div><div class="history-list" id="history-list-container"></div></section>
+    </div>
+  </div>
 
-      <!-- Language -->
-      <section class="view-section" id="view-language"><div class="page-header"><p class="page-eyebrow">PREFERENCES</p><h1 class="page-title">Language</h1><p class="page-subtitle">Choose the language you’re most comfortable using in the field.</p></div><div class="language-list"><div class="lang-card selected" data-lang="en"><span><strong>English</strong><small>Default language</small></span><span class="lang-check">&#10003;</span></div><div class="lang-card" data-lang="mr"><span><strong>मराठी</strong><small>Marathi</small></span><span class="lang-check">&#10003;</span></div><div class="lang-card" data-lang="hi"><span><strong>हिन्दी</strong><small>Hindi</small></span><span class="lang-check">&#10003;</span></div><div class="lang-card" data-lang="ta"><span><strong>தமிழ்</strong><small>Tamil</small></span><span class="lang-check">&#10003;</span></div><div class="lang-card" data-lang="te"><span><strong>తెలుగు</strong><small>Telugu</small></span><span class="lang-check">&#10003;</span></div></div></section>
+  <!-- ========================================================================
+       MODALS (Scheme Details, Eligibility Questionnaire, History Detail)
+       ======================================================================== -->
 
-      <!-- Shop finder -->
-      <section class="view-section" id="view-shops"><div class="page-header"><p class="page-eyebrow">LOCAL SUPPORT</p><h1 class="page-title">Nearby agri shops</h1><p class="page-subtitle">Find agriculture suppliers around your current location.</p></div><div class="shop-layout"><div class="shop-card"><div class="shop-categories"><button class="shop-cat-btn active" data-category="agriculture shop" type="button"><span>&#9678;</span><strong>Agri store</strong></button><button class="shop-cat-btn" data-category="pesticide shop" type="button"><span>&#9679;</span><strong>Pesticides</strong></button><button class="shop-cat-btn" data-category="fertilizer store" type="button"><span>&#10022;</span><strong>Fertilizer</strong></button><button class="shop-cat-btn" data-category="seed supplier" type="button"><span>&#127807;</span><strong>Seeds</strong></button></div><button class="btn btn-secondary" id="btn-detect-maps-gps" type="button"><span id="maps-gps-status">Detect my location</span></button><p id="maps-query-preview" class="map-query"></p><button class="btn btn-primary" id="btn-launch-google-maps" type="button">Open Google Maps <span aria-hidden="true">&#8599;</span></button></div><div class="shop-note"><span>&#9678;</span><div><strong>Location-aware search</strong><p>Your browser location is used only to center the map search.</p></div></div></div></section>
+  <!-- Scheme Details Modal -->
+  <div id="modal-scheme-overlay" class="modal-overlay" aria-hidden="true" role="dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-scheme-title">Scheme Details</h3>
+        <button type="button" id="modal-scheme-close" class="modal-close" data-close-modal="modal-scheme-overlay" aria-label="Close modal">&times;</button>
+      </div>
+      <div id="modal-scheme-body" class="modal-body">
+        <!-- Rendered by schemes.js -->
+      </div>
+    </div>
+  </div>
 
-      <!-- Profile -->
-      <section class="view-section" id="view-profile"><div class="page-header"><p class="page-eyebrow">ACCOUNT</p><h1 class="page-title">Profile settings</h1><p class="page-subtitle">Keep your workspace details and preferences up to date.</p></div><div class="profile-layout"><div class="profile-card"><div class="profile-heading"><div class="profile-avatar" id="profile-avatar">F</div><div><h2 id="display-farmer-name">Guest Farmer</h2><p id="display-farmer-email">Not logged in</p><span class="status-badge logged-out" id="profile-auth-badge">Not logged in</span></div></div><form id="profile-form"><div class="form-row"><div class="form-group"><label class="form-label" for="profile-name">Full name</label><input type="text" id="profile-name" class="form-input" placeholder="e.g. Ramesh Patil"></div><div class="form-group"><label class="form-label" for="profile-phone">Mobile number</label><input type="tel" id="profile-phone" class="form-input" placeholder="e.g. +91 98765 43210"></div></div><div class="form-row"><div class="form-group"><label class="form-label" for="profile-crop">Primary crop</label><input type="text" id="profile-crop" class="form-input" placeholder="e.g. Tomato, cotton, wheat"></div><div class="form-group"><label class="form-label" for="profile-location">Village / district</label><input type="text" id="profile-location" class="form-input" placeholder="e.g. Nashik, Maharashtra"></div></div><button type="submit" class="btn btn-primary">Save profile</button></form></div><div class="settings-card"><p class="page-eyebrow">WORKSPACE STATUS</p><div class="settings-row"><span>Network</span><strong id="diag-status-online">Connected</strong></div><div class="settings-row"><span>Offline model bridge</span><strong id="diag-status-bridge">Unavailable</strong></div><div class="settings-row"><span>Account sync</span><strong id="auth-status-hint">Sign in to sync records.</strong></div><button class="btn btn-danger" id="btn-logout-auth" type="button">Sign out</button></div></div></section>
-    </main>
-
-    <nav class="bottom-nav" aria-label="Mobile navigation">
-      <button class="nav-item active" data-target="view-home" type="button"><span class="icon">&#9632;</span><span>Home</span></button>
-      <button class="nav-item" data-target="view-scan" type="button"><span class="icon">&#127807;</span><span>Scan</span></button>
-      <button class="nav-item" data-target="view-weather" type="button"><span class="icon">&#9788;</span><span>Weather</span></button>
-      <button class="nav-item" data-target="view-market" type="button"><span class="icon">&#128200;</span><span>Market</span></button>
-      <button class="nav-item" data-target="view-schemes" type="button"><span class="icon">&#128220;</span><span>Schemes</span></button>
-      <button class="nav-item" data-target="view-history" type="button"><span class="icon">&#9673;</span><span>History</span></button>
-      <button class="nav-item" data-target="view-profile" type="button"><span class="icon">&#9679;</span><span>Profile</span></button>
-    </nav>
+  <!-- Eligibility Self-Check Modal -->
+  <div id="modal-eligibility-overlay" class="modal-overlay" aria-hidden="true" role="dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-eligibility-title" data-i18n="schemes.eligibilityTitle">Eligibility Self-Check</h3>
+        <button type="button" id="modal-eligibility-close" class="modal-close" data-close-modal="modal-eligibility-overlay" aria-label="Close modal">&times;</button>
+      </div>
+      <div id="modal-eligibility-body" class="modal-body">
+        <form id="scheme-eligibility-form">
+          <div id="eligibility-scheme-name" class="eligibility-intro"></div>
+          <div id="eligibility-form-container"></div>
+          <div id="eligibility-result-box" class="hidden"></div>
+        </form>
+      </div>
+    </div>
   </div>
 
   <!-- History Detail Modal -->
-  <div class="modal-overlay" id="modal-history-overlay"><div class="modal-content"><div class="modal-header"><h3 id="modal-history-title">Diagnosis detail</h3><button class="modal-close" id="modal-history-close" type="button">&times;</button></div><div id="modal-history-body"></div></div></div>
-
-  <!-- Scheme Detail Modal -->
-  <div class="modal-overlay" id="modal-scheme-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-scheme-title">
-    <div class="modal-content modal-scheme-content">
+  <div id="modal-history-overlay" class="modal-overlay" aria-hidden="true" role="dialog">
+    <div class="modal-content">
       <div class="modal-header">
-        <h3 id="modal-scheme-title">Scheme Details</h3>
-        <button class="modal-close" id="modal-scheme-close" type="button" aria-label="Close scheme details">&times;</button>
+        <h3 id="modal-history-title">Crop Scan Details</h3>
+        <button type="button" id="modal-history-close" class="modal-close" data-close-modal="modal-history-overlay" aria-label="Close modal">&times;</button>
       </div>
-      <div class="modal-body" id="modal-scheme-body"></div>
-    </div>
-  </div>
-
-  <!-- Scheme Eligibility Questionnaire Modal -->
-  <div class="modal-overlay" id="modal-eligibility-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-eligibility-title">
-    <div class="modal-content modal-eligibility-content">
-      <div class="modal-header">
-        <h3 id="modal-eligibility-title" data-i18n="schemes.eligibilityTitle">Eligibility Self-Check</h3>
-        <button class="modal-close" id="modal-eligibility-close" type="button" aria-label="Close eligibility check">&times;</button>
-      </div>
-      <div class="modal-body" id="modal-eligibility-body">
-        <div class="eligibility-intro">
-          <h4 id="eligibility-scheme-name">Scheme</h4>
-          <p data-i18n="schemes.eligibilitySubtitle">Answer a few questions to see if you appear to meet the primary criteria based on official guidelines.</p>
-        </div>
-
-        <form id="scheme-eligibility-form" class="eligibility-form">
-          <div class="form-question">
-            <p class="question-label" data-i18n="schemes.qLandowner">Do you own cultivable agricultural land in your name?</p>
-            <div class="radio-options">
-              <label class="radio-label"><input type="radio" name="q_land" value="yes" checked> <span data-i18n="schemes.yes">Yes</span></label>
-              <label class="radio-label"><input type="radio" name="q_land" value="no"> <span data-i18n="schemes.no">No</span></label>
-            </div>
-          </div>
-
-          <div class="form-question">
-            <p class="question-label" data-i18n="schemes.qAadhaar">Do you have an active Aadhaar card linked with your mobile?</p>
-            <div class="radio-options">
-              <label class="radio-label"><input type="radio" name="q_aadhaar" value="yes" checked> <span data-i18n="schemes.yes">Yes</span></label>
-              <label class="radio-label"><input type="radio" name="q_aadhaar" value="no"> <span data-i18n="schemes.no">No</span></label>
-            </div>
-          </div>
-
-          <div class="form-question">
-            <p class="question-label" data-i18n="schemes.qBank">Do you have an Aadhaar-seeded bank account (NPCI mapped)?</p>
-            <div class="radio-options">
-              <label class="radio-label"><input type="radio" name="q_bank" value="yes" checked> <span data-i18n="schemes.yes">Yes</span></label>
-              <label class="radio-label"><input type="radio" name="q_bank" value="no"> <span data-i18n="schemes.no">No</span></label>
-            </div>
-          </div>
-
-          <div class="form-question">
-            <p class="question-label" data-i18n="schemes.qTax">Are you an income tax payer or government employee?</p>
-            <div class="radio-options">
-              <label class="radio-label"><input type="radio" name="q_tax" value="no" checked> <span data-i18n="schemes.no">No</span></label>
-              <label class="radio-label"><input type="radio" name="q_tax" value="yes"> <span data-i18n="schemes.yes">Yes</span></label>
-            </div>
-          </div>
-
-          <div class="form-question">
-            <p class="question-label" data-i18n="schemes.qWater">Do you have an assured water source (well / borewell / canal / pond)?</p>
-            <div class="radio-options">
-              <label class="radio-label"><input type="radio" name="q_water" value="yes" checked> <span data-i18n="schemes.yes">Yes</span></label>
-              <label class="radio-label"><input type="radio" name="q_water" value="no"> <span data-i18n="schemes.no">No</span></label>
-            </div>
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-block" id="btn-submit-eligibility">
-            <span data-i18n="schemes.btnCheckNow">Evaluate Eligibility</span> &rarr;
-          </button>
-        </form>
-
-        <div class="eligibility-result-box hidden" id="eligibility-result-box"></div>
+      <div id="modal-history-body" class="modal-body">
+        <!-- Rendered by history.js -->
       </div>
     </div>
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/crops-data.js"></script>
+  <!-- ========================================================================
+       JAVASCRIPT SCRIPTS
+       ======================================================================== -->
+  <!-- Firebase SDKs (v9 Compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <!-- Application Modules -->
   <script src="js/api.js"></script>
   <script src="js/language.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/crops-data.js"></script>
   <script src="js/diagnosis.js"></script>
   <script src="js/weather.js"></script>
   <script src="js/market.js"></script>
   <script src="js/schemes.js"></script>
   <script src="js/history.js"></script>
-  <script src="js/maps.js"></script>
   <script src="js/profile.js"></script>
+  <script src="js/maps.js"></script>
+  <script src="js/app.js"></script>
+
 </body>
 </html>

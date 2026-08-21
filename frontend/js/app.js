@@ -15,6 +15,7 @@ const App = {
     this.setupNativeBridgeHook();
     this.updateConnectivityUI();
     this.setupAuthFlow();
+    this.setupSupportInteractions();
   },
 
   setupAuthFlow() {
@@ -66,6 +67,8 @@ const App = {
     if (greetingTitle && window.i18n) greetingTitle.innerHTML = window.i18n.t('dashboard.greeting', { name: displayName }).replace(displayName, `<span id="dashboard-farmer-name">${displayName}</span>`);
     if (headerInitial) headerInitial.textContent = displayName.charAt(0).toUpperCase();
     if (profileAvatar) profileAvatar.textContent = displayName.charAt(0).toUpperCase();
+    const sidebarInitial = document.querySelector('.profile-avatar-sm');
+    if (sidebarInitial) sidebarInitial.textContent = displayName.charAt(0).toUpperCase();
   },
 
   /**
@@ -75,7 +78,7 @@ const App = {
   navigateTo(viewId) {
     const targetSection = document.getElementById(viewId);
     if (!targetSection) {
-      console.error(`[App] View section #${viewId} not found.`);
+      console.warn(`[App] View section #${viewId} not found.`);
       return;
     }
 
@@ -103,6 +106,12 @@ const App = {
     }
     const desktopNavMatch = document.querySelector(`.desktop-nav-item[data-target="${viewId}"]`);
     if (desktopNavMatch) desktopNavMatch.classList.add('active');
+
+    // Close mobile sidebar drawer if open
+    const sidebar = document.getElementById('app-sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
+    if (sidebar) sidebar.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('active');
 
     // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -132,16 +141,106 @@ const App = {
       brand.addEventListener('click', () => this.navigateTo('view-home'));
     }
 
-    // Navigation item click handlers
-    document.querySelectorAll('[data-target]').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const targetView = e.currentTarget.getAttribute('data-target');
+    // Global Click Delegation for any element with [data-target]
+    document.addEventListener('click', (e) => {
+      const targetBtn = e.target.closest('[data-target]');
+      if (targetBtn) {
+        const targetView = targetBtn.getAttribute('data-target');
         if (targetView) {
+          e.preventDefault();
           this.navigateTo(targetView);
         }
-      });
+      }
     });
 
+    // Mobile Sidebar Drawer Toggle
+    const hamburgerBtn = document.getElementById('btn-sidebar-toggle');
+    const sidebar = document.getElementById('app-sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
+    const closeSidebarBtn = document.getElementById('btn-sidebar-close');
+
+    if (hamburgerBtn && sidebar) {
+      hamburgerBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        if (backdrop) backdrop.classList.toggle('active');
+      });
+    }
+
+    if (backdrop && sidebar) {
+      backdrop.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        backdrop.classList.remove('active');
+      });
+    }
+
+    if (closeSidebarBtn && sidebar) {
+      closeSidebarBtn.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        if (backdrop) backdrop.classList.remove('active');
+      });
+    }
+
+    // Notification Bell Toggle
+    const notifBtn = document.getElementById('btn-header-notifications');
+    const notifPanel = document.getElementById('header-notifications-panel');
+    if (notifBtn && notifPanel) {
+      notifBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        notifPanel.classList.toggle('hidden');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!notifPanel.contains(e.target) && e.target !== notifBtn) {
+          notifPanel.classList.add('hidden');
+        }
+      });
+    }
+  },
+
+  setupSupportInteractions() {
+    // FAQ Accordion Toggle
+    document.addEventListener('click', (e) => {
+      const faqBtn = e.target.closest('.faq-question');
+      if (faqBtn) {
+        const faqItem = faqBtn.closest('.faq-item');
+        if (faqItem) {
+          faqItem.classList.toggle('open');
+        }
+      }
+    });
+
+    // Contact Form Submission
+    const contactForm = document.getElementById('contact-support-form');
+    if (contactForm) {
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.showToast('Thank you! Your message has been sent to HaritKranti Support.', 'success');
+        contactForm.reset();
+      });
+    }
+
+    // Feedback Form Submission
+    const feedbackForm = document.getElementById('user-feedback-form');
+    if (feedbackForm) {
+      feedbackForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.showToast('Thank you for your valuable feedback!', 'success');
+        feedbackForm.reset();
+      });
+    }
+
+    // Crop Guide Search
+    const cropGuideSearch = document.getElementById('crop-guide-search');
+    if (cropGuideSearch) {
+      cropGuideSearch.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        const cards = document.querySelectorAll('.crop-guide-card');
+        cards.forEach(card => {
+          const text = card.textContent.toLowerCase();
+          card.style.display = text.includes(query) ? '' : 'none';
+        });
+      });
+    }
   },
 
   getAIMode() {
@@ -167,7 +266,6 @@ const App = {
       if (this.activeView === 'view-weather' && window.WeatherModule && typeof window.WeatherModule.handleConnectivityChange === 'function') {
         window.WeatherModule.handleConnectivityChange(true);
       }
-      // Attempt auto-sync of pending records if available
       if (window.HistoryModule) {
         window.HistoryModule.autoSyncPending();
       }
@@ -203,10 +301,6 @@ const App = {
     this.updateAIModeUI();
   },
 
-  /**
-   * OPTIONAL Native Android Bridge Interface
-   * Safely checks window.AndroidNativeBridge without failing in desktop/mobile web browsers.
-   */
   setupNativeBridgeHook() {
     window.SmartAgBridge = {
       isAvailable() {
@@ -228,19 +322,8 @@ const App = {
         return false;
       }
     };
-
-    if (window.SmartAgBridge.isAvailable()) {
-      console.log('📱 Android Native Bridge detected and active.');
-    } else {
-      console.log('🌐 Standard Web Browser mode active (AndroidNativeBridge optional hook is inactive).');
-    }
   },
 
-  /**
-   * Toast Notification Helper
-   * @param {string} message Text to display
-   * @param {'info'|'success'|'warning'|'error'} type 
-   */
   showToast(message, type = 'info') {
     let container = document.getElementById('toast-container');
     if (!container) {

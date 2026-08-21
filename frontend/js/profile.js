@@ -10,11 +10,12 @@ const ProfileModule = {
     crop: '',
     location: ''
   },
+  authMode: 'login', // Single Source of Truth: 'login' | 'register'
   currentMode: 'login',
   initialized: false,
 
   t(key, fallback = '') {
-    return window.i18n ? window.i18n.t(key) : fallback;
+    return window.i18n ? window.i18n.t(key, {}, fallback) : fallback;
   },
 
   initView() {
@@ -53,7 +54,10 @@ const ProfileModule = {
 
     const authSwitchLink = document.getElementById('auth-switch-link');
     if (authSwitchLink) {
-      authSwitchLink.addEventListener('click', () => this.switchAuthTab(this.currentMode === 'login' ? 'register' : 'login'));
+      authSwitchLink.addEventListener('click', () => {
+        const nextMode = (this.authMode === 'login') ? 'register' : 'login';
+        this.setAuthMode(nextMode);
+      });
     }
 
     const passwordToggle = document.getElementById('btn-toggle-password');
@@ -68,16 +72,20 @@ const ProfileModule = {
       });
     }
 
+    const confirmPasswordToggle = document.getElementById('btn-toggle-confirm-password');
+    if (confirmPasswordToggle) {
+      confirmPasswordToggle.addEventListener('click', () => {
+        const confirmInput = document.getElementById('auth-confirm-password');
+        if (!confirmInput) return;
+        const showing = confirmInput.type === 'text';
+        confirmInput.type = showing ? 'password' : 'text';
+        confirmPasswordToggle.textContent = showing ? this.t('auth.show', 'Show') : this.t('auth.hide', 'Hide');
+        confirmPasswordToggle.setAttribute('aria-label', showing ? this.t('auth.show', 'Show password') : this.t('auth.hide', 'Hide password'));
+      });
+    }
+
     const forgotPassword = document.getElementById('btn-forgot-password');
     if (forgotPassword) forgotPassword.addEventListener('click', () => this.handleForgotPassword());
-
-    // Tab switching (Sign In vs Create Account)
-    const tabLogin = document.getElementById('tab-auth-login');
-    const tabRegister = document.getElementById('tab-auth-register');
-    if (tabLogin && tabRegister) {
-      tabLogin.addEventListener('click', () => this.switchAuthTab('login'));
-      tabRegister.addEventListener('click', () => this.switchAuthTab('register'));
-    }
 
     // Listen to Firebase Auth state changes
     if (window.AuthModule) {
@@ -156,42 +164,48 @@ const ProfileModule = {
     }
   },
 
-  async saveProfile() {
-    const name = (document.getElementById('profile-name')?.value || '').trim();
-    const phone = (document.getElementById('profile-phone')?.value || '').trim();
-    const crop = (document.getElementById('profile-crop')?.value || '').trim();
-    const location = (document.getElementById('profile-location')?.value || '').trim();
+  renderAppStatus() {
+    const bridgeStatus = document.getElementById('status-bridge-text');
+    if (bridgeStatus) {
+      const isAndroidBridge = !!(window.SmartAgAndroidBridge || window.AndroidBridge);
+      bridgeStatus.innerText = isAndroidBridge
+        ? this.t('profile.bridgeAvailable', 'Available (Android app)')
+        : this.t('profile.bridgeUnavailable', 'Unavailable (standard browser)');
+    }
+
+    const netStatus = document.getElementById('status-net-text');
+    if (netStatus) {
+      netStatus.innerText = navigator.onLine 
+        ? this.t('common.online', 'Online') 
+        : this.t('common.offline', 'Offline');
+    }
+  },
+
+  saveProfile() {
+    const name = document.getElementById('profile-name')?.value?.trim() || '';
+    const phone = document.getElementById('profile-phone')?.value?.trim() || '';
+    const crop = document.getElementById('profile-crop')?.value?.trim() || '';
+    const location = document.getElementById('profile-location')?.value?.trim() || '';
 
     this.profileData = { name, phone, crop, location };
     localStorage.setItem('smart_ag_profile', JSON.stringify(this.profileData));
 
-    // Update Firebase display name if authenticated
-    if (window.AuthModule && window.AuthModule.isLoggedIn() && name) {
-      try {
-        await window.AuthModule.updateDisplayName(name);
-      } catch (err) {
-        console.warn('[ProfileModule] Could not update Firebase display name:', err);
-      }
+    // Update display name across UI
+    const displayFarmerName = document.getElementById('display-farmer-name');
+    if (displayFarmerName && name) {
+      displayFarmerName.innerText = name;
     }
 
-    this.renderProfile();
+    // Sync display name with Firebase auth user profile if logged in
+    if (window.AuthModule && window.AuthModule.isLoggedIn() && name) {
+      window.AuthModule.updateDisplayName(name).catch((err) => {
+        console.warn('[ProfileModule] Could not sync display name with Firebase:', err);
+      });
+    }
 
     if (window.App) {
-      window.App.showToast(this.t('profile.saved', 'Profile information updated successfully.'), 'success');
-    }
-  },
-
-  renderAppStatus() {
-    const statusOnline = document.getElementById('diag-status-online');
-    const statusBridge = document.getElementById('diag-status-bridge');
-
-    if (statusOnline) {
-      statusOnline.innerText = navigator.onLine ? this.t('profile.connected', 'Connected') : this.t('profile.localMode', 'Offline (local mode)');
-    }
-
-    if (statusBridge) {
-      const bridgeActive = window.SmartAgBridge && window.SmartAgBridge.isAvailable();
-      statusBridge.innerText = bridgeActive ? this.t('profile.bridgeAvailable', 'Available (Android app)') : this.t('profile.bridgeUnavailable', 'Unavailable (standard browser)');
+      window.App.showToast(this.t('profile.saved', 'Profile updated successfully.'), 'success');
+      window.App.syncUserUI({ displayName: name });
     }
   },
 
@@ -212,6 +226,7 @@ const ProfileModule = {
     if (errBox) {
       errBox.innerText = '';
       errBox.classList.remove('active');
+      errBox.style.display = 'none';
     }
   },
 
@@ -220,77 +235,175 @@ const ProfileModule = {
     if (errBox) {
       errBox.innerText = message;
       errBox.classList.add('active');
+      errBox.style.display = 'block';
     }
   },
 
-  refreshAuthCopy() {
-    const t = (key, fallback) => this.t(key, fallback);
-    const login = this.currentMode === 'login';
-    const set = (id, value) => { const element = document.getElementById(id); if (element) element.textContent = value; };
-    set('tab-auth-login', t('auth.signIn', 'Sign in'));
-    set('tab-auth-register', t('auth.createAccount', 'Create account'));
-    set('auth-title', login ? t('auth.signInTitle', 'Welcome back') : t('auth.createTitle', 'Create your workspace'));
-    set('auth-subtitle', login ? t('auth.signInSubtitle', 'Sign in to continue to your crop intelligence workspace.') : t('auth.createSubtitle', 'Create a secure workspace for your crop insights.'));
-    set('btn-auth-submit', login ? t('auth.submitSignIn', 'Sign in') : t('auth.submitCreate', 'Create account'));
-    set('auth-switch-link', login ? t('auth.switchCreate', 'Create an account') : t('auth.switchSignIn', 'Sign in'));
-    const switchCopy = document.getElementById('auth-switch-copy');
-    if (switchCopy) switchCopy.childNodes[0].textContent = `${login ? t('auth.newHere', 'New to HaritKranti?') : t('auth.alreadyMember', 'Already have an account?')} `;
-    set('btn-forgot-password', t('auth.forgot', 'Forgot password?'));
-    const remember = document.querySelector('#auth-remember-label span');
-    if (remember) remember.textContent = t('auth.remember', 'Remember me');
-    const toggle = document.getElementById('btn-toggle-password');
-    if (toggle) {
-      const showing = document.getElementById('auth-password')?.type === 'text';
-      toggle.textContent = showing ? t('auth.hide', 'Hide') : t('auth.show', 'Show');
-      toggle.setAttribute('aria-label', showing ? t('auth.hide', 'Hide password') : t('auth.show', 'Show password'));
-    }
-    const labels = [['auth-name-group .form-label', 'auth.fullName'], ['label[for="auth-email"]', 'auth.email'], ['label[for="auth-password"]', 'auth.password'], ['label[for="auth-confirm-password"]', 'auth.confirmPassword']];
-    labels.forEach(([selector, key]) => { const element = document.querySelector(selector); if (element) element.textContent = t(key, ''); });
-    const legal = document.getElementById('auth-legal');
-    if (legal) legal.textContent = t('auth.legal', 'By continuing, you agree to use AI guidance alongside local agricultural expertise.');
-    const tabLogin = document.getElementById('tab-auth-login');
-    const tabRegister = document.getElementById('tab-auth-register');
-    if (tabLogin) tabLogin.setAttribute('aria-selected', String(login));
-    if (tabRegister) tabRegister.setAttribute('aria-selected', String(!login));
+  /**
+   * Set Authentication Mode (Single Source of Truth)
+   * @param {string} mode 'login' | 'register'
+   */
+  setAuthMode(mode) {
+    this.authMode = (mode === 'register') ? 'register' : 'login';
+    this.currentMode = this.authMode;
+    this.renderAuthMode();
   },
 
   switchAuthTab(mode) {
-    this.currentMode = mode;
+    this.setAuthMode(mode || (this.authMode === 'login' ? 'register' : 'login'));
+  },
+
+  refreshAuthCopy() {
+    this.renderAuthMode();
+  },
+
+  /**
+   * Unconditionally render DOM elements, styles, classes, and copies based on authMode
+   */
+  renderAuthMode() {
+    const isRegister = (this.authMode === 'register');
+    this.currentMode = this.authMode;
     this.clearAuthErrors();
 
-    const tabLogin = document.getElementById('tab-auth-login');
-    const tabRegister = document.getElementById('tab-auth-register');
-    const btnSubmit = document.getElementById('btn-auth-submit');
+    const authScreen = document.getElementById('auth-screen');
+    const authForm = document.getElementById('auth-form');
     const nameGroup = document.getElementById('auth-name-group');
+    const emailGroup = document.getElementById('auth-email-group');
+    const passGroup = document.getElementById('auth-password-group');
     const confirmGroup = document.getElementById('auth-confirm-group');
+    const loginOptions = document.getElementById('auth-login-options');
     const modalTitle = document.getElementById('auth-title');
     const authSubtitle = document.getElementById('auth-subtitle');
+    const btnSubmit = document.getElementById('btn-auth-submit');
     const switchCopy = document.getElementById('auth-switch-copy');
     const switchLink = document.getElementById('auth-switch-link');
-    const loginOptions = document.getElementById('auth-login-options');
 
-    const i18n = window.i18n;
-
-    if (mode === 'login') {
-      if (tabLogin) tabLogin.classList.add('active');
-      if (tabRegister) tabRegister.classList.remove('active');
-      if (btnSubmit) btnSubmit.innerText = this.t('auth.submitSignIn', 'Sign in');
-      if (nameGroup) nameGroup.style.display = 'none';
-      if (confirmGroup) confirmGroup.style.display = 'none';
-      if (loginOptions) loginOptions.style.display = 'flex';
-      if (modalTitle) modalTitle.innerText = this.t('auth.signInTitle', 'Welcome back');
-    } else {
-      if (tabRegister) tabRegister.classList.add('active');
-      if (tabLogin) tabLogin.classList.remove('active');
-      if (btnSubmit) btnSubmit.innerText = this.t('auth.submitCreate', 'Create account');
-      if (nameGroup) nameGroup.style.display = 'block';
-      if (confirmGroup) confirmGroup.style.display = 'block';
-      if (loginOptions) loginOptions.style.display = 'none';
-      if (modalTitle) modalTitle.innerText = this.t('auth.createTitle', 'Create your workspace');
+    // 1. Synchronize mode classes on root containers
+    if (authScreen) {
+      authScreen.classList.toggle('mode-register', isRegister);
+      authScreen.classList.toggle('mode-login', !isRegister);
     }
-    if (tabLogin) tabLogin.setAttribute('aria-selected', String(mode === 'login'));
-    if (tabRegister) tabRegister.setAttribute('aria-selected', String(mode === 'register'));
-    this.refreshAuthCopy();
+    if (authForm) {
+      authForm.classList.toggle('mode-register', isRegister);
+      authForm.classList.toggle('mode-login', !isRegister);
+    }
+
+    // 2. Explicitly toggle visibility and remove any blocking classes
+    if (nameGroup) {
+      if (isRegister) {
+        nameGroup.classList.remove('is-hidden', 'hidden');
+        nameGroup.removeAttribute('hidden');
+        nameGroup.style.setProperty('display', 'block', 'important');
+      } else {
+        nameGroup.classList.add('is-hidden');
+        nameGroup.style.setProperty('display', 'none', 'important');
+      }
+    }
+
+    if (emailGroup) {
+      emailGroup.classList.remove('is-hidden', 'hidden');
+      emailGroup.removeAttribute('hidden');
+      emailGroup.style.setProperty('display', 'block', 'important');
+    }
+
+    if (passGroup) {
+      passGroup.classList.remove('is-hidden', 'hidden');
+      passGroup.removeAttribute('hidden');
+      passGroup.style.setProperty('display', 'block', 'important');
+    }
+
+    if (confirmGroup) {
+      if (isRegister) {
+        confirmGroup.classList.remove('is-hidden', 'hidden');
+        confirmGroup.removeAttribute('hidden');
+        confirmGroup.style.setProperty('display', 'block', 'important');
+      } else {
+        confirmGroup.classList.add('is-hidden');
+        confirmGroup.style.setProperty('display', 'none', 'important');
+      }
+    }
+
+    if (loginOptions) {
+      if (isRegister) {
+        loginOptions.classList.add('is-hidden');
+        loginOptions.style.setProperty('display', 'none', 'important');
+      } else {
+        loginOptions.classList.remove('is-hidden', 'hidden');
+        loginOptions.removeAttribute('hidden');
+        loginOptions.style.setProperty('display', 'flex', 'important');
+      }
+    }
+
+    // 3. Reset password field input types to 'password' and toggle text to 'Show'
+    const passInput = document.getElementById('auth-password');
+    const confirmPassInput = document.getElementById('auth-confirm-password');
+    const togglePass = document.getElementById('btn-toggle-password');
+    const toggleConfirm = document.getElementById('btn-toggle-confirm-password');
+    if (passInput) passInput.type = 'password';
+    if (confirmPassInput) confirmPassInput.type = 'password';
+    if (togglePass) {
+      togglePass.textContent = this.t('auth.show', 'Show');
+      togglePass.setAttribute('aria-label', this.t('auth.show', 'Show password'));
+    }
+    if (toggleConfirm) {
+      toggleConfirm.textContent = this.t('auth.show', 'Show');
+      toggleConfirm.setAttribute('aria-label', this.t('auth.show', 'Show password'));
+    }
+
+    // 4. Update Titles, Subtitles, Buttons, and Switch Links
+    if (modalTitle) {
+      modalTitle.textContent = isRegister 
+        ? this.t('auth.createTitle', 'Create your workspace') 
+        : this.t('auth.signInTitle', 'Welcome back');
+    }
+    if (authSubtitle) {
+      authSubtitle.textContent = isRegister 
+        ? this.t('auth.createSubtitle', 'Create a secure workspace for your crop insights.') 
+        : this.t('auth.signInSubtitle', 'Sign in to continue to your crop intelligence workspace.');
+    }
+    if (btnSubmit) {
+      btnSubmit.textContent = isRegister 
+        ? this.t('auth.submitCreate', 'Create account') 
+        : this.t('auth.submitSignIn', 'Sign in');
+    }
+    if (switchCopy) {
+      switchCopy.textContent = isRegister 
+        ? this.t('auth.alreadyMember', 'Already have an account? ') 
+        : this.t('auth.newHere', "Don't have an account? ");
+    }
+    if (switchLink) {
+      switchLink.textContent = isRegister 
+        ? this.t('auth.switchSignIn', 'Sign in') 
+        : this.t('auth.switchCreate', 'Create account');
+    }
+
+    // 5. Update Field Labels & Placeholders
+    const labels = [
+      ['#auth-name-group .form-label', 'auth.fullName', 'Full Name'],
+      ['#auth-email-group .form-label', 'auth.email', 'Email Address'],
+      ['#auth-password-group .form-label', 'auth.password', 'Password'],
+      ['#auth-confirm-group .form-label', 'auth.confirmPassword', 'Confirm Password']
+    ];
+    labels.forEach(([selector, key, fallback]) => {
+      const el = document.querySelector(selector);
+      if (el) el.textContent = this.t(key, fallback);
+    });
+
+    const nameInp = document.getElementById('auth-name');
+    if (nameInp) nameInp.placeholder = this.t('auth.fullName', 'Full name');
+    const emailInp = document.getElementById('auth-email');
+    if (emailInp) emailInp.placeholder = this.t('auth.email', 'Email address');
+    const passInp = document.getElementById('auth-password');
+    if (passInp) passInp.placeholder = this.t('auth.password', 'Password');
+    const confirmInp = document.getElementById('auth-confirm-password');
+    if (confirmInp) confirmInp.placeholder = this.t('auth.confirmPassword', 'Confirm password');
+
+    const forgotBtn = document.getElementById('btn-forgot-password');
+    if (forgotBtn) forgotBtn.textContent = this.t('auth.forgot', 'Forgot password?');
+    const rememberSpan = document.querySelector('#auth-remember-label span');
+    if (rememberSpan) rememberSpan.textContent = this.t('auth.remember', 'Remember me');
+    const legalEl = document.getElementById('auth-legal');
+    if (legalEl) legalEl.textContent = this.t('auth.legal', 'By continuing, you agree to use AI guidance alongside local agricultural expertise.');
   },
 
   /**
@@ -298,6 +411,9 @@ const ProfileModule = {
    */
   async handleAuthSubmit() {
     this.clearAuthErrors();
+
+    const mode = this.authMode || this.currentMode || 'login';
+    console.log('[ProfileModule] Executing auth submit in mode:', mode);
 
     const emailInput = document.getElementById('auth-email');
     const passwordInput = document.getElementById('auth-password');
@@ -310,20 +426,63 @@ const ProfileModule = {
     const password = passwordInput?.value || '';
     const name = nameInput?.value?.trim() || '';
     const confirmPassword = confirmInput?.value || '';
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!email) {
-      this.showAuthError(this.t('validation.invalidEmail', 'Please enter a valid email address.'));
-      return;
-    }
+    if (mode === 'register') {
+      if (!name) {
+        this.showAuthError(this.t('validation.nameRequired', 'Please enter your full name.'));
+        nameInput?.focus();
+        return;
+      }
 
-    if (!password || password.length < 6) {
-      this.showAuthError(this.t('validation.weakPassword', 'Password must be at least 6 characters.'));
-      return;
-    }
+      if (!email) {
+        this.showAuthError(this.t('validation.missingEmail', 'Please enter your email address.'));
+        emailInput?.focus();
+        return;
+      }
 
-    if (this.currentMode === 'register' && password !== confirmPassword) {
-      this.showAuthError(this.t('auth.passwordMismatch', 'Passwords do not match. Please check both fields.'));
-      return;
+      if (!emailRegex.test(email)) {
+        this.showAuthError(this.t('validation.invalidEmail', 'Please enter a valid email address.'));
+        emailInput?.focus();
+        return;
+      }
+
+      if (!password || password.length < 6) {
+        this.showAuthError(this.t('validation.weakPassword', 'Password must be at least 6 characters.'));
+        passwordInput?.focus();
+        return;
+      }
+
+      if (!confirmPassword) {
+        this.showAuthError(this.t('auth.confirmPasswordRequired', 'Please confirm your password.'));
+        confirmInput?.focus();
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        this.showAuthError(this.t('auth.passwordMismatch', 'Passwords do not match. Please check both fields.'));
+        confirmInput?.focus();
+        return;
+      }
+    } else {
+      // Sign In mode
+      if (!email) {
+        this.showAuthError(this.t('validation.missingEmail', 'Please enter your email address.'));
+        emailInput?.focus();
+        return;
+      }
+
+      if (!emailRegex.test(email)) {
+        this.showAuthError(this.t('validation.invalidEmail', 'Please enter a valid email address.'));
+        emailInput?.focus();
+        return;
+      }
+
+      if (!password) {
+        this.showAuthError(this.t('auth.missingPassword', 'Please enter your password.'));
+        passwordInput?.focus();
+        return;
+      }
     }
 
     const originalBtnText = btnSubmit ? btnSubmit.innerText : '';
@@ -333,27 +492,34 @@ const ProfileModule = {
     }
 
     try {
-      if (this.currentMode === 'register') {
-        await window.AuthModule.register(name, email, password);
+      if (mode === 'register') {
+        const userCred = await window.AuthModule.register(name, email, password);
+        console.log('[ProfileModule] Registered user successfully:', userCred?.user?.email);
         if (window.App) {
           window.App.showToast(this.t('authStatus.registerSuccess', 'Account created successfully.'), 'success');
+          if (typeof window.App.showAppShell === 'function') {
+            window.App.showAppShell(userCred?.user || window.AuthModule.getCurrentUser());
+          }
         }
       } else {
         if (window.AuthModule && typeof window.AuthModule.setPersistence === 'function') {
           await window.AuthModule.setPersistence(Boolean(rememberInput && rememberInput.checked));
         }
-        await window.AuthModule.login(email, password);
+        const userCred = await window.AuthModule.login(email, password);
+        console.log('[ProfileModule] Logged in user successfully:', userCred?.user?.email);
         if (window.App) {
           window.App.showToast(this.t('authStatus.loginSuccess', 'Logged in successfully.'), 'success');
+          if (typeof window.App.showAppShell === 'function') {
+            window.App.showAppShell(userCred?.user || window.AuthModule.getCurrentUser());
+          }
         }
       }
 
-      // Reset form & close modal
+      // Clear input fields
       if (emailInput) emailInput.value = '';
       if (passwordInput) passwordInput.value = '';
       if (nameInput) nameInput.value = '';
       if (confirmInput) confirmInput.value = '';
-      this.closeAuthModal();
 
     } catch (error) {
       console.error('[ProfileModule] Auth error:', error.message);
@@ -371,6 +537,7 @@ const ProfileModule = {
     const email = document.getElementById('auth-email')?.value?.trim() || '';
     if (!email) {
       this.showAuthError(this.t('auth.resetPrompt', 'Enter your email address first, then choose forgot password.'));
+      document.getElementById('auth-email')?.focus();
       return;
     }
     try {
@@ -401,8 +568,15 @@ const ProfileModule = {
   }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize immediately and on DOMContentLoaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    ProfileModule.setupEventListeners();
+    ProfileModule.renderAuthMode();
+  });
+} else {
   ProfileModule.setupEventListeners();
-});
+  ProfileModule.renderAuthMode();
+}
 
 window.ProfileModule = ProfileModule;
