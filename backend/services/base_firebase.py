@@ -45,13 +45,13 @@ class BaseFirebaseService(ABC):
 
 class MockFirebaseService(BaseFirebaseService):
     """
-    Development fallback service.
+    Development fallback service with strict per-user isolation.
 
     Used when Firebase credentials are not configured.
     """
 
     def __init__(self):
-        self._history_db: List[ScanRecordItem] = [
+        default_scans = [
             ScanRecordItem(
                 id="scan_001",
                 crop="Tomato",
@@ -75,18 +75,24 @@ class MockFirebaseService(BaseFirebaseService):
                 treatment="Apply systemic fungicide (Metalaxyl + Mancozeb).",
             ),
         ]
+        self._history_by_user: Dict[str, List[ScanRecordItem]] = {
+            "test-user-123": list(default_scans),
+            "default": list(default_scans),
+        }
 
     async def get_history(
         self,
         user_id: Optional[str] = None
     ) -> List[ScanRecordItem]:
-        return self._history_db
+        uid = user_id or "default"
+        return list(self._history_by_user.get(uid, []))
 
     async def save_history(
         self,
         record: ScanRecordItem,
         user_id: Optional[str] = None
     ) -> SaveHistoryResponse:
+        uid = user_id or "default"
 
         if not record.id:
             record.id = f"scan_{int(time.time() * 1000)}"
@@ -96,7 +102,9 @@ class MockFirebaseService(BaseFirebaseService):
 
         record.syncStatus = "SYNCED"
 
-        self._history_db.insert(0, record)
+        if uid not in self._history_by_user:
+            self._history_by_user[uid] = []
+        self._history_by_user[uid].insert(0, record)
 
         return SaveHistoryResponse(
             success=True,
@@ -109,8 +117,11 @@ class MockFirebaseService(BaseFirebaseService):
         records: List[Dict[str, Any]],
         user_id: Optional[str] = None
     ) -> SyncResponse:
-
+        uid = user_id or "default"
         synced_count = 0
+
+        if uid not in self._history_by_user:
+            self._history_by_user[uid] = []
 
         for rec in records:
             item = ScanRecordItem(
@@ -127,7 +138,7 @@ class MockFirebaseService(BaseFirebaseService):
                 treatment=rec.get("treatment", ""),
             )
 
-            self._history_db.insert(0, item)
+            self._history_by_user[uid].insert(0, item)
             synced_count += 1
 
         return SyncResponse(

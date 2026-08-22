@@ -58,7 +58,7 @@ async def diagnose_crop(file: UploadFile = File(...)):
         logger.error(f"[DiagnosisRoute] Invalid response from AI classification service: {val_err}")
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail=f"AI diagnosis service returned invalid output: {str(val_err)}"
+            detail="AI diagnosis service returned invalid output."
         )
     except Exception as exc:
         logger.error(f"[DiagnosisRoute] AI classification service failed: {exc}")

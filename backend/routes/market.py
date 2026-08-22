@@ -1,3 +1,4 @@
+import logging
 from typing import Optional, List
 from fastapi import APIRouter, Query, HTTPException
 from models.schemas import (
@@ -8,6 +9,7 @@ from models.schemas import (
 )
 from services.base_market import market_service
 
+logger = logging.getLogger("smart_ag_backend.routes.market")
 router = APIRouter(prefix="/api/market", tags=["Market Prices"])
 
 
@@ -21,7 +23,8 @@ async def get_market_crops():
         crops = market_service.get_crops()
         return crops
     except Exception as ex:
-        raise HTTPException(status_code=500, detail=f"Failed to retrieve crop metadata: {str(ex)}")
+        logger.error("[MarketRoute] Failed to retrieve crop metadata: %s", ex)
+        raise HTTPException(status_code=500, detail="Failed to retrieve crop metadata.")
 
 
 @router.get("/locations")
@@ -33,7 +36,8 @@ async def get_market_locations():
         locations = market_service.get_locations()
         return locations
     except Exception as ex:
-        raise HTTPException(status_code=500, detail=f"Failed to retrieve locations: {str(ex)}")
+        logger.error("[MarketRoute] Failed to retrieve locations: %s", ex)
+        raise HTTPException(status_code=500, detail="Failed to retrieve location mapping.")
 
 
 @router.get("/latest", response_model=MarketPriceLatestResponse)
@@ -56,7 +60,8 @@ async def get_latest_market_price(
         )
         return result
     except Exception as ex:
-        raise HTTPException(status_code=503, detail=f"Market price service temporarily unavailable: {str(ex)}")
+        logger.error("[MarketRoute] Failed to fetch latest market price: %s", ex)
+        raise HTTPException(status_code=503, detail="Market price service is temporarily unavailable.")
 
 
 @router.get("/history", response_model=MarketPriceHistoryResponse)
@@ -81,4 +86,5 @@ async def get_market_price_history(
         )
         return result
     except Exception as ex:
-        raise HTTPException(status_code=503, detail=f"Price history temporarily unavailable: {str(ex)}")
+        logger.error("[MarketRoute] Failed to fetch price history: %s", ex)
+        raise HTTPException(status_code=503, detail="Price history service is temporarily unavailable.")

@@ -25,9 +25,14 @@ def fake_get_firebase_service():
     return mock_firebase_service
 
 
-# Replace production dependencies with test doubles.
-sync_route.get_user_id = fake_get_user_id
-sync_route.get_firebase_service = fake_get_firebase_service
+import pytest
+
+@pytest.fixture(autouse=True)
+def setup_test_doubles():
+    app.dependency_overrides[sync_route.get_user_id] = fake_get_user_id
+    sync_route.get_firebase_service = fake_get_firebase_service
+    yield
+    app.dependency_overrides.clear()
 
 
 def test_sync_records():

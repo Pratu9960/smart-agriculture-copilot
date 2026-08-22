@@ -1,3 +1,4 @@
+import logging
 from typing import Optional, List
 from fastapi import APIRouter, Query, HTTPException, Path
 from models.schemas import (
@@ -8,6 +9,7 @@ from models.schemas import (
 )
 from services.base_schemes import schemes_service
 
+logger = logging.getLogger("smart_ag_backend.routes.schemes")
 router = APIRouter(prefix="/api/schemes", tags=["Government Schemes"])
 
 
@@ -32,7 +34,8 @@ async def get_government_schemes(
         )
         return results
     except Exception as ex:
-        raise HTTPException(status_code=500, detail=f"Failed to query schemes: {str(ex)}")
+        logger.error("[SchemesRoute] Failed to query schemes: %s", ex)
+        raise HTTPException(status_code=500, detail="Failed to query government schemes.")
 
 
 @router.get("/categories", response_model=List[SchemeCategoryItem])
@@ -44,7 +47,8 @@ async def get_scheme_categories():
         categories = schemes_service.get_categories()
         return categories
     except Exception as ex:
-        raise HTTPException(status_code=500, detail=f"Failed to retrieve categories: {str(ex)}")
+        logger.error("[SchemesRoute] Failed to retrieve scheme categories: %s", ex)
+        raise HTTPException(status_code=500, detail="Failed to retrieve scheme categories.")
 
 
 @router.get("/{scheme_id}", response_model=GovernmentSchemeItem)
@@ -72,4 +76,5 @@ async def check_scheme_eligibility(
         result = schemes_service.check_eligibility(scheme_id, request.answers)
         return result
     except Exception as ex:
-        raise HTTPException(status_code=500, detail=f"Failed to check eligibility: {str(ex)}")
+        logger.error("[SchemesRoute] Failed to check eligibility for scheme '%s': %s", scheme_id, ex)
+        raise HTTPException(status_code=500, detail="Failed to check scheme eligibility.")

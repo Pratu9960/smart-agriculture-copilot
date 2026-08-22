@@ -26,9 +26,14 @@ def fake_get_firebase_service():
     return mock_firebase_service
 
 
-# Replace production authentication/Firebase service with test doubles.
-history_route.get_user_id = fake_get_user_id
-history_route.get_firebase_service = fake_get_firebase_service
+import pytest
+
+@pytest.fixture(autouse=True)
+def setup_test_doubles():
+    app.dependency_overrides[history_route.get_user_id] = fake_get_user_id
+    history_route.get_firebase_service = fake_get_firebase_service
+    yield
+    app.dependency_overrides.clear()
 
 
 def test_get_history():

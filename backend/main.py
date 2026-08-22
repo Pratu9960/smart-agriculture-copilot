@@ -46,12 +46,16 @@ app.include_router(location_router)
 app.include_router(market_router)
 app.include_router(schemes_router)
 
+import logging
+logger = logging.getLogger("smart_ag_backend")
+
 # Custom Exception Handler
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
+    logger.exception(f"Unhandled server error on {request.method} {request.url.path}: {exc}")
     return JSONResponse(
         status_code=500,
-        content={"detail": "An internal backend error occurred.", "error": str(exc)}
+        content={"detail": "An internal backend error occurred."}
     )
 
 if __name__ == "__main__":
