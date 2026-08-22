@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Dict, Any, Optional
+import json
+import logging
 import os
 import time
 
@@ -12,6 +14,8 @@ from models.schemas import (
     SaveHistoryResponse,
     SyncResponse,
 )
+
+logger = logging.getLogger("smart_ag_backend.services.base_firebase")
 
 
 class BaseFirebaseService(ABC):
@@ -287,50 +291,89 @@ class FirestoreFirebaseService(BaseFirebaseService):
         )
 
 
-def initialize_firebase_admin():
+def initialize_firebase_admin() -> bool:
     """
-    Initialize Firebase Admin SDK exactly once.
+    Initialize Firebase Admin SDK exactly once with priority:
+    1. FIREBASE_SERVICE_ACCOUNT_JSON (Vercel / Production environment variable)
+    2. FIREBASE_CREDENTIALS_PATH (Local service account JSON file)
+    3. Neither configured: allowed in development (returns False), raises RuntimeError in production.
     """
-
     if firebase_admin._apps:
         return True
 
-    credential_path = (
-        settings.FIREBASE_CREDENTIALS_PATH or ""
-    ).strip()
+    is_production = (settings.ENVIRONMENT or "").strip().lower() == "production"
+    service_account_json = (settings.FIREBASE_SERVICE_ACCOUNT_JSON or "").strip()
+    credential_path = (settings.FIREBASE_CREDENTIALS_PATH or "").strip()
 
-    if not credential_path:
+    # Priority 1: FIREBASE_SERVICE_ACCOUNT_JSON
+    if service_account_json:
+        try:
+            service_account_dict = json.loads(service_account_json)
+            if not isinstance(service_account_dict, dict):
+                raise ValueError("FIREBASE_SERVICE_ACCOUNT_JSON must be a valid JSON object.")
+        except Exception:
+            logger.error("[Firebase] Failed to parse FIREBASE_SERVICE_ACCOUNT_JSON: invalid JSON format.")
+            raise ValueError("Invalid FIREBASE_SERVICE_ACCOUNT_JSON: must be a valid JSON object.")
+
+        try:
+            cred = credentials.Certificate(service_account_dict)
+            project_id = service_account_dict.get("project_id") or "smart-agriculture-copilot"
+            firebase_admin.initialize_app(
+                cred,
+                {
+                    "projectId": project_id
+                }
+            )
+            logger.info("[Firebase] Admin SDK initialized successfully from service account JSON.")
+            return True
+        except Exception as exc:
+            logger.error("[Firebase] Failed to initialize Firebase Admin SDK from service account JSON: %s", type(exc).__name__)
+            raise RuntimeError("Failed to initialize Firebase Admin from service account JSON.") from exc
+
+    # Priority 2: FIREBASE_CREDENTIALS_PATH
+    if credential_path:
+        target_path = credential_path
+        if not os.path.isabs(target_path):
+            backend_dir = os.path.dirname(
+                os.path.dirname(os.path.abspath(__file__))
+            )
+            target_path = os.path.join(
+                backend_dir,
+                target_path
+            )
+
+        if not os.path.isfile(target_path):
+            logger.error("[Firebase] Firebase credentials file not found at path: %s", target_path)
+            raise FileNotFoundError(
+                f"Firebase credentials file not found: {target_path}"
+            )
+
+        try:
+            cred = credentials.Certificate(target_path)
+            firebase_admin.initialize_app(
+                cred,
+                {
+                    "projectId": "smart-agriculture-copilot"
+                }
+            )
+            logger.info("[Firebase] Admin SDK initialized successfully from credentials file.")
+            return True
+        except Exception as exc:
+            logger.error("[Firebase] Failed to initialize Firebase Admin SDK from credentials file: %s", type(exc).__name__)
+            raise RuntimeError("Failed to initialize Firebase Admin from credentials file.") from exc
+
+    # Priority 3: Neither configured
+    if is_production:
+        logger.error("[Firebase] Firebase credentials are not configured in production environment.")
         raise RuntimeError(
-            "FIREBASE_CREDENTIALS_PATH is not configured."
+            "Firebase credentials are required in production. Please configure FIREBASE_SERVICE_ACCOUNT_JSON or FIREBASE_CREDENTIALS_PATH."
         )
 
-    if not os.path.isabs(credential_path):
-        backend_dir = os.path.dirname(
-            os.path.dirname(os.path.abspath(__file__))
-        )
-
-        credential_path = os.path.join(
-            backend_dir,
-            credential_path
-        )
-
-    if not os.path.isfile(credential_path):
-        raise FileNotFoundError(
-            f"Firebase credentials file not found: {credential_path}"
-        )
-
-    cred = credentials.Certificate(credential_path)
-
-    firebase_admin.initialize_app(
-        cred,
-        {
-            "projectId": "smart-agriculture-copilot"
-        }
+    logger.info(
+        "[Firebase] Neither FIREBASE_SERVICE_ACCOUNT_JSON nor FIREBASE_CREDENTIALS_PATH is configured. "
+        "Running in development mode with MockFirebaseService."
     )
-
-    print("[Firebase] Admin SDK initialized successfully.")
-
-    return True
+    return False
 
 
 def _get_firestore_client():
@@ -338,8 +381,8 @@ def _get_firestore_client():
     Initialize Firebase Admin SDK if necessary,
     then return the Firestore client.
     """
-
-    initialize_firebase_admin()
+    if not initialize_firebase_admin():
+        raise RuntimeError("Firebase Admin SDK is not initialized.")
 
     return firestore.client()
 
@@ -347,27 +390,38 @@ def _get_firestore_client():
 def get_firebase_service() -> BaseFirebaseService:
     """
     Return the appropriate Firebase service.
+    In production, Firebase credentials must initialize successfully;
+    never silently fall back to MockFirebaseService.
+    In non-production, fallback to MockFirebaseService is allowed.
     """
+    is_production = (settings.ENVIRONMENT or "").strip().lower() == "production"
 
-    credential_path = (
-        settings.FIREBASE_CREDENTIALS_PATH or ""
-    ).strip()
-
-    if credential_path:
+    if is_production:
         try:
             return FirestoreFirebaseService()
-
         except Exception as exc:
-            print(
-                "[Firebase] Failed to initialize Firestore:",
-                str(exc)
-            )
+            logger.error("[Firebase] Failed to initialize Firestore in production: %s", type(exc).__name__)
+            raise RuntimeError(f"Failed to initialize Firebase in production: {exc}") from exc
 
-            return MockFirebaseService()
-
-    print(
-        "[Firebase] FIREBASE_CREDENTIALS_PATH is not configured. "
-        "Using MockFirebaseService."
+    # In non-production (development/test):
+    has_credentials = bool(
+        (settings.FIREBASE_SERVICE_ACCOUNT_JSON or "").strip()
+        or (settings.FIREBASE_CREDENTIALS_PATH or "").strip()
     )
 
+    if has_credentials:
+        try:
+            return FirestoreFirebaseService()
+        except Exception as exc:
+            logger.warning(
+                "[Firebase] Failed to initialize Firestore in %s mode (%s). Falling back to MockFirebaseService.",
+                settings.ENVIRONMENT,
+                type(exc).__name__
+            )
+            return MockFirebaseService()
+
+    logger.info(
+        "[Firebase] Firebase credentials not configured in %s environment. Using MockFirebaseService.",
+        settings.ENVIRONMENT
+    )
     return MockFirebaseService()

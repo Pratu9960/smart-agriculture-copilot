@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     DATAGOV_API_KEY: str = ""
     MYSCHEME_API_KEY: str = ""
     FIREBASE_CREDENTIALS_PATH: str = ""
+    FIREBASE_SERVICE_ACCOUNT_JSON: str = ""
 
     # Allowed CORS Origins (supports comma-separated string, JSON list, or list of strings)
     CORS_ORIGINS: Union[List[str], str] = [
