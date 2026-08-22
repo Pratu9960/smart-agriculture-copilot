@@ -11,9 +11,7 @@ const API_BASE_URL =
     ? 'http://127.0.0.1:8000/api'
     : 'https://smart-agriculture-backend-mfyh.onrender.com/api';
 
-const SmartAgAPI = {
-
-const SmartAgAPI = {  
+  const SmartAgAPI = {  
   /**
    * Get authentication headers for protected backend endpoints.
    */
