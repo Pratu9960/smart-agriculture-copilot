@@ -4324,3 +4324,167 @@ svg {
     border-radius: 50%;
   }
 }
+
+/* =========================================
+   MOBILE HEADER FIX
+   ========================================= */
+
+@media (max-width: 768px) {
+
+  .app-header {
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+  }
+
+  .header-inner {
+    width: 100%;
+    min-width: 0;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    box-sizing: border-box;
+  }
+
+  /* Hide desktop navigation */
+  .header-nav {
+    display: none;
+  }
+
+  /* Left section */
+  .header-left {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hamburger-btn {
+    flex-shrink: 0;
+  }
+
+  .header-brand-link {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow: hidden;
+  }
+
+  .brand-logo-icon {
+    flex-shrink: 0;
+  }
+
+  .header-brand-name {
+    font-size: 1.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Right section */
+  .header-right {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* Online = compact green dot */
+  .status-pill {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .status-pill #status-badge-text {
+    display: none;
+  }
+
+  /* Compact language button */
+  .lang-pill {
+    flex-shrink: 0;
+    padding: 8px;
+    min-width: auto;
+  }
+
+  .lang-pill svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .dropdown-chevron {
+    font-size: 9px;
+  }
+
+  /* KEEP notification button */
+  .icon-button {
+    display: flex;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* KEEP profile button */
+  .header-profile {
+    display: flex;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+
+/* Extra small phones */
+@media (max-width: 480px) {
+
+  .header-inner {
+    padding: 0 6px;
+    gap: 4px;
+  }
+
+  .header-left {
+    gap: 5px;
+  }
+
+  .header-brand-name {
+    font-size: 1.1rem;
+  }
+
+  .brand-logo-icon {
+    flex-shrink: 0;
+  }
+
+  .header-right {
+    gap: 3px;
+  }
+
+  .status-pill {
+    width: 34px;
+    height: 34px;
+  }
+
+  .lang-pill {
+    padding: 6px;
+  }
+
+  .icon-button,
+  .header-profile {
+    width: 34px;
+    height: 34px;
+  }
+}
