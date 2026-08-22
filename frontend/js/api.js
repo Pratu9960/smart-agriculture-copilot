@@ -10,7 +10,8 @@ const API_BASE_URL =
   window.location.origin.includes('127.0.0.1')
     ? 'http://127.0.0.1:8000/api'
     : 'https://smart-agriculture-backend-mfyh.onrender.com/api';
-  : '/api';
+
+const SmartAgAPI = {
 
 const SmartAgAPI = {  
   /**
