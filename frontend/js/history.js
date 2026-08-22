@@ -58,11 +58,84 @@ const HistoryModule = {
   },
 
   async loadHistory() {
+    const user = window.AuthModule && typeof window.AuthModule.getCurrentUser === 'function' ? window.AuthModule.getCurrentUser() : null;
+    if (!user) {
+      this.records = [];
+      await this.renderHistoryList(this.records);
+      return;
+    }
     try {
       this.records = await window.SmartAgAPI.getHistory();
       await this.renderHistoryList(this.records);
+      await this.renderDashboardRecentScans();
     } catch (err) {
-      console.error('[HistoryModule] Failed to load history:', err);
+      console.warn('[HistoryModule] History not loaded:', err.message);
+      this.records = [];
+      await this.renderHistoryList(this.records);
+    }
+  },
+
+  async renderDashboardRecentScans() {
+    const container = document.getElementById('dashboard-recent-scans-list');
+    if (!container) return;
+
+    if (!this.records || this.records.length === 0) {
+      const user = window.AuthModule && typeof window.AuthModule.getCurrentUser === 'function' ? window.AuthModule.getCurrentUser() : null;
+      if (user) {
+        try {
+          if (window.SmartAgAPI && typeof window.SmartAgAPI.getHistory === 'function') {
+            this.records = await window.SmartAgAPI.getHistory();
+          }
+        } catch (e) {
+          // Retain default curated items if history not available
+        }
+      }
+    }
+
+    if (this.records && this.records.length > 0) {
+      const topScans = this.records.slice(0, 3);
+      container.innerHTML = topScans.map(item => {
+        const crop = this.escapeHtml(item.crop || 'Crop');
+        const disease = this.escapeHtml(item.disease || 'Analyzed Leaf');
+        const severity = (item.severity || 'LOW').toUpperCase();
+        let riskClass = 'risk-healthy';
+        let riskLabel = 'HEALTHY';
+        if (severity.includes('HIGH') || severity.includes('SEVERE')) {
+          riskClass = 'risk-high';
+          riskLabel = 'HIGH RISK';
+        } else if (severity.includes('MODERATE') || severity.includes('MEDIUM') || severity.includes('MONITOR')) {
+          riskClass = 'risk-monitor';
+          riskLabel = 'MONITOR';
+        }
+
+        const confidence = item.confidence ? Math.round(Number(item.confidence) <= 1 ? Number(item.confidence) * 100 : Number(item.confidence)) : 92;
+
+        let emoji = '🌿';
+        const cropLower = crop.toLowerCase();
+        if (cropLower.includes('tomato')) emoji = '🍅';
+        else if (cropLower.includes('wheat')) emoji = '🌾';
+        else if (cropLower.includes('rice') || cropLower.includes('paddy')) emoji = '🌾';
+        else if (cropLower.includes('cotton')) emoji = '🌱';
+
+        return `
+          <div class="recent-scan-item" onclick="HistoryModule.openDetailModal('${item.id}')">
+            <div class="scan-item-thumb">
+              <span>${emoji}</span>
+            </div>
+            <div class="scan-item-info">
+              <div class="scan-item-title-row">
+                <strong class="crop-name">${crop}</strong>
+                <span class="scan-risk-pill ${riskClass}">${riskLabel}</span>
+              </div>
+              <span class="scan-condition">Detected: ${disease}</span>
+            </div>
+            <div class="scan-item-score">
+              <strong>${confidence}%</strong>
+              <small>confidence</small>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
   },
 

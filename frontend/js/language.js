@@ -770,7 +770,6 @@ const LanguageModule = {
     // Specific navigation & headers (target only text label spans)
     const navMapping = {
       '.sidebar-nav button[data-target="view-home"]': 'nav.dashboard',
-      '.sidebar-nav button[data-target="view-scan"]': 'nav.scan',
       '.sidebar-nav button[data-target="view-weather"]': 'nav.weather',
       '.sidebar-nav button[data-target="view-market"]': 'nav.market',
       '.sidebar-nav button[data-target="view-schemes"]': 'nav.schemes',

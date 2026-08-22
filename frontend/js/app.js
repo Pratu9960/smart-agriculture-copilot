@@ -76,6 +76,11 @@ const App = {
    * @param {string} viewId ID of the view section to make active (e.g., 'view-home')
    */
   navigateTo(viewId) {
+    // Backward compatibility: redirect any legacy scan page requests to Dashboard
+    if (viewId === 'view-scan') {
+      viewId = 'view-home';
+    }
+
     const targetSection = document.getElementById(viewId);
     if (!targetSection) {
       console.warn(`[App] View section #${viewId} not found.`);
@@ -88,10 +93,7 @@ const App = {
     });
 
     // Deactivate all navigation items
-    document.querySelectorAll('.nav-item').forEach(nav => {
-      nav.classList.remove('active');
-    });
-    document.querySelectorAll('.desktop-nav-item').forEach(nav => {
+    document.querySelectorAll('.nav-item, .desktop-nav-item, .header-nav-link').forEach(nav => {
       nav.classList.remove('active');
     });
 
@@ -99,13 +101,12 @@ const App = {
     targetSection.classList.add('active');
     this.activeView = viewId;
 
-    // Activate corresponding nav item
-    const navMatch = document.querySelector(`.nav-item[data-target="${viewId}"]`);
-    if (navMatch) {
-      navMatch.classList.add('active');
-    }
-    const desktopNavMatch = document.querySelector(`.desktop-nav-item[data-target="${viewId}"]`);
-    if (desktopNavMatch) desktopNavMatch.classList.add('active');
+    // Activate corresponding nav items across header and sidebar
+    document.querySelectorAll(`[data-target="${viewId}"]`).forEach(el => {
+      if (el.classList.contains('nav-item') || el.classList.contains('desktop-nav-item') || el.classList.contains('header-nav-link')) {
+        el.classList.add('active');
+      }
+    });
 
     // Close mobile sidebar drawer if open
     const sidebar = document.getElementById('app-sidebar');
@@ -117,7 +118,11 @@ const App = {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // View specific initialization triggers
-    if (viewId === 'view-weather' && window.WeatherModule) {
+    if (viewId === 'view-home') {
+      if (window.HistoryModule && typeof window.HistoryModule.renderDashboardRecentScans === 'function') {
+        window.HistoryModule.renderDashboardRecentScans();
+      }
+    } else if (viewId === 'view-weather' && window.WeatherModule) {
       window.WeatherModule.initView();
     } else if (viewId === 'view-market' && window.MarketModule) {
       window.MarketModule.initView();

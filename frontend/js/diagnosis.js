@@ -99,7 +99,7 @@ const DiagnosisModule = {
         this.clearPreview();
 
         if (window.App) {
-          window.App.navigateTo('view-scan');
+          window.App.navigateTo('view-home');
         }
       });
     }
