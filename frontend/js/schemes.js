@@ -18,6 +18,22 @@ const SchemesModule = {
   isInitialized: false,
   debounceTimer: null,
 
+  escapeHtml(value) {
+    if (value === null || value === undefined) return '';
+    const div = document.createElement('div');
+    div.textContent = String(value);
+    return div.innerHTML;
+  },
+
+  sanitizeUrl(url) {
+    if (!url || typeof url !== 'string') return '#';
+    const trimmed = url.trim();
+    if (/^https?:\/\//i.test(trimmed)) {
+      return this.escapeHtml(trimmed);
+    }
+    return '#';
+  },
+
   t(key, params = {}) {
     return window.i18n && typeof window.i18n.t === 'function'
       ? window.i18n.t(key, params)
@@ -62,41 +78,50 @@ const SchemesModule = {
       this.loadSchemes();
     });
 
-    // Modal Close Buttons
-    document.getElementById('modal-scheme-close')?.addEventListener('click', () => this.closeDetailsModal());
-    document.getElementById('modal-scheme-overlay')?.addEventListener('click', (e) => {
-      if (e.target.id === 'modal-scheme-overlay') this.closeDetailsModal();
+    // Modal Close Triggers
+    document.querySelectorAll('[data-close-modal]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const modalId = e.currentTarget.dataset.closeModal;
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          modal.classList.remove('active');
+          document.body.classList.remove('modal-open');
+        }
+      });
     });
 
-    document.getElementById('modal-eligibility-close')?.addEventListener('click', () => this.closeEligibilityModal());
-    document.getElementById('modal-eligibility-overlay')?.addEventListener('click', (e) => {
-      if (e.target.id === 'modal-eligibility-overlay') this.closeEligibilityModal();
+    // Close on overlay backdrop click
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+          document.body.classList.remove('modal-open');
+        }
+      });
     });
 
-    // Eligibility Form Submission
+    // Eligibility Form Submit
     document.getElementById('scheme-eligibility-form')?.addEventListener('submit', (e) => {
       e.preventDefault();
       this.evaluateEligibility();
     });
 
-    // Refresh & Retry
-    document.getElementById('btn-schemes-refresh')?.addEventListener('click', () => this.loadSchemes());
-    document.getElementById('btn-schemes-retry')?.addEventListener('click', () => this.loadSchemes());
+    // Error retry button
+    document.getElementById('btn-schemes-retry')?.addEventListener('click', () => {
+      this.loadSchemes();
+    });
   },
 
   async loadCategories() {
     try {
-      if (window.SmartAgAPI) {
-        this.categories = await window.SmartAgAPI.getSchemeCategories();
-      }
-    } catch (e) {
-      console.warn('[SchemesModule] Using fallback categories');
+      const categories = await window.SmartAgAPI.getSchemeCategories();
+      this.categories = categories;
+    } catch (err) {
+      console.warn('[SchemesModule] Failed to fetch categories, using defaults:', err);
       this.categories = [
-        { id: "financial_support", name: "Farmer Financial Support", icon: "₹" },
-        { id: "crop_insurance", name: "Crop Insurance", icon: "🛡️" },
-        { id: "irrigation", name: "Irrigation & Water", icon: "💧" },
-        { id: "farm_machinery", name: "Farm Machinery & Tools", icon: "🚜" },
-        { id: "soil_fertilizer", name: "Soil & Fertilizer", icon: "🌱" },
+        { id: "direct_benefit", name: "Direct Benefit & Income Support", icon: "💰" },
+        { id: "crop_insurance", name: "Crop Insurance & Risk", icon: "🛡️" },
+        { id: "infrastructure", name: "Farm Infrastructure & Solar", icon: "🚜" },
         { id: "credit_loans", name: "Credit & Loans", icon: "💳" },
         { id: "horticulture", name: "Horticulture & Organic", icon: "🍎" }
       ];
@@ -115,9 +140,11 @@ const SchemesModule = {
     `;
 
     this.categories.forEach(cat => {
+      const catName = this.escapeHtml(cat.name);
+      const catIcon = this.escapeHtml(cat.icon || '🌱');
       html += `
-        <button type="button" class="scheme-cat-chip ${this.activeCategory === cat.name ? 'active' : ''}" data-cat="${cat.name}">
-          <span>${cat.icon || '🌱'}</span> ${cat.name}
+        <button type="button" class="scheme-cat-chip ${this.activeCategory === cat.name ? 'active' : ''}" data-cat="${catName}">
+          <span>${catIcon}</span> ${catName}
         </button>
       `;
     });
@@ -252,34 +279,42 @@ const SchemesModule = {
 
   generateSchemeCardHtml(scheme, isRecommended = false) {
     const levelClass = scheme.level === 'Central' ? 'badge-central' : 'badge-state';
-    const firstBenefit = (scheme.benefits && scheme.benefits[0]) || scheme.description;
-    const maxSubsidy = scheme.maxSubsidyAmount ? `<div class="card-subsidy-highlight"><strong>Benefit:</strong> ${scheme.maxSubsidyAmount}</div>` : '';
+    const rawBenefit = (scheme.benefits && scheme.benefits[0]) || scheme.description;
+    const firstBenefit = this.escapeHtml(rawBenefit);
+    const maxSubsidy = scheme.maxSubsidyAmount ? `<div class="card-subsidy-highlight"><strong>Benefit:</strong> ${this.escapeHtml(scheme.maxSubsidyAmount)}</div>` : '';
+    const schemeId = this.escapeHtml(scheme.id);
+    const schemeLevel = this.escapeHtml(scheme.level);
+    const schemeCat = this.escapeHtml(scheme.category);
+    const schemeState = this.escapeHtml(scheme.state);
+    const schemeName = this.escapeHtml(scheme.name);
+    const schemeDesc = this.escapeHtml(scheme.description);
+    const safeUrl = this.sanitizeUrl(scheme.officialUrl);
 
     return `
-      <article class="scheme-card ${isRecommended ? 'scheme-card-recommended' : ''}" data-scheme-id="${scheme.id}">
+      <article class="scheme-card ${isRecommended ? 'scheme-card-recommended' : ''}" data-scheme-id="${schemeId}">
         <div class="scheme-card-header">
           <div class="scheme-badges">
-            <span class="badge ${levelClass}">${scheme.level} Govt</span>
-            <span class="badge badge-category">${scheme.category}</span>
-            ${scheme.state !== 'All India' ? `<span class="badge badge-region">${scheme.state}</span>` : ''}
+            <span class="badge ${levelClass}">${schemeLevel} Govt</span>
+            <span class="badge badge-category">${schemeCat}</span>
+            ${scheme.state !== 'All India' ? `<span class="badge badge-region">${schemeState}</span>` : ''}
           </div>
           ${isRecommended ? `<span class="recommended-tag"><span aria-hidden="true">&#9733;</span> ${this.t('schemes.mayBeRelevant')}</span>` : ''}
         </div>
-        <h3 class="scheme-card-title">${scheme.name}</h3>
-        <p class="scheme-card-desc">${scheme.description}</p>
+        <h3 class="scheme-card-title">${schemeName}</h3>
+        <p class="scheme-card-desc">${schemeDesc}</p>
         ${maxSubsidy}
         <div class="scheme-key-benefit">
           <span class="benefit-check" aria-hidden="true">&#10003;</span>
           <small>${firstBenefit}</small>
         </div>
         <div class="scheme-card-actions">
-          <button type="button" class="btn btn-outline btn-compact btn-view-scheme" data-id="${scheme.id}">
+          <button type="button" class="btn btn-outline btn-compact btn-view-scheme" data-id="${schemeId}">
             ${this.t('schemes.viewDetails')}
           </button>
-          <button type="button" class="btn btn-secondary btn-compact btn-check-eligibility" data-id="${scheme.id}">
+          <button type="button" class="btn btn-secondary btn-compact btn-check-eligibility" data-id="${schemeId}">
             ${this.t('schemes.checkEligibility')}
           </button>
-          <a href="${scheme.officialUrl}" target="_blank" rel="noopener noreferrer" class="btn-link-official" title="Visit official government portal">
+          <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="btn-link-official" title="Visit official government portal">
             ${this.t('schemes.officialWebsite')}
           </a>
         </div>
@@ -315,44 +350,52 @@ const SchemesModule = {
 
       if (titleEl) titleEl.textContent = scheme.name;
 
+      const safeLevel = this.escapeHtml(scheme.level);
+      const safeCat = this.escapeHtml(scheme.category);
+      const safeState = this.escapeHtml(scheme.state);
+      const safeSubsidy = scheme.maxSubsidyAmount ? `<span class="badge badge-subsidy">${this.escapeHtml(scheme.maxSubsidyAmount)}</span>` : '';
+      const safeDesc = this.escapeHtml(scheme.description);
+      const safeUrl = this.sanitizeUrl(scheme.officialUrl);
+      const safeSchemeId = this.escapeHtml(scheme.id);
+
       bodyEl.innerHTML = `
         <div class="scheme-detail-badges">
-          <span class="badge ${scheme.level === 'Central' ? 'badge-central' : 'badge-state'}">${scheme.level} Govt</span>
-          <span class="badge badge-category">${scheme.category}</span>
-          <span class="badge badge-region">${scheme.state}</span>
-          ${scheme.maxSubsidyAmount ? `<span class="badge badge-subsidy">${scheme.maxSubsidyAmount}</span>` : ''}
+          <span class="badge ${scheme.level === 'Central' ? 'badge-central' : 'badge-state'}">${safeLevel} Govt</span>
+          <span class="badge badge-category">${safeCat}</span>
+          <span class="badge badge-region">${safeState}</span>
+          ${safeSubsidy}
         </div>
 
         <section class="scheme-detail-block">
           <h4>${this.t('schemes.modalOverview')}</h4>
-          <p>${scheme.description}</p>
+          <p>${safeDesc}</p>
         </section>
 
         <section class="scheme-detail-block">
           <h4>${this.t('schemes.modalBenefits')}</h4>
           <ul class="detail-bullets">
-            ${scheme.benefits.map(b => `<li><strong>•</strong> <span>${b}</span></li>`).join('')}
+            ${scheme.benefits.map(b => `<li><strong>•</strong> <span>${this.escapeHtml(b)}</span></li>`).join('')}
           </ul>
         </section>
 
         <section class="scheme-detail-block">
           <h4>${this.t('schemes.modalEligibility')}</h4>
           <ul class="detail-bullets">
-            ${scheme.eligibility.map(e => `<li><strong>•</strong> <span>${e}</span></li>`).join('')}
+            ${scheme.eligibility.map(e => `<li><strong>•</strong> <span>${this.escapeHtml(e)}</span></li>`).join('')}
           </ul>
         </section>
 
         <section class="scheme-detail-block">
           <h4>${this.t('schemes.modalDocuments')}</h4>
           <ul class="doc-checklist">
-            ${scheme.documentsRequired.map(d => `<li><span class="doc-icon">&#9634;</span> <span>${d}</span></li>`).join('')}
+            ${scheme.documentsRequired.map(d => `<li><span class="doc-icon">&#9634;</span> <span>${this.escapeHtml(d)}</span></li>`).join('')}
           </ul>
         </section>
 
         <section class="scheme-detail-block">
           <h4>${this.t('schemes.modalApplication')}</h4>
           <ol class="step-list">
-            ${scheme.applicationProcess.map((step, i) => `<li><span class="step-num">${i + 1}</span> <span>${step}</span></li>`).join('')}
+            ${scheme.applicationProcess.map((step, i) => `<li><span class="step-num">${i + 1}</span> <span>${this.escapeHtml(step)}</span></li>`).join('')}
           </ol>
         </section>
 
@@ -362,10 +405,10 @@ const SchemesModule = {
             <span>${this.t('schemes.sourceLabel')}</span>
           </div>
           <div class="modal-cta-row">
-            <button type="button" class="btn btn-secondary" id="btn-modal-start-eligibility" data-id="${scheme.id}">
+            <button type="button" class="btn btn-secondary" id="btn-modal-start-eligibility" data-id="${safeSchemeId}">
               ${this.t('schemes.checkEligibility')}
             </button>
-            <a href="${scheme.officialUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
               ${this.t('schemes.btnProceedOfficial')} <span aria-hidden="true">&#8599;</span>
             </a>
           </div>
@@ -452,13 +495,16 @@ const SchemesModule = {
 
     const isEligible = result.eligible;
     const statusClass = isEligible ? 'eligibility-success' : 'eligibility-warning';
+    const safeStatusText = this.escapeHtml(result.statusText);
+    const safeRecommendation = this.escapeHtml(result.recommendation);
+    const safeUrl = this.sanitizeUrl(result.officialUrl);
 
     resultBox.innerHTML = `
       <div class="eligibility-status-banner ${statusClass}">
         <div class="status-icon">${isEligible ? '&#10003;' : '&#9888;'}</div>
         <div>
-          <h4>${result.statusText}</h4>
-          <p>${result.recommendation}</p>
+          <h4>${safeStatusText}</h4>
+          <p>${safeRecommendation}</p>
         </div>
       </div>
 
@@ -466,7 +512,7 @@ const SchemesModule = {
         <div class="eligibility-criteria-list">
           <h5>${this.t('schemes.matchedHeader')}</h5>
           <ul>
-            ${result.matchedCriteria.map(m => `<li class="criteria-matched"><span aria-hidden="true">&#10003;</span> <span>${m}</span></li>`).join('')}
+            ${result.matchedCriteria.map(m => `<li class="criteria-matched"><span aria-hidden="true">&#10003;</span> <span>${this.escapeHtml(m)}</span></li>`).join('')}
           </ul>
         </div>
       ` : ''}
@@ -475,7 +521,7 @@ const SchemesModule = {
         <div class="eligibility-criteria-list">
           <h5>${this.t('schemes.unmatchedHeader')}</h5>
           <ul>
-            ${result.unmatchedCriteria.map(u => `<li class="criteria-unmatched"><span aria-hidden="true">&#9888;</span> <span>${u}</span></li>`).join('')}
+            ${result.unmatchedCriteria.map(u => `<li class="criteria-unmatched"><span aria-hidden="true">&#9888;</span> <span>${this.escapeHtml(u)}</span></li>`).join('')}
           </ul>
         </div>
       ` : ''}
@@ -484,7 +530,7 @@ const SchemesModule = {
         <button type="button" class="btn btn-outline" id="btn-eligibility-recheck">
           ${this.t('common.retry')}
         </button>
-        <a href="${result.officialUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+        <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
           ${this.t('schemes.btnProceedOfficial')} <span aria-hidden="true">&#8599;</span>
         </a>
       </div>

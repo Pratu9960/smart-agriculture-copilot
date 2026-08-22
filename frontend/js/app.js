@@ -56,15 +56,29 @@ const App = {
     this.navigateTo(this.activeView);
   },
 
+  escapeHtml(value) {
+    if (value === null || value === undefined) return '';
+    const div = document.createElement('div');
+    div.textContent = String(value);
+    return div.innerHTML;
+  },
+
   syncUserUI(user) {
     const name = user && (user.displayName || (user.email ? user.email.split('@')[0] : 'farmer'));
     const displayName = name || 'farmer';
+    const safeDisplayName = this.escapeHtml(displayName);
     const dashboardName = document.getElementById('dashboard-farmer-name');
     const headerInitial = document.getElementById('header-profile-initial');
     const profileAvatar = document.getElementById('profile-avatar');
     if (dashboardName) dashboardName.textContent = displayName;
     const greetingTitle = document.getElementById('dashboard-intro-title');
-    if (greetingTitle && window.i18n) greetingTitle.innerHTML = window.i18n.t('dashboard.greeting', { name: displayName }).replace(displayName, `<span id="dashboard-farmer-name">${displayName}</span>`);
+    if (greetingTitle && window.i18n) {
+      const greetingTemplate = window.i18n.t('dashboard.greeting', { name: safeDisplayName });
+      greetingTitle.innerHTML = greetingTemplate.replace(
+        safeDisplayName,
+        `<span id="dashboard-farmer-name">${safeDisplayName}</span>`
+      );
+    }
     if (headerInitial) headerInitial.textContent = displayName.charAt(0).toUpperCase();
     if (profileAvatar) profileAvatar.textContent = displayName.charAt(0).toUpperCase();
     const sidebarInitial = document.querySelector('.profile-avatar-sm');
