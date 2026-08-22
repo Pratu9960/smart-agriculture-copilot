@@ -5,8 +5,11 @@
  * Includes development fallback mocks ONLY for frontend testing when FastAPI is unreachable.
  */
 
-const API_BASE_URL = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
-  ? 'http://127.0.0.1:8000/api'
+const API_BASE_URL =
+  window.location.origin.includes('localhost') ||
+  window.location.origin.includes('127.0.0.1')
+    ? 'http://127.0.0.1:8000/api'
+    : 'https://smart-agriculture-backend-mfyh.onrender.com/api';
   : '/api';
 
 const SmartAgAPI = {  
@@ -44,39 +47,85 @@ const SmartAgAPI = {
     formData.append('file', imageFile);
 
     let response;
+
     try {
-      response = await fetch(`${API_BASE_URL}/diagnose`, {
-        method: 'POST',
-        body: formData
-      });
+        response = await fetch(`${API_BASE_URL}/diagnose`, {
+            method: 'POST',
+            body: formData
+        });
     } catch (netError) {
-      console.error('[SmartAgAPI] Network error reaching FastAPI diagnosis endpoint:', netError);
-      throw new Error('AI diagnosis is temporarily unavailable. Please check your network connection and try again.');
+        console.error(
+            '[SmartAgAPI] Network error reaching FastAPI diagnosis endpoint:',
+            netError
+        );
+
+        throw new Error(
+            'AI diagnosis is temporarily unavailable. Please check your network connection and try again.'
+        );
     }
 
-    if (!response.ok) {
-      let errorDetail = 'AI diagnosis is temporarily unavailable. Please try again or check your image.';
-      try {
-        const errJson = await response.json();
-        if (errJson && errJson.detail) {
-          errorDetail = typeof errJson.detail === 'string' ? errJson.detail : JSON.stringify(errJson.detail);
+    // Read response as text FIRST
+    const responseText = await response.text();
+
+    console.log('[SmartAgAPI] Diagnosis status:', response.status);
+    console.log('[SmartAgAPI] Diagnosis response:', responseText);
+
+    // Try converting response to JSON safely
+    let data = null;
+
+    if (responseText && responseText.trim()) {
+        try {
+            data = JSON.parse(responseText);
+        } catch (error) {
+            console.error(
+                '[SmartAgAPI] Backend returned invalid JSON:',
+                responseText
+            );
+
+            throw new Error(
+                'The server returned an invalid response. Please try again.'
+            );
         }
-      } catch (e) {
-        // Fallback to default user-facing string if JSON parsing fails
-      }
-      console.error(`[SmartAgAPI] Backend returned error status ${response.status}:`, errorDetail);
-      throw new Error(errorDetail);
     }
 
-    return await response.json();
-  },
+    // Handle backend errors
+    if (!response.ok) {
+        let errorDetail =
+            'AI diagnosis is temporarily unavailable. Please try again or check your image.';
 
-  /**
-   * Fetch weather data and weather-based irrigation guidance from FastAPI.
-   * @param {number} latitude 
-   * @param {number} longitude 
-   * @returns {Promise<Object>} Weather payload
-   */
+        if (data) {
+            errorDetail =
+                data.detail ||
+                data.message ||
+                data.error ||
+                errorDetail;
+
+            if (typeof errorDetail !== 'string') {
+                errorDetail = JSON.stringify(errorDetail);
+            }
+        }
+
+        console.error(
+            `[SmartAgAPI] Backend returned error status ${response.status}:`,
+            errorDetail
+        );
+
+        throw new Error(errorDetail);
+    }
+
+    // Successful status but empty response
+    if (!data) {
+        console.error(
+            '[SmartAgAPI] Backend returned a successful response but no data.'
+        );
+
+        throw new Error(
+            'AI diagnosis service returned an empty response. Please try again.'
+        );
+    }
+
+    return data;
+},
   async getWeather(latitude, longitude) {
     try {
       const response = await fetch(`${API_BASE_URL}/weather?latitude=${latitude}&longitude=${longitude}`);
