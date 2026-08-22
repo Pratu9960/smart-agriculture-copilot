@@ -4488,3 +4488,48 @@ svg {
     height: 34px;
   }
 }
+
+/* Existing CSS */
+
+/* MOBILE HEADER FIX */
+@media (max-width: 768px) {
+  /* header code */
+}
+
+@media (max-width: 480px) {
+  /* small phone code */
+}
+
+
+/* MOBILE LANGUAGE DROPDOWN FIX */
+@media (max-width: 768px) {
+
+  .app-header {
+    overflow: visible !important;
+  }
+
+  .header-inner {
+    overflow: visible !important;
+  }
+
+  .header-right {
+    overflow: visible !important;
+  }
+
+  .lang-dropdown-wrapper {
+    position: relative;
+    overflow: visible !important;
+    z-index: 1001;
+  }
+
+  .lang-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    left: auto;
+    z-index: 9999;
+    min-width: 170px;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+}
