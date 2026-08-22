@@ -22,6 +22,7 @@ class Settings(BaseSettings):
 
     # Allowed CORS Origins (supports comma-separated string, JSON list, or list of strings)
     CORS_ORIGINS: Union[List[str], str] = [
+        "https://smart-agriculture-copilot.onrender.com",
         "http://localhost:3000",
         "http://127.0.0.1:3000",
         "http://localhost:8000",
