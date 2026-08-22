@@ -109,7 +109,7 @@ const ProfileModule = {
       const name = user.displayName || this.profileData.name || (user.email ? user.email.split('@')[0] : 'Farmer');
       if (displayName) displayName.innerText = name;
       if (displayEmail) displayEmail.innerText = user.email || '';
-      
+
       if (authBadge) {
         authBadge.classList.remove('logged-out');
         authBadge.innerText = this.t('profile.connected', 'Connected');
@@ -175,8 +175,8 @@ const ProfileModule = {
 
     const netStatus = document.getElementById('status-net-text');
     if (netStatus) {
-      netStatus.innerText = navigator.onLine 
-        ? this.t('common.online', 'Online') 
+      netStatus.innerText = navigator.onLine
+        ? this.t('common.online', 'Online')
         : this.t('common.offline', 'Offline');
     }
   },
@@ -352,28 +352,28 @@ const ProfileModule = {
 
     // 4. Update Titles, Subtitles, Buttons, and Switch Links
     if (modalTitle) {
-      modalTitle.textContent = isRegister 
-        ? this.t('auth.createTitle', 'Create your workspace') 
+      modalTitle.textContent = isRegister
+        ? this.t('auth.createTitle', 'Create your workspace')
         : this.t('auth.signInTitle', 'Welcome back');
     }
     if (authSubtitle) {
-      authSubtitle.textContent = isRegister 
-        ? this.t('auth.createSubtitle', 'Create a secure workspace for your crop insights.') 
+      authSubtitle.textContent = isRegister
+        ? this.t('auth.createSubtitle', 'Create a secure workspace for your crop insights.')
         : this.t('auth.signInSubtitle', 'Sign in to continue to your crop intelligence workspace.');
     }
     if (btnSubmit) {
-      btnSubmit.textContent = isRegister 
-        ? this.t('auth.submitCreate', 'Create account') 
+      btnSubmit.textContent = isRegister
+        ? this.t('auth.submitCreate', 'Create account')
         : this.t('auth.submitSignIn', 'Sign in');
     }
     if (switchCopy) {
-      switchCopy.textContent = isRegister 
-        ? this.t('auth.alreadyMember', 'Already have an account? ') 
+      switchCopy.textContent = isRegister
+        ? this.t('auth.alreadyMember', 'Already have an account? ')
         : this.t('auth.newHere', "Don't have an account? ");
     }
     if (switchLink) {
-      switchLink.textContent = isRegister 
-        ? this.t('auth.switchSignIn', 'Sign in') 
+      switchLink.textContent = isRegister
+        ? this.t('auth.switchSignIn', 'Sign in')
         : this.t('auth.switchCreate', 'Create account');
     }
 
@@ -506,74 +506,85 @@ const ProfileModule = {
           await window.AuthModule.setPersistence(Boolean(rememberInput && rememberInput.checked));
         }
         const userCred = await window.AuthModule.login(email, password);
-        console.log('[ProfileModule] Logged in user successfully:', userCred?.user?.email);
+        console.log('[ProfileModule] Logged in user successfully:', userCred?.user?.email
+        );
         if (window.App) {
-          window.App.showToast(this.t('authStatus.loginSuccess', 'Logged in successfully.'), 'success');
+          window.App.showToast(
+            this.t('authStatus.loginSuccess', 'Logged in successfully.'),
+            'success'
+          );
+
           if (typeof window.App.showAppShell === 'function') {
-            window.App.showAppShell(userCred?.user || window.AuthModule.getCurrentUser());
+            window.App.showAppShell(
+              userCred?.user || window.AuthModule.getCurrentUser()
+            );
+          }
+
+          // Always open Dashboard after login
+          if (typeof window.App.navigateTo === 'function') {
+            window.App.navigateTo('dashboard');
           }
         }
-      }
 
-      // Clear input fields
-      if (emailInput) emailInput.value = '';
-      if (passwordInput) passwordInput.value = '';
-      if (nameInput) nameInput.value = '';
-      if (confirmInput) confirmInput.value = '';
+        // Clear input fields
+        if (emailInput) emailInput.value = '';
+        if (passwordInput) passwordInput.value = '';
+        if (nameInput) nameInput.value = '';
+        if (confirmInput) confirmInput.value = '';
 
-    } catch (error) {
-      console.error('[ProfileModule] Auth error:', error.message);
-      this.showAuthError(error.message);
-    } finally {
-      if (btnSubmit) {
-        btnSubmit.disabled = false;
-        btnSubmit.innerText = originalBtnText;
+      } catch (error) {
+        console.error('[ProfileModule] Auth error:', error.message);
+        this.showAuthError(error.message);
+      } finally {
+        if (btnSubmit) {
+          btnSubmit.disabled = false;
+          btnSubmit.innerText = originalBtnText;
+        }
       }
-    }
-  },
+    },
 
   async handleForgotPassword() {
-    this.clearAuthErrors();
-    const email = document.getElementById('auth-email')?.value?.trim() || '';
-    if (!email) {
-      this.showAuthError(this.t('auth.resetPrompt', 'Enter your email address first, then choose forgot password.'));
-      document.getElementById('auth-email')?.focus();
-      return;
-    }
-    try {
-      await window.AuthModule.sendPasswordReset(email);
-      if (window.App) window.App.showToast(this.t('auth.resetSent', 'Password reset email sent. Check your inbox.'), 'success');
-    } catch (error) {
-      this.showAuthError(error.message || this.t('validation.resetUnavailable', 'Unable to send a password reset email.'));
-    }
-  },
+      this.clearAuthErrors();
+      const email = document.getElementById('auth-email')?.value?.trim() || '';
+      if (!email) {
+        this.showAuthError(this.t('auth.resetPrompt', 'Enter your email address first, then choose forgot password.'));
+        document.getElementById('auth-email')?.focus();
+        return;
+      }
+      try {
+        await window.AuthModule.sendPasswordReset(email);
+        if (window.App) window.App.showToast(this.t('auth.resetSent', 'Password reset email sent. Check your inbox.'), 'success');
+      } catch (error) {
+        this.showAuthError(error.message || this.t('validation.resetUnavailable', 'Unable to send a password reset email.'));
+      }
+    },
 
   /**
    * Handle user logout
    */
   async handleLogout() {
-    try {
-      if (window.AuthModule) {
-        await window.AuthModule.logout();
-      }
-      if (window.App) {
-        window.App.showToast(this.t('authStatus.logoutSuccess', 'Signed out successfully.'), 'info');
-      }
-    } catch (err) {
-      console.error('[ProfileModule] Sign out error:', err);
-      if (window.App) {
-        window.App.showToast(this.t('validation.default', 'Something went wrong. Please try again.'), 'error');
+      try {
+        if (window.AuthModule) {
+          await window.AuthModule.logout();
+        }
+        if (window.App) {
+          window.App.showToast(this.t('authStatus.logoutSuccess', 'Signed out successfully.'), 'info');
+        }
+      } catch (err) {
+        console.error('[ProfileModule] Sign out error:', err);
+        if (window.App) {
+          window.App.showToast(this.t('validation.default', 'Something went wrong. Please try again.'), 'error');
+        }
       }
     }
-  }
-};
+  };
 
-// Initialize immediately and on DOMContentLoaded
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    ProfileModule.setupEventListeners();
-    ProfileModule.renderAuthMode();
-  });
+  // Initialize immediately and on DOMContentLoaded
+  if(document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      ProfileModule.setupEventListeners();
+      ProfileModule.renderAuthMode();
+    });
 } else {
   ProfileModule.setupEventListeners();
   ProfileModule.renderAuthMode();
