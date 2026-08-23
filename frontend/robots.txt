@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://smart-agriculture-copilot.onrender.com/sitemap.xml
