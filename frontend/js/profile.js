@@ -87,6 +87,12 @@ const ProfileModule = {
     const forgotPassword = document.getElementById('btn-forgot-password');
     if (forgotPassword) forgotPassword.addEventListener('click', () => this.handleForgotPassword());
 
+    // Google Sign-In button handler
+    const btnGoogle = document.getElementById('btn-google-auth');
+    if (btnGoogle) {
+      btnGoogle.addEventListener('click', () => this.handleGoogleSignIn());
+    }
+
     // Listen to Firebase Auth state changes
     if (window.AuthModule) {
       window.AuthModule.onAuthStateChanged((user) => this.onAuthStateChange(user));
@@ -404,6 +410,10 @@ const ProfileModule = {
     if (rememberSpan) rememberSpan.textContent = this.t('auth.remember', 'Remember me');
     const legalEl = document.getElementById('auth-legal');
     if (legalEl) legalEl.textContent = this.t('auth.legal', 'By continuing, you agree to use AI guidance alongside local agricultural expertise.');
+    const googleText = document.getElementById('btn-google-text');
+    if (googleText) googleText.textContent = this.t('auth.continueWithGoogle', 'Continue with Google');
+    const dividerSpan = document.querySelector('#auth-divider span');
+    if (dividerSpan) dividerSpan.textContent = this.t('auth.orDivider', 'OR');
   },
 
   /**
@@ -528,6 +538,70 @@ const ProfileModule = {
       if (btnSubmit) {
         btnSubmit.disabled = false;
         btnSubmit.innerText = originalBtnText;
+      }
+    }
+  },
+
+  /**
+   * Execute Firebase Google Sign-In
+   */
+  async handleGoogleSignIn() {
+    this.clearAuthErrors();
+
+    const btnGoogle = document.getElementById('btn-google-auth');
+    const btnSubmit = document.getElementById('btn-auth-submit');
+    const rememberInput = document.getElementById('auth-remember');
+    const googleTextSpan = document.getElementById('btn-google-text');
+
+    const originalGoogleText = googleTextSpan ? googleTextSpan.textContent : '';
+
+    if (btnGoogle) {
+      btnGoogle.disabled = true;
+    }
+    if (btnSubmit) {
+      btnSubmit.disabled = true;
+    }
+    if (googleTextSpan) {
+      googleTextSpan.textContent = this.t('auth.processing', 'Processing...');
+    }
+
+    try {
+      if (window.AuthModule && typeof window.AuthModule.setPersistence === 'function') {
+        await window.AuthModule.setPersistence(Boolean(!rememberInput || rememberInput.checked));
+      }
+
+      if (!window.AuthModule || typeof window.AuthModule.loginWithGoogle !== 'function') {
+        throw new Error(this.t('validation.googleProviderNotFound', 'Google Sign-In is temporarily unavailable. Please try again.'));
+      }
+
+      const userCred = await window.AuthModule.loginWithGoogle();
+      const user = userCred?.user || (window.AuthModule && window.AuthModule.getCurrentUser());
+      console.log('[ProfileModule] Logged in with Google successfully:', user?.email);
+
+      // Sync display name if user has one
+      if (user && user.displayName && !this.profileData.name) {
+        this.profileData.name = user.displayName;
+        localStorage.setItem('smart_ag_profile', JSON.stringify(this.profileData));
+      }
+
+      if (window.App) {
+        window.App.showToast(this.t('authStatus.loginSuccess', 'Logged in successfully.'), 'success');
+        if (typeof window.App.showAppShell === 'function') {
+          window.App.showAppShell(user || window.AuthModule.getCurrentUser());
+        }
+      }
+    } catch (error) {
+      console.error('[ProfileModule] Google Auth error:', error.message);
+      this.showAuthError(error.message || this.t('validation.default', 'Something went wrong. Please try again.'));
+    } finally {
+      if (btnGoogle) {
+        btnGoogle.disabled = false;
+      }
+      if (btnSubmit) {
+        btnSubmit.disabled = false;
+      }
+      if (googleTextSpan && originalGoogleText) {
+        googleTextSpan.textContent = originalGoogleText;
       }
     }
   },

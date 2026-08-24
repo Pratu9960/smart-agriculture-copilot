@@ -183,6 +183,42 @@ const AuthModule = {
   },
 
   /**
+   * Get an instance of Firebase GoogleAuthProvider
+   * @returns {Object|null}
+   */
+  getGoogleProvider() {
+    if (typeof firebase === 'undefined' || !firebase.auth || !firebase.auth.GoogleAuthProvider) {
+      return null;
+    }
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+    return provider;
+  },
+
+  /**
+   * Sign in using Firebase Google Sign-In popup
+   * @returns {Promise<Object>} Firebase UserCredential
+   */
+  async loginWithGoogle() {
+    if (!this.auth) {
+      throw new Error(this.getFriendlyErrorMessage({ code: 'auth/initialization-failed' }));
+    }
+
+    const provider = this.getGoogleProvider();
+    if (!provider) {
+      throw new Error(this.getFriendlyErrorMessage({ code: 'auth/google-provider-not-found' }));
+    }
+
+    try {
+      const userCredential = await this.auth.signInWithPopup(provider);
+      return userCredential;
+    } catch (error) {
+      console.error('[AuthModule] Google Sign-In error:', error.code, error.message);
+      throw new Error(this.getFriendlyErrorMessage(error));
+    }
+  },
+
+  /**
    * Send Firebase's password reset email for the sign-in form.
    */
   async sendPasswordReset(email) {
@@ -261,6 +297,24 @@ const AuthModule = {
       case 'auth/email-already-in-use':
         return t('validation.emailInUse', 'This email is already registered.');
 
+      case 'auth/popup-closed-by-user':
+        return t('validation.popupClosed', 'Sign in popup was closed before completing. Please try again.');
+
+      case 'auth/cancelled-popup-request':
+        return t('validation.popupCancelled', 'Sign in popup request was cancelled. Please try again.');
+
+      case 'auth/popup-blocked':
+        return t('validation.popupBlocked', 'Sign in popup was blocked by your browser. Please allow popups for this site and try again.');
+
+      case 'auth/account-exists-with-different-credential':
+        return t('validation.accountExistsDifferentCredential', 'An account already exists with the same email using a different sign-in method.');
+
+      case 'auth/unauthorized-domain':
+        return t('validation.unauthorizedDomain', 'This domain is not authorized for OAuth sign-in. Please contact support.');
+
+      case 'auth/google-provider-not-found':
+        return t('validation.googleProviderNotFound', 'Google Sign-In is temporarily unavailable. Please try again.');
+
       case 'auth/network-request-failed':
         return t('validation.network', 'Unable to connect. Please check your internet connection and try again.');
 
@@ -271,7 +325,7 @@ const AuthModule = {
         return t('authStatus.disabled', 'This account has been deactivated. Please contact support.');
 
       case 'auth/operation-not-allowed':
-        return t('authStatus.notAllowed', 'Email and password login is not enabled in Firebase.');
+        return t('authStatus.notAllowed', 'Sign in method is not enabled in Firebase.');
 
       default:
         return t('validation.default', 'Something went wrong. Please try again.');
