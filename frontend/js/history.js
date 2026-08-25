@@ -92,6 +92,13 @@ const HistoryModule = {
       }
     }
 
+    const t = (k, def) => this.t(k, def);
+    const confidenceText = t('dashboard.confidenceLabel', 'confidence');
+    const detectedPrefix = t('dashboard.detectedPrefix', 'Detected:');
+    const riskHigh = t('dashboard.riskHigh', 'HIGH RISK');
+    const riskHealthy = t('dashboard.riskHealthy', 'HEALTHY');
+    const riskMonitor = t('dashboard.riskMonitor', 'MONITOR');
+
     if (this.records && this.records.length > 0) {
       const topScans = this.records.slice(0, 3);
       container.innerHTML = topScans.map(item => {
@@ -99,13 +106,13 @@ const HistoryModule = {
         const disease = this.escapeHtml(item.disease || 'Analyzed Leaf');
         const severity = (item.severity || 'LOW').toUpperCase();
         let riskClass = 'risk-healthy';
-        let riskLabel = 'HEALTHY';
+        let riskLabel = riskHealthy;
         if (severity.includes('HIGH') || severity.includes('SEVERE')) {
           riskClass = 'risk-high';
-          riskLabel = 'HIGH RISK';
+          riskLabel = riskHigh;
         } else if (severity.includes('MODERATE') || severity.includes('MEDIUM') || severity.includes('MONITOR')) {
           riskClass = 'risk-monitor';
-          riskLabel = 'MONITOR';
+          riskLabel = riskMonitor;
         }
 
         const confidence = item.confidence ? Math.round(Number(item.confidence) <= 1 ? Number(item.confidence) * 100 : Number(item.confidence)) : 92;
@@ -127,15 +134,69 @@ const HistoryModule = {
                 <strong class="crop-name">${crop}</strong>
                 <span class="scan-risk-pill ${riskClass}">${riskLabel}</span>
               </div>
-              <span class="scan-condition">Detected: ${disease}</span>
+              <span class="scan-condition">${detectedPrefix} ${disease}</span>
             </div>
             <div class="scan-item-score">
               <strong>${confidence}%</strong>
-              <small>confidence</small>
+              <small>${confidenceText}</small>
             </div>
           </div>
         `;
       }).join('');
+    } else {
+      // Curated fallback recent scans with full multilingual translations
+      container.innerHTML = `
+        <div class="recent-scan-item" data-target="view-history">
+          <div class="scan-item-thumb bg-plant-thumb">
+            <span class="thumb-emoji">🌿</span>
+          </div>
+          <div class="scan-item-info">
+            <div class="scan-item-title-row">
+              <strong class="crop-name">${t('dashboard.fallbackScan1Title', 'Soybean Field A')}</strong>
+              <span class="scan-risk-pill risk-high">${riskHigh}</span>
+            </div>
+            <span class="scan-condition">${t('dashboard.fallbackScan1Condition', 'Detected: Soybean Rust')}</span>
+          </div>
+          <div class="scan-item-score">
+            <strong>93%</strong>
+            <small>${confidenceText}</small>
+          </div>
+        </div>
+
+        <div class="recent-scan-item" data-target="view-history">
+          <div class="scan-item-thumb bg-plant-thumb">
+            <span class="thumb-emoji">🍅</span>
+          </div>
+          <div class="scan-item-info">
+            <div class="scan-item-title-row">
+              <strong class="crop-name">${t('dashboard.fallbackScan2Title', 'Tomato Greenhouse')}</strong>
+              <span class="scan-risk-pill risk-healthy">${riskHealthy}</span>
+            </div>
+            <span class="scan-condition">${t('dashboard.fallbackScan2Condition', 'Detected: No significant issues')}</span>
+          </div>
+          <div class="scan-item-score">
+            <strong>98%</strong>
+            <small>${confidenceText}</small>
+          </div>
+        </div>
+
+        <div class="recent-scan-item" data-target="view-history">
+          <div class="scan-item-thumb bg-plant-thumb">
+            <span class="thumb-emoji">🌾</span>
+          </div>
+          <div class="scan-item-info">
+            <div class="scan-item-title-row">
+              <strong class="crop-name">${t('dashboard.fallbackScan3Title', 'Wheat Plot 3')}</strong>
+              <span class="scan-risk-pill risk-monitor">${riskMonitor}</span>
+            </div>
+            <span class="scan-condition">${t('dashboard.fallbackScan3Condition', 'Detected: Early Powdery Mildew')}</span>
+          </div>
+          <div class="scan-item-score">
+            <strong>76%</strong>
+            <small>${confidenceText}</small>
+          </div>
+        </div>
+      `;
     }
   },
 
@@ -440,6 +501,7 @@ const HistoryModule = {
     const targetLang = newLang || (window.LanguageModule && window.LanguageModule.currentLang) || 'en';
 
     this.renderHistoryList(this.records);
+    this.renderDashboardRecentScans();
 
     if (this.openRecordId) {
       const record = this.records.find(r => r.id === this.openRecordId);

@@ -430,26 +430,26 @@
             <div class="hero-left-col">
               <div class="hero-eyebrow-badge">
                 <span class="badge-sparkle">⚡</span>
-                <span class="badge-text">AI-powered crop intelligence</span>
+                <span class="badge-text" data-i18n="dashboard.heroEyebrowBadge">AI-powered crop intelligence</span>
               </div>
-              <h1 class="hero-main-title">Know what's <br>happening to your <br>crops.</h1>
-              <p class="hero-description">
+              <h1 class="hero-main-title" data-i18n="dashboard.heroTitle">Know what's <br>happening to your <br>crops.</h1>
+              <p class="hero-description" data-i18n="dashboard.heroDesc">
                 Instantly identify plant diseases, nutrient deficiencies, and pests with unparalleled accuracy. Our AI bridges traditional farming with cutting-edge data science.
               </p>
               <div class="hero-actions-row">
                 <button type="button" class="btn-hero-primary" data-target="view-home">
-                  <span>Scan Your Crop →</span>
+                  <span data-i18n="dashboard.btnScan">Scan Your Crop →</span>
                 </button>
                 <button type="button" class="btn-hero-secondary" data-target="view-history">
-                  <span>View Scan History</span>
+                  <span data-i18n="dashboard.btnHistory">View Scan History</span>
                 </button>
               </div>
               <div class="hero-stat-ticker" aria-label="Platform capabilities">
-                <span class="ticker-item"><span class="ticker-icon">🌱</span> 28 Crops</span>
+                <span class="ticker-item"><span class="ticker-icon">🌱</span> <span data-i18n="dashboard.tickerCrops">28 Crops</span></span>
                 <span class="ticker-divider">•</span>
-                <span class="ticker-item"><span class="ticker-icon">🔍</span> 82 Disease Records</span>
+                <span class="ticker-item"><span class="ticker-icon">🔍</span> <span data-i18n="dashboard.tickerDiseases">82 Disease Records</span></span>
                 <span class="ticker-divider">•</span>
-                <span class="ticker-item"><span class="ticker-icon">🌐</span> Multilingual Support</span>
+                <span class="ticker-item"><span class="ticker-icon">🌐</span> <span data-i18n="dashboard.tickerMultilingual">Multilingual Support</span></span>
               </div>
             </div>
 
@@ -487,8 +487,8 @@
                 <div class="ai-vision-chip">
                   <span class="chip-dot"></span>
                   <div class="chip-copy">
-                    <strong>• AI VISION</strong>
-                    <small>Analyzing crop health with confidence</small>
+                    <strong data-i18n="dashboard.aiVisionTitle">• AI VISION</strong>
+                    <small data-i18n="dashboard.aiVisionSub">Analyzing crop health with confidence</small>
                   </div>
                 </div>
               </div>
@@ -500,10 +500,10 @@
             <div class="scan-card-header">
               <div class="header-text-block">
                 <div class="scan-title-row" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-                  <h2 class="scan-section-title" style="margin: 0;">Scan Your Crop</h2>
-                  <span id="scan-mode-label" class="badge badge-category status-indicator-badge">Using online AI</span>
+                  <h2 class="scan-section-title" style="margin: 0;" data-i18n="dashboard.scanSectionTitle">Scan Your Crop</h2>
+                  <span id="scan-mode-label" class="badge badge-category status-indicator-badge" data-i18n="network.usingOnline">Using online AI</span>
                 </div>
-                <p class="scan-section-sub">Upload a clear photo of the affected leaf for instant AI diagnosis.</p>
+                <p class="scan-section-sub" data-i18n="dashboard.scanSectionSub">Upload a clear photo of the affected leaf for instant AI diagnosis.</p>
               </div>
               <div class="scan-header-actions" style="display: flex; align-items: center; gap: 8px;">
                 <button type="button" class="icon-btn-subtle" data-target="view-history" aria-label="Scan history" title="View scan history">
@@ -525,16 +525,16 @@
                       <circle cx="12" cy="13" r="4"/>
                     </svg>
                   </div>
-                  <strong class="dropzone-title">Click or drag image to upload</strong>
-                  <span class="dropzone-desc">Supports JPG, PNG up to 10MB</span>
+                  <strong class="dropzone-title" data-i18n="dashboard.dropzoneTitle">Click or drag image to upload</strong>
+                  <span class="dropzone-desc" data-i18n="dashboard.dropzoneDesc">Supports JPG, PNG up to 10MB</span>
                   <div class="dropzone-button-group">
                     <button type="button" id="btn-trigger-gallery" class="btn-dropzone-action btn-browse">
                       <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-                      <span>Browse Files</span>
+                      <span data-i18n="dashboard.browseFiles">Browse Files</span>
                     </button>
                     <button type="button" id="btn-trigger-camera" class="btn-dropzone-action btn-camera">
                       <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                      <span>Use Camera</span>
+                      <span data-i18n="dashboard.useCamera">Use Camera</span>
                     </button>
                   </div>
                 </div>
@@ -575,22 +575,22 @@
                 <div class="workflow-step-item">
                   <div class="step-badge">1</div>
                   <div class="step-content">
-                    <strong class="step-title">Upload</strong>
-                    <p class="step-text">Take a clear picture of the affected leaf.</p>
+                    <strong class="step-title" data-i18n="dashboard.step1Title">Upload</strong>
+                    <p class="step-text" data-i18n="dashboard.step1Desc">Take a clear picture of the affected leaf.</p>
                   </div>
                 </div>
                 <div class="workflow-step-item">
                   <div class="step-badge">2</div>
                   <div class="step-content">
-                    <strong class="step-title">Detect</strong>
-                    <p class="step-text">AI analyzes the image for diseases.</p>
+                    <strong class="step-title" data-i18n="dashboard.step2Title">Detect</strong>
+                    <p class="step-text" data-i18n="dashboard.step2Desc">AI analyzes the image for diseases.</p>
                   </div>
                 </div>
                 <div class="workflow-step-item">
                   <div class="step-badge">3</div>
                   <div class="step-content">
-                    <strong class="step-title">Get Treatment</strong>
-                    <p class="step-text">Receive actionable organic and chemical solutions.</p>
+                    <strong class="step-title" data-i18n="dashboard.step3Title">Get Treatment</strong>
+                    <p class="step-text" data-i18n="dashboard.step3Desc">Receive actionable organic and chemical solutions.</p>
                   </div>
                 </div>
               </div>
@@ -607,9 +607,9 @@
                   <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
                 </svg>
               </div>
-              <h3 class="card-title">Crop Health</h3>
-              <p class="card-desc">Monitor vitality, detect stress early, and optimize yield potential.</p>
-              <span class="card-action-link">Explore →</span>
+              <h3 class="card-title" data-i18n="dashboard.cardCropHealthTitle">Crop Health</h3>
+              <p class="card-desc" data-i18n="dashboard.cardCropHealthDesc">Monitor vitality, detect stress early, and optimize yield potential.</p>
+              <span class="card-action-link" data-i18n="dashboard.cardExplore">Explore →</span>
             </article>
 
             <!-- Card 2: Weather & Irrigation -->
@@ -627,9 +627,9 @@
                   <path d="m19.07 4.93-1.41 1.41"/>
                 </svg>
               </div>
-              <h3 class="card-title">Weather & Irrigation</h3>
-              <p class="card-desc">Hyper-local forecasts and smart irrigation scheduling.</p>
-              <span class="card-action-link">Check Forecast →</span>
+              <h3 class="card-title" data-i18n="dashboard.cardWeatherTitle">Weather & Irrigation</h3>
+              <p class="card-desc" data-i18n="dashboard.cardWeatherDesc">Hyper-local forecasts and smart irrigation scheduling.</p>
+              <span class="card-action-link" data-i18n="dashboard.cardCheckForecast">Check Forecast →</span>
             </article>
 
             <!-- Card 3: Market Prices -->
@@ -640,9 +640,9 @@
                   <polyline points="16 7 22 7 22 13"/>
                 </svg>
               </div>
-              <h3 class="card-title">Market Prices</h3>
-              <p class="card-desc">Real-time mandi prices and historical trend analysis.</p>
-              <span class="card-action-link">View Markets →</span>
+              <h3 class="card-title" data-i18n="dashboard.cardMarketTitle">Market Prices</h3>
+              <p class="card-desc" data-i18n="dashboard.cardMarketDesc">Real-time mandi prices and historical trend analysis.</p>
+              <span class="card-action-link" data-i18n="dashboard.cardViewMarkets">View Markets →</span>
             </article>
 
             <!-- Card 4: Govt Schemes -->
@@ -657,9 +657,9 @@
                   <polygon points="12 2 20 7 4 7"/>
                 </svg>
               </div>
-              <h3 class="card-title">Govt Schemes</h3>
-              <p class="card-desc">Discover eligible subsidies and apply directly.</p>
-              <span class="card-action-link">Browse Schemes →</span>
+              <h3 class="card-title" data-i18n="dashboard.cardSchemesTitle">Govt Schemes</h3>
+              <p class="card-desc" data-i18n="dashboard.cardSchemesDesc">Discover eligible subsidies and apply directly.</p>
+              <span class="card-action-link" data-i18n="dashboard.cardBrowseSchemes">Browse Schemes →</span>
             </article>
           </section>
 
@@ -667,40 +667,40 @@
           <section class="dashboard-intel-section" aria-label="Intelligence and Recent Scans">
             <!-- Left: Unmatched Intelligence Dark Card -->
             <div class="intel-card-dark">
-              <h2 class="intel-heading">Unmatched<br>Intelligence</h2>
+              <h2 class="intel-heading" data-i18n="dashboard.intelHeading">Unmatched<br>Intelligence</h2>
               <div class="intel-stats-grid">
                 <div class="intel-stat-block">
                   <span class="intel-stat-num">29+</span>
-                  <span class="intel-stat-label">Supported<br>Crops</span>
+                  <span class="intel-stat-label" data-i18n="dashboard.statCropsLabel">Supported<br>Crops</span>
                 </div>
                 <div class="intel-stat-block">
                   <span class="intel-stat-num">82+</span>
-                  <span class="intel-stat-label">Disease<br>Records</span>
+                  <span class="intel-stat-label" data-i18n="dashboard.statDiseasesLabel">Disease<br>Records</span>
                 </div>
                 <div class="intel-stat-block">
                   <span class="intel-stat-num">5</span>
-                  <span class="intel-stat-label">Indian<br>Languages</span>
+                  <span class="intel-stat-label" data-i18n="dashboard.statLanguagesLabel">Indian<br>Languages</span>
                 </div>
                 <div class="intel-stat-block">
                   <span class="intel-stat-num">AI</span>
-                  <span class="intel-stat-label">Powered<br>Detection</span>
+                  <span class="intel-stat-label" data-i18n="dashboard.statDetectionLabel">Powered<br>Detection</span>
                 </div>
               </div>
               <div class="intel-crop-tags">
-                <span class="crop-tag">Wheat</span>
-                <span class="crop-tag">Soybean</span>
-                <span class="crop-tag">Rice</span>
-                <span class="crop-tag">Tomato</span>
-                <span class="crop-tag">Cotton</span>
-                <span class="crop-tag tag-more">+24 More</span>
+                <span class="crop-tag" data-i18n="dashboard.tagWheat">Wheat</span>
+                <span class="crop-tag" data-i18n="dashboard.tagSoybean">Soybean</span>
+                <span class="crop-tag" data-i18n="dashboard.tagRice">Rice</span>
+                <span class="crop-tag" data-i18n="dashboard.tagTomato">Tomato</span>
+                <span class="crop-tag" data-i18n="dashboard.tagCotton">Cotton</span>
+                <span class="crop-tag tag-more" data-i18n="dashboard.tagMore">+24 More</span>
               </div>
             </div>
 
             <!-- Right: Recent Scans Card -->
             <div class="recent-scans-card">
               <div class="recent-scans-header">
-                <h2 class="scans-title">Recent Scans</h2>
-                <button type="button" class="btn-link-subtle" data-target="view-history">View All</button>
+                <h2 class="scans-title" data-i18n="dashboard.recentScansTitle">Recent Scans</h2>
+                <button type="button" class="btn-link-subtle" data-target="view-history" data-i18n="dashboard.viewAll">View All</button>
               </div>
               <div id="dashboard-recent-scans-list" class="recent-scans-list">
                 <!-- Populated dynamically by HistoryModule with fallback reference items -->
@@ -710,14 +710,14 @@
                   </div>
                   <div class="scan-item-info">
                     <div class="scan-item-title-row">
-                      <strong class="crop-name">Soybean Field A</strong>
-                      <span class="scan-risk-pill risk-high">HIGH RISK</span>
+                      <strong class="crop-name" data-i18n="dashboard.fallbackScan1Title">Soybean Field A</strong>
+                      <span class="scan-risk-pill risk-high" data-i18n="dashboard.riskHigh">HIGH RISK</span>
                     </div>
-                    <span class="scan-condition">Detected: Soybean Rust</span>
+                    <span class="scan-condition" data-i18n="dashboard.fallbackScan1Condition">Detected: Soybean Rust</span>
                   </div>
                   <div class="scan-item-score">
                     <strong>93%</strong>
-                    <small>confidence</small>
+                    <small data-i18n="dashboard.confidenceLabel">confidence</small>
                   </div>
                 </div>
 
@@ -727,14 +727,14 @@
                   </div>
                   <div class="scan-item-info">
                     <div class="scan-item-title-row">
-                      <strong class="crop-name">Tomato Greenhouse</strong>
-                      <span class="scan-risk-pill risk-healthy">HEALTHY</span>
+                      <strong class="crop-name" data-i18n="dashboard.fallbackScan2Title">Tomato Greenhouse</strong>
+                      <span class="scan-risk-pill risk-healthy" data-i18n="dashboard.riskHealthy">HEALTHY</span>
                     </div>
-                    <span class="scan-condition">Detected: No significant issues</span>
+                    <span class="scan-condition" data-i18n="dashboard.fallbackScan2Condition">Detected: No significant issues</span>
                   </div>
                   <div class="scan-item-score">
                     <strong>98%</strong>
-                    <small>confidence</small>
+                    <small data-i18n="dashboard.confidenceLabel">confidence</small>
                   </div>
                 </div>
 
@@ -744,14 +744,14 @@
                   </div>
                   <div class="scan-item-info">
                     <div class="scan-item-title-row">
-                      <strong class="crop-name">Wheat Plot 3</strong>
-                      <span class="scan-risk-pill risk-monitor">MONITOR</span>
+                      <strong class="crop-name" data-i18n="dashboard.fallbackScan3Title">Wheat Plot 3</strong>
+                      <span class="scan-risk-pill risk-monitor" data-i18n="dashboard.riskMonitor">MONITOR</span>
                     </div>
-                    <span class="scan-condition">Detected: Early Powdery Mildew</span>
+                    <span class="scan-condition" data-i18n="dashboard.fallbackScan3Condition">Detected: Early Powdery Mildew</span>
                   </div>
                   <div class="scan-item-score">
                     <strong>76%</strong>
-                    <small>confidence</small>
+                    <small data-i18n="dashboard.confidenceLabel">confidence</small>
                   </div>
                 </div>
               </div>
