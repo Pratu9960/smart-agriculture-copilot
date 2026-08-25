@@ -430,9 +430,9 @@
             <div class="hero-left-col">
               <div class="hero-eyebrow-badge">
                 <span class="badge-sparkle">⚡</span>
-                <span class="badge-text">AI-POWERED CROP INTELLIGENCE</span>
+                <span class="badge-text">AI-powered crop intelligence</span>
               </div>
-              <h1 class="hero-main-title">Know what's<br>happening to your<br>crops.</h1>
+              <h1 class="hero-main-title">Know what's <br>happening to your <br>crops.</h1>
               <p class="hero-description">
                 Instantly identify plant diseases, nutrient deficiencies, and pests with unparalleled accuracy. Our AI bridges traditional farming with cutting-edge data science.
               </p>
@@ -499,11 +499,13 @@
           <section id="dashboard-scan-section" class="dashboard-scan-card" aria-label="Crop Scan and Diagnosis Section">
             <div class="scan-card-header">
               <div class="header-text-block">
-                <h2 class="scan-section-title">Scan Your Crop</h2>
+                <div class="scan-title-row" style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                  <h2 class="scan-section-title" style="margin: 0;">Scan Your Crop</h2>
+                  <span id="scan-mode-label" class="badge badge-category status-indicator-badge">Using online AI</span>
+                </div>
                 <p class="scan-section-sub">Upload a clear photo of the affected leaf for instant AI diagnosis.</p>
               </div>
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span id="scan-mode-label" class="badge badge-category">Using online AI</span>
+              <div class="scan-header-actions" style="display: flex; align-items: center; gap: 8px;">
                 <button type="button" class="icon-btn-subtle" data-target="view-history" aria-label="Scan history" title="View scan history">
                   <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="10"/>
@@ -527,6 +529,7 @@
                   <span class="dropzone-desc">Supports JPG, PNG up to 10MB</span>
                   <div class="dropzone-button-group">
                     <button type="button" id="btn-trigger-gallery" class="btn-dropzone-action btn-browse">
+                      <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
                       <span>Browse Files</span>
                     </button>
                     <button type="button" id="btn-trigger-camera" class="btn-dropzone-action btn-camera">
@@ -631,7 +634,7 @@
 
             <!-- Card 3: Market Prices -->
             <article class="dash-feature-card" data-target="view-market">
-              <div class="card-icon-wrapper bg-lime-soft">
+              <div class="card-icon-wrapper bg-amber-soft">
                 <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
                   <polyline points="16 7 22 7 22 13"/>
@@ -1697,7 +1700,7 @@
 
           <!-- Section 2: Product -->
           <div class="footer-col">
-            <h4>Product</h4>
+            <h3>Product</h3>
             <ul>
               <li><button type="button" data-target="view-home">Scan crop</button></li>
               <li><button type="button" data-target="view-weather">Weather</button></li>
@@ -1709,7 +1712,7 @@
 
           <!-- Section 3: Resources -->
           <div class="footer-col">
-            <h4>Resources</h4>
+            <h3>Resources</h3>
             <ul>
               <li><button type="button" data-target="view-crop-guide">Blog</button></li>
               <li><button type="button" data-target="view-crop-guide">Crop guide</button></li>
@@ -1720,7 +1723,7 @@
 
           <!-- Section 4: Support -->
           <div class="footer-col">
-            <h4>Support</h4>
+            <h3>Support</h3>
             <ul>
               <li><button type="button" data-target="view-contact">Contact us</button></li>
               <li><button type="button" data-target="view-feedback">Feedback</button></li>
@@ -1731,7 +1734,7 @@
 
           <!-- Section 5: Legal -->
           <div class="footer-col">
-            <h4>Legal</h4>
+            <h3>Legal</h3>
             <ul>
               <li><button type="button" data-target="view-privacy">Privacy policy</button></li>
               <li><button type="button" data-target="view-terms">Terms of service</button></li>
@@ -1742,7 +1745,7 @@
 
           <!-- Section 6: Connect with us -->
           <div class="footer-col">
-            <h4>Connect with us</h4>
+            <h3>Connect with us</h3>
             <div class="social-icons-row">
               <!-- WhatsApp -->
               <a href="https://wa.me/918668394932" target="_blank" rel="noopener noreferrer" class="social-link footer-social-link social-icon-btn social-icon-button" aria-label="WhatsApp">
