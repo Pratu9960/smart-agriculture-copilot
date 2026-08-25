@@ -914,7 +914,7 @@
               <span class="weather-location-pin">📍</span>
               <div>
                 <span class="weather-location-label" data-i18n="weather.locationLabel">Location</span>
-                <strong id="weather-location-text">Detecting your location...</strong>
+                <strong id="weather-location-text" data-i18n="weather.locationLoading">Detecting your location...</strong>
                 <span id="weather-last-updated"></span>
               </div>
             </div>
@@ -929,7 +929,7 @@
             <form id="weather-search-form">
               <div class="search-field">
                 <input type="text" id="weather-location-search" placeholder="City, town, district or locality (e.g. Pune, Dharashiv, Latur)">
-                <button type="submit" class="btn btn-primary btn-compact">Search</button>
+                <button type="submit" class="btn btn-primary btn-compact" data-i18n="weather.searchBtn">Search</button>
               </div>
             </form>
             <div id="weather-search-results" class="weather-search-results"></div>
@@ -939,12 +939,12 @@
           <div id="weather-status-card" class="weather-status-card hidden">
             <div class="weather-status-icon">☁️</div>
             <div class="weather-status-copy">
-              <strong id="weather-status-title">Loading field guidance...</strong>
-              <p id="weather-status-detail">Retrieving live conditions for your selected location.</p>
+              <strong id="weather-status-title" data-i18n="weather.loading">Loading field guidance...</strong>
+              <p id="weather-status-detail" data-i18n="weather.loadingBody">Retrieving live conditions for your selected location.</p>
             </div>
             <div id="weather-error-actions" class="weather-status-actions">
-              <button type="button" id="btn-weather-retry" class="btn btn-primary btn-compact">Retry</button>
-              <button type="button" id="btn-weather-error-change" class="btn btn-outline btn-compact">Search Location</button>
+              <button type="button" id="btn-weather-retry" class="btn btn-primary btn-compact" data-i18n="weather.retry">Retry</button>
+              <button type="button" id="btn-weather-error-change" class="btn btn-outline btn-compact" data-i18n="weather.searchLocation">Search Location</button>
             </div>
           </div>
 
@@ -983,7 +983,7 @@
               <span class="page-eyebrow" data-i18n="weather.adviceEyebrow">IRRIGATION ADVISORY</span>
               <h2 id="advisory-headline">Rain is likely</h2>
               <p id="advisory-detail">Rainfall is currently occurring or has a high probability. Consider delaying irrigation to avoid unnecessary water use.</p>
-              <p style="margin-top: 10px; font-weight: 700; color: var(--forest-800);">💧 Recommendation: Avoid irrigation for the next few hours.</p>
+              <p id="advisory-recommendation" style="margin-top: 10px; font-weight: 700; color: var(--forest-800);">💧 Recommendation: Avoid irrigation for the next few hours.</p>
               <div class="advice-mark">💧</div>
             </div>
           </div>
@@ -1205,7 +1205,7 @@
             </div>
             <div class="header-action-group">
               <span id="schemes-count-badge" class="schemes-count-badge">8 Schemes</span>
-              <button type="button" id="btn-schemes-refresh" class="btn btn-outline btn-compact">Refresh</button>
+              <button type="button" id="btn-schemes-refresh" class="btn btn-outline btn-compact" data-i18n="schemes.refresh">Refresh</button>
             </div>
           </div>
 
@@ -1218,12 +1218,12 @@
               </div>
               <div class="schemes-filter-group">
                 <div class="level-tabs">
-                  <button type="button" class="scheme-level-tab active" data-level="all">All Levels</button>
-                  <button type="button" class="scheme-level-tab" data-level="central">Central</button>
-                  <button type="button" class="scheme-level-tab" data-level="state">State</button>
+                  <button type="button" class="scheme-level-tab active" data-level="all" data-i18n="schemes.allLevels">All Levels</button>
+                  <button type="button" class="scheme-level-tab" data-level="central" data-i18n="schemes.central">Central</button>
+                  <button type="button" class="scheme-level-tab" data-level="state" data-i18n="schemes.state">State</button>
                 </div>
                 <select id="schemes-state-select" class="form-select" style="width: auto;">
-                  <option value="all">All States</option>
+                  <option value="all" data-i18n="schemes.allStates">All States</option>
                   <option value="Maharashtra">Maharashtra</option>
                   <option value="Karnataka">Karnataka</option>
                   <option value="Madhya Pradesh">Madhya Pradesh</option>
@@ -1235,12 +1235,7 @@
             </div>
 
             <div id="schemes-category-chips" class="schemes-category-scroll">
-              <button type="button" class="scheme-cat-chip active" data-category="ALL">All</button>
-              <button type="button" class="scheme-cat-chip" data-category="Direct Income Support">Farmer financial support</button>
-              <button type="button" class="scheme-cat-chip" data-category="Crop Insurance">Crop insurance</button>
-              <button type="button" class="scheme-cat-chip" data-category="Irrigation & Solar">Irrigation & water</button>
-              <button type="button" class="scheme-cat-chip" data-category="Soil & Nutrients">Soil & fertilizer</button>
-              <button type="button" class="scheme-cat-chip" data-category="Credit & Loan">Credit & loans</button>
+              <button type="button" class="scheme-cat-chip active" data-category="ALL" data-i18n="schemes.allCategories">All Categories</button>
             </div>
           </div>
 
@@ -1248,7 +1243,7 @@
           <div id="schemes-loading-skeleton" class="skeleton-card hidden"></div>
           <div id="schemes-error-box" class="auth-error-box hidden">
             <p id="schemes-error-message"></p>
-            <button type="button" id="btn-schemes-retry" class="btn btn-primary btn-compact" style="margin-top: 8px;">Retry</button>
+            <button type="button" id="btn-schemes-retry" class="btn btn-primary btn-compact" data-i18n="common.retry" style="margin-top: 8px;">Retry</button>
           </div>
 
           <div id="schemes-main-content">
@@ -1800,7 +1795,7 @@
   <div id="modal-scheme-overlay" class="modal-overlay" aria-hidden="true" role="dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 id="modal-scheme-title">Scheme Details</h3>
+        <h3 id="modal-scheme-title" data-i18n="schemes.modalTitle">Scheme Details</h3>
         <button type="button" id="modal-scheme-close" class="modal-close" data-close-modal="modal-scheme-overlay" aria-label="Close modal">&times;</button>
       </div>
       <div id="modal-scheme-body" class="modal-body">

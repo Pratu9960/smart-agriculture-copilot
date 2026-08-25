@@ -112,6 +112,33 @@ const SchemesModule = {
     });
   },
 
+  translateCategory(categoryName) {
+    if (!categoryName) return '';
+    const norm = categoryName.toLowerCase().trim();
+    const map = {
+      'all': 'schemes.allCategories',
+      'all categories': 'schemes.allCategories',
+      'farmer financial support': 'schemes.catFinancialSupport',
+      'direct income support': 'schemes.catDirectBenefit',
+      'direct benefit & income support': 'schemes.catDirectBenefit',
+      'crop insurance': 'schemes.catCropInsurance',
+      'crop insurance & risk': 'schemes.catCropInsuranceRisk',
+      'irrigation & water': 'schemes.catIrrigation',
+      'irrigation & solar': 'schemes.catIrrigation',
+      'farm machinery & tools': 'schemes.catFarmMachinery',
+      'soil & fertilizer': 'schemes.catSoilFertilizer',
+      'soil & nutrients': 'schemes.catSoilFertilizer',
+      'credit & loans': 'schemes.catCreditLoans',
+      'credit & loan': 'schemes.catCreditLoans',
+      'horticulture & organic': 'schemes.catHorticulture',
+      'livestock & animal husbandry': 'schemes.catLivestock',
+      'agriculture infrastructure': 'schemes.catInfrastructure',
+      'farm infrastructure & solar': 'schemes.catFarmInfrastructure'
+    };
+    const key = map[norm];
+    return key ? this.t(key) : categoryName;
+  },
+
   async loadCategories() {
     try {
       const categories = await window.SmartAgAPI.getSchemeCategories();
@@ -140,11 +167,12 @@ const SchemesModule = {
     `;
 
     this.categories.forEach(cat => {
-      const catName = this.escapeHtml(cat.name);
+      const catRaw = cat.name;
+      const catTranslated = this.escapeHtml(this.translateCategory(catRaw));
       const catIcon = this.escapeHtml(cat.icon || '🌱');
       html += `
-        <button type="button" class="scheme-cat-chip ${this.activeCategory === cat.name ? 'active' : ''}" data-cat="${catName}">
-          <span>${catIcon}</span> ${catName}
+        <button type="button" class="scheme-cat-chip ${this.activeCategory === catRaw ? 'active' : ''}" data-cat="${this.escapeHtml(catRaw)}">
+          <span>${catIcon}</span> ${catTranslated}
         </button>
       `;
     });
@@ -263,7 +291,11 @@ const SchemesModule = {
     if (!grid) return;
 
     if (countBadge) {
-      countBadge.textContent = `${this.schemes.length} ${this.schemes.length === 1 ? 'Scheme' : 'Schemes'}`;
+      if (this.schemes.length === 1) {
+        countBadge.textContent = this.t('schemes.countSingle');
+      } else {
+        countBadge.textContent = this.t('schemes.countLabel', { count: this.schemes.length });
+      }
     }
 
     if (this.schemes.length === 0) {
@@ -279,12 +311,12 @@ const SchemesModule = {
 
   generateSchemeCardHtml(scheme, isRecommended = false) {
     const levelClass = scheme.level === 'Central' ? 'badge-central' : 'badge-state';
+    const levelLabel = scheme.level === 'Central' ? this.t('schemes.central') : this.t('schemes.state');
     const rawBenefit = (scheme.benefits && scheme.benefits[0]) || scheme.description;
     const firstBenefit = this.escapeHtml(rawBenefit);
-    const maxSubsidy = scheme.maxSubsidyAmount ? `<div class="card-subsidy-highlight"><strong>Benefit:</strong> ${this.escapeHtml(scheme.maxSubsidyAmount)}</div>` : '';
+    const maxSubsidy = scheme.maxSubsidyAmount ? `<div class="card-subsidy-highlight"><strong>${this.t('schemes.benefit')}:</strong> ${this.escapeHtml(scheme.maxSubsidyAmount)}</div>` : '';
     const schemeId = this.escapeHtml(scheme.id);
-    const schemeLevel = this.escapeHtml(scheme.level);
-    const schemeCat = this.escapeHtml(scheme.category);
+    const schemeCat = this.escapeHtml(this.translateCategory(scheme.category));
     const schemeState = this.escapeHtml(scheme.state);
     const schemeName = this.escapeHtml(scheme.name);
     const schemeDesc = this.escapeHtml(scheme.description);
@@ -294,7 +326,7 @@ const SchemesModule = {
       <article class="scheme-card ${isRecommended ? 'scheme-card-recommended' : ''}" data-scheme-id="${schemeId}">
         <div class="scheme-card-header">
           <div class="scheme-badges">
-            <span class="badge ${levelClass}">${schemeLevel} Govt</span>
+            <span class="badge ${levelClass}">${levelLabel}</span>
             <span class="badge badge-category">${schemeCat}</span>
             ${scheme.state !== 'All India' ? `<span class="badge badge-region">${schemeState}</span>` : ''}
           </div>
@@ -314,7 +346,7 @@ const SchemesModule = {
           <button type="button" class="btn btn-secondary btn-compact btn-check-eligibility" data-id="${schemeId}">
             ${this.t('schemes.checkEligibility')}
           </button>
-          <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="btn-link-official" title="Visit official government portal">
+          <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="btn-link-official" title="${this.t('schemes.officialWebsite')}">
             ${this.t('schemes.officialWebsite')}
           </a>
         </div>
@@ -350,8 +382,9 @@ const SchemesModule = {
 
       if (titleEl) titleEl.textContent = scheme.name;
 
-      const safeLevel = this.escapeHtml(scheme.level);
-      const safeCat = this.escapeHtml(scheme.category);
+      const levelClass = scheme.level === 'Central' ? 'badge-central' : 'badge-state';
+      const levelLabel = scheme.level === 'Central' ? this.t('schemes.central') : this.t('schemes.state');
+      const safeCat = this.escapeHtml(this.translateCategory(scheme.category));
       const safeState = this.escapeHtml(scheme.state);
       const safeSubsidy = scheme.maxSubsidyAmount ? `<span class="badge badge-subsidy">${this.escapeHtml(scheme.maxSubsidyAmount)}</span>` : '';
       const safeDesc = this.escapeHtml(scheme.description);
@@ -360,7 +393,7 @@ const SchemesModule = {
 
       bodyEl.innerHTML = `
         <div class="scheme-detail-badges">
-          <span class="badge ${scheme.level === 'Central' ? 'badge-central' : 'badge-state'}">${safeLevel} Govt</span>
+          <span class="badge ${levelClass}">${levelLabel}</span>
           <span class="badge badge-category">${safeCat}</span>
           <span class="badge badge-region">${safeState}</span>
           ${safeSubsidy}
@@ -433,10 +466,58 @@ const SchemesModule = {
     document.body.classList.remove('modal-open');
   },
 
+  renderEligibilityForm(savedAnswers = null) {
+    const container = document.getElementById('eligibility-form-container');
+    if (!container) return;
+
+    const currentAnswers = savedAnswers || {
+      q_land: document.querySelector('input[name="q_land"]:checked')?.value || 'yes',
+      q_aadhaar: document.querySelector('input[name="q_aadhaar"]:checked')?.value || 'yes',
+      q_bank: document.querySelector('input[name="q_bank"]:checked')?.value || 'yes',
+      q_tax: document.querySelector('input[name="q_tax"]:checked')?.value || 'no',
+      q_water: document.querySelector('input[name="q_water"]:checked')?.value || 'yes'
+    };
+
+    const questions = [
+      { id: 'q_land', key: 'schemes.qLandowner' },
+      { id: 'q_aadhaar', key: 'schemes.qAadhaar' },
+      { id: 'q_bank', key: 'schemes.qBank' },
+      { id: 'q_tax', key: 'schemes.qTax' },
+      { id: 'q_water', key: 'schemes.qWater' }
+    ];
+
+    container.innerHTML = `
+      <div class="eligibility-questions-list">
+        <p class="eligibility-subtitle-note" style="margin-bottom: 16px; color: var(--text-muted, #6B7280); font-size: 0.9rem;">${this.t('schemes.eligibilitySubtitle')}</p>
+        ${questions.map((q, idx) => `
+          <div class="eligibility-question-row" style="margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border-light, #E5E7EB);">
+            <p class="eligibility-q-label" style="font-weight: 500; margin-bottom: 8px;"><strong>${idx + 1}.</strong> ${this.t(q.key)}</p>
+            <div class="eligibility-radio-group" style="display: flex; gap: 20px;">
+              <label class="radio-option" style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+                <input type="radio" name="${q.id}" value="yes" ${currentAnswers[q.id] === 'yes' ? 'checked' : ''}>
+                <span>${this.t('schemes.yes')}</span>
+              </label>
+              <label class="radio-option" style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+                <input type="radio" name="${q.id}" value="no" ${currentAnswers[q.id] === 'no' ? 'checked' : ''}>
+                <span>${this.t('schemes.no')}</span>
+              </label>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="eligibility-submit-wrapper" style="margin-top: 18px;">
+        <button type="submit" class="btn btn-primary btn-block" id="btn-submit-eligibility">
+          ${this.t('schemes.btnCheckNow')}
+        </button>
+      </div>
+    `;
+  },
+
   openEligibilityModal(schemeId) {
     const scheme = this.schemes.find(s => s.id === schemeId) || this.activeScheme;
     if (!scheme) return;
     this.activeScheme = scheme;
+    this.lastEligibilityResult = null;
 
     const modal = document.getElementById('modal-eligibility-overlay');
     const schemeNameEl = document.getElementById('eligibility-scheme-name');
@@ -445,7 +526,10 @@ const SchemesModule = {
 
     if (schemeNameEl) schemeNameEl.textContent = scheme.name;
     if (resultBox) resultBox.classList.add('hidden');
-    if (formBox) formBox.classList.remove('hidden');
+    if (formBox) {
+      formBox.classList.remove('hidden');
+      this.renderEligibilityForm();
+    }
 
     if (modal) {
       modal.classList.add('active');
@@ -486,6 +570,7 @@ const SchemesModule = {
   },
 
   renderEligibilityResult(result) {
+    this.lastEligibilityResult = result;
     const formBox = document.getElementById('scheme-eligibility-form');
     const resultBox = document.getElementById('eligibility-result-box');
     if (!resultBox) return;
@@ -495,16 +580,16 @@ const SchemesModule = {
 
     const isEligible = result.eligible;
     const statusClass = isEligible ? 'eligibility-success' : 'eligibility-warning';
-    const safeStatusText = this.escapeHtml(result.statusText);
-    const safeRecommendation = this.escapeHtml(result.recommendation);
+    const statusTitle = isEligible ? this.t('schemes.eligibleTitle') : this.t('schemes.notEligibleTitle');
+    const recommendation = isEligible ? this.t('schemes.eligibleRecommendation') : this.t('schemes.notEligibleRecommendation');
     const safeUrl = this.sanitizeUrl(result.officialUrl);
 
     resultBox.innerHTML = `
       <div class="eligibility-status-banner ${statusClass}">
         <div class="status-icon">${isEligible ? '&#10003;' : '&#9888;'}</div>
         <div>
-          <h4>${safeStatusText}</h4>
-          <p>${safeRecommendation}</p>
+          <h4>${this.escapeHtml(statusTitle)}</h4>
+          <p>${this.escapeHtml(recommendation)}</p>
         </div>
       </div>
 
@@ -537,7 +622,11 @@ const SchemesModule = {
     `;
 
     document.getElementById('btn-eligibility-recheck')?.addEventListener('click', () => {
-      if (formBox) formBox.classList.remove('hidden');
+      this.lastEligibilityResult = null;
+      if (formBox) {
+        formBox.classList.remove('hidden');
+        this.renderEligibilityForm();
+      }
       resultBox.classList.add('hidden');
     });
   },
@@ -562,10 +651,33 @@ const SchemesModule = {
   },
 
   refreshTranslations() {
+    this.renderCategoryChips();
     if (this.schemes && this.schemes.length > 0) {
       this.renderPersonalizedSection();
       this.renderSchemesGrid();
-      this.renderCategoryChips();
+    }
+    const countBadge = document.getElementById('schemes-count-badge');
+    if (countBadge && this.schemes) {
+      if (this.schemes.length === 1) {
+        countBadge.textContent = this.t('schemes.countSingle');
+      } else {
+        countBadge.textContent = this.t('schemes.countLabel', { count: this.schemes.length });
+      }
+    }
+    // If details modal is open, re-render it
+    const detailsModal = document.getElementById('modal-scheme-overlay');
+    if (detailsModal && detailsModal.classList.contains('active') && this.activeScheme) {
+      this.openDetailsModal(this.activeScheme.id);
+    }
+    // If eligibility modal is open, re-render form or result
+    const eligModal = document.getElementById('modal-eligibility-overlay');
+    if (eligModal && eligModal.classList.contains('active') && this.activeScheme) {
+      const resultBox = document.getElementById('eligibility-result-box');
+      if (resultBox && !resultBox.classList.contains('hidden') && this.lastEligibilityResult) {
+        this.renderEligibilityResult(this.lastEligibilityResult);
+      } else {
+        this.renderEligibilityForm();
+      }
     }
   }
 };

@@ -60,13 +60,58 @@ const WeatherModule = {
       if (result) this.selectLocation(result);
     });
     document.addEventListener('languagechange', () => {
-      if (this.currentData) {
-        const statusState = this.lastStatusState;
-        this.renderWeatherUI(this.currentData, { cached: this.currentIsCached, cacheTime: this.currentCacheTime });
-        if (statusState === 'serviceError') this.showStatus('serviceError', null, true);
-      }
-      else if (this.viewReady) this.refreshStatusCopy();
+      this.refreshTranslations();
     });
+  },
+
+  getConditionTranslationKey(condition) {
+    if (!condition || typeof condition !== 'string') return null;
+    const norm = condition.toLowerCase().trim();
+    const map = {
+      'clear sky': 'weather.condClearSky',
+      'mainly clear': 'weather.condMainlyClear',
+      'partly cloudy': 'weather.condPartlyCloudy',
+      'overcast': 'weather.condOvercast',
+      'foggy': 'weather.condFoggy',
+      'fog': 'weather.condFoggy',
+      'rime fog': 'weather.condRimeFog',
+      'light drizzle': 'weather.condLightDrizzle',
+      'drizzle': 'weather.condDrizzle',
+      'heavy drizzle': 'weather.condHeavyDrizzle',
+      'light rain': 'weather.condLightRain',
+      'rain': 'weather.condRain',
+      'heavy rain': 'weather.condHeavyRain',
+      'light snow': 'weather.condLightSnow',
+      'snow': 'weather.condSnow',
+      'heavy snow': 'weather.condHeavySnow',
+      'rain showers': 'weather.condRainShowers',
+      'heavy rain showers': 'weather.condHeavyRainShowers',
+      'thunderstorm': 'weather.condThunderstorm',
+      'thunderstorm with hail': 'weather.condThunderstormHail',
+      'severe thunderstorm': 'weather.condSevereThunderstorm',
+      'unknown conditions': 'weather.unknownCondition'
+    };
+    return map[norm] || null;
+  },
+
+  translateCondition(condition) {
+    if (!condition) return this.t('weather.unknownCondition');
+    const key = this.getConditionTranslationKey(condition);
+    return key ? this.t(key) : condition;
+  },
+
+  refreshTranslations() {
+    if (this.currentData) {
+      const statusState = this.lastStatusState;
+      this.renderWeatherUI(this.currentData, { cached: this.currentIsCached, cacheTime: this.currentCacheTime });
+      if (statusState && statusState !== 'live') this.showStatus(statusState, null, true);
+    } else {
+      const locText = document.getElementById('weather-location-text');
+      if (locText && (!this.currentLocation || !this.currentLocation.displayName)) {
+        locText.textContent = this.t('weather.locationLoading');
+      }
+      if (this.viewReady) this.refreshStatusCopy();
+    }
   },
 
   getStoredLocation() {
@@ -420,8 +465,11 @@ const WeatherModule = {
     if (!value) return '';
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return String(value);
+    const lang = document.documentElement.lang || 'en';
+    const localeMap = { en: 'en-IN', mr: 'mr-IN', hi: 'hi-IN', ta: 'ta-IN', te: 'te-IN' };
+    const locale = localeMap[lang] || lang;
     try {
-      return new Intl.DateTimeFormat(document.documentElement.lang || 'en-IN', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+      return new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short' }).format(date);
     } catch (error) {
       return date.toLocaleString();
     }
@@ -459,7 +507,8 @@ const WeatherModule = {
     const temperature = document.getElementById('weather-temp-val');
     if (temperature) temperature.textContent = Number.isFinite(Number(data.temperature)) ? `${Math.round(Number(data.temperature))}°C` : '—';
     const condition = document.getElementById('weather-condition-text');
-    if (condition) condition.textContent = [data.icon, data.condition].filter(Boolean).join(' ') || this.t('weather.unknownCondition');
+    const translatedCondition = this.translateCondition(data.condition);
+    if (condition) condition.textContent = [data.icon, translatedCondition].filter(Boolean).join(' ') || this.t('weather.unknownCondition');
     const humidity = document.getElementById('weather-humidity');
     if (humidity) humidity.textContent = Number.isFinite(Number(data.humidity)) ? `${Math.round(Number(data.humidity))}%` : '—';
     const wind = document.getElementById('weather-wind');
@@ -483,9 +532,40 @@ const WeatherModule = {
     const advisory = data.irrigationAdvisory;
     const advisoryTitle = document.getElementById('advisory-headline');
     const advisoryDetail = document.getElementById('advisory-detail');
+    const advisoryRec = document.getElementById('advisory-recommendation');
     const advisoryCard = document.getElementById('weather-advisory-card');
-    if (advisoryTitle) advisoryTitle.textContent = advisory?.headline || this.t('weather.adviceUnavailable');
-    if (advisoryDetail) advisoryDetail.textContent = advisory?.detail || this.t('weather.adviceUnavailableBody');
+
+    let transHeadline = '';
+    let transDetail = '';
+    let transRec = '';
+
+    const recType = advisory?.recommendation;
+    const headText = advisory?.headline || '';
+
+    if (recType === 'DELAY_IRRIGATION' || headText.toLowerCase().includes('rain')) {
+      transHeadline = this.t('weather.advisoryRainLikelyHeadline');
+      transDetail = this.t('weather.advisoryRainLikelyDetail');
+      transRec = this.t('weather.advisoryRainLikelyRec');
+    } else if (recType === 'IRRIGATE_SOON' || headText.toLowerCase().includes('hot')) {
+      transHeadline = this.t('weather.advisoryHotDryHeadline');
+      transDetail = this.t('weather.advisoryHotDryDetail');
+      transRec = this.t('weather.advisoryHotDryRec');
+    } else if (headText.toLowerCase().includes('moderate')) {
+      transHeadline = this.t('weather.advisoryModerateHeadline');
+      transDetail = this.t('weather.advisoryModerateDetail');
+      transRec = this.t('weather.advisoryModerateRec');
+    } else if (recType === 'CHECK_SOIL_MOISTURE' || headText.toLowerCase().includes('normal')) {
+      transHeadline = this.t('weather.advisoryNormalHeadline');
+      transDetail = this.t('weather.advisoryNormalDetail');
+      transRec = this.t('weather.advisoryNormalRec');
+    }
+
+    if (advisoryTitle) advisoryTitle.textContent = transHeadline || advisory?.headline || this.t('weather.adviceUnavailable');
+    if (advisoryDetail) advisoryDetail.textContent = transDetail || advisory?.detail || this.t('weather.adviceUnavailableBody');
+    if (advisoryRec) {
+      advisoryRec.textContent = transRec || this.t('weather.advisoryNormalRec');
+      advisoryRec.classList.toggle('hidden', !transRec);
+    }
     advisoryCard?.classList.toggle('warning', advisory?.recommendation === 'DELAY_IRRIGATION');
 
     const forecastList = document.getElementById('weather-forecast-list');
@@ -505,7 +585,7 @@ const WeatherModule = {
           icon.className = 'weather-forecast-icon';
           icon.textContent = day.icon || '—';
           const conditionText = document.createElement('strong');
-          conditionText.textContent = day.condition || this.t('weather.unknownCondition');
+          conditionText.textContent = this.translateCondition(day.condition);
           const temperatures = document.createElement('span');
           temperatures.className = 'weather-forecast-temperatures';
           const max = Number.isFinite(Number(day.temperatureMax)) ? `${Math.round(Number(day.temperatureMax))}°` : '—';
@@ -526,8 +606,11 @@ const WeatherModule = {
   formatForecastDate(value) {
     const date = new Date(`${value}T12:00:00`);
     if (Number.isNaN(date.getTime())) return value || '—';
+    const lang = document.documentElement.lang || 'en';
+    const localeMap = { en: 'en-IN', mr: 'mr-IN', hi: 'hi-IN', ta: 'ta-IN', te: 'te-IN' };
+    const locale = localeMap[lang] || lang;
     try {
-      return new Intl.DateTimeFormat(document.documentElement.lang || 'en-IN', { weekday: 'short', day: 'numeric', month: 'short' }).format(date);
+      return new Intl.DateTimeFormat(locale, { weekday: 'short', day: 'numeric', month: 'short' }).format(date);
     } catch (error) {
       return value;
     }
